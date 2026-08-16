@@ -12,6 +12,9 @@ jobs:
         part: [L21, L23, L24, L25, L26_a, L26_b, L26_c, L26_d, L26_e, L27, L28, L29, L30]
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download keyframes
         run: |
           sudo apt-get update -qq
