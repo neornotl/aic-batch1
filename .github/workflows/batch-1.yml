@@ -15,44 +15,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Extract old results if available
-        id: extract_old
-        run: |
-          if [ -f "old_results/results_${{ matrix.part }}.zip" ]; then
-            echo "Extracting old results for ${{ matrix.part }}"
-            unzip -q "old_results/results_${{ matrix.part }}.zip" -d .
-            echo "exist=true" >> $GITHUB_OUTPUT
-          else
-            echo "No old results found for ${{ matrix.part }}"
-            echo "exist=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Download previous results from artifacts
-        if: steps.extract_old.outputs.exist == 'false'
+      - name: Download previous results (always)
         uses: actions/download-artifact@v4
         with:
           name: results-${{ matrix.part }}
           path: .
         continue-on-error: true
 
-      - name: Check if results exist
-        id: check_results
-        run: |
-          if [ -f "results_${{ matrix.part }}.jsonl" ]; then
-            echo "exist=true" >> $GITHUB_OUTPUT
-            echo "Results found: results_${{ matrix.part }}.jsonl"
-          else
-            echo "exist=false" >> $GITHUB_OUTPUT
-            echo "No results found, will run full"
-          fi
-
       - name: Download keyframes
-        if: steps.check_results.outputs.exist == 'false'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y aria2 unzip
@@ -62,7 +32,6 @@ jobs:
             https://aic-data.ledo.io.vn/Keyframes_${{ matrix.part }}.zip
 
       - name: Extract keyframes
-        if: steps.check_results.outputs.exist == 'false'
         run: |
           mkdir -p keyframes
           unzip -q data/*.zip -d keyframes
@@ -73,8 +42,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests
 
-      - name: Run Luna
-        if: steps.check_results.outputs.exist == 'false'
+      - name: Run Luna (always run to retry failed)
         env:
           AIC1: ${{ secrets.AIC1 }}
           AIC2: ${{ secrets.AIC2 }}
