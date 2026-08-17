@@ -27,7 +27,17 @@ jobs:
           path: .
         continue-on-error: true
 
+      - name: Check if results exist
+        id: check_results
+        run: |
+          if [ -f "results_${{ matrix.part }}.jsonl" ]; then
+            echo "exist=true" >> $GITHUB_OUTPUT
+          else
+            echo "exist=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Download keyframes
+        if: steps.check_results.outputs.exist == 'false'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y aria2 unzip
@@ -37,6 +47,7 @@ jobs:
             https://aic-data.ledo.io.vn/Keyframes_${{ matrix.part }}.zip
 
       - name: Extract
+        if: steps.check_results.outputs.exist == 'false'
         run: |
           mkdir -p keyframes
           unzip -q data/*.zip -d keyframes
@@ -48,6 +59,7 @@ jobs:
           python -m pip install requests
 
       - name: Run Luna
+        if: steps.check_results.outputs.exist == 'false'
         env:
           AIC1: ${{ secrets.AIC1 }}
           AIC2: ${{ secrets.AIC2 }}
