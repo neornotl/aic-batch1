@@ -14,7 +14,7 @@ OUT = Path(sys.argv[2])
 FAILED = Path(sys.argv[3])
 LOCK = threading.Lock()
 
-KEYS = [os.environ["AIC1"], os.environ["AIC3"]]
+KEYS = [os.environ["AIC1"], os.environ["AIC2"], os.environ["AIC3"]]
 
 
 def ask(image_path):
@@ -91,39 +91,75 @@ def ask(image_path):
     return None, "failed_after_5_retries"
 
 
+def load_failed():
+    """Load list of failed images to retry"""
+    failed_to_retry = set()
+    if FAILED.exists():
+        try:
+            with FAILED.open(encoding="utf-8") as file:
+                data = json.load(file)
+                if isinstance(data, list):
+                    for item in data:
+                        failed_to_retry.add(item)
+        except Exception as e:
+            print(f"Warning: Could not load failed list: {e}", flush=True)
+    return failed_to_retry
+
+
 def load_done():
+    """Load list of already processed images"""
     done = set()
     if OUT.exists():
-        with OUT.open(encoding="utf-8") as file:
-            for line in file:
-                try:
-                    done.add(json.loads(line)["path"])
-                except Exception:
-                    pass
+        try:
+            with OUT.open(encoding="utf-8") as file:
+                for line in file:
+                    try:
+                        done.add(json.loads(line)["path"])
+                    except Exception:
+                        pass
+        except Exception as e:
+            print(f"Warning: Could not load done list: {e}", flush=True)
     return done
 
 
-images = sorted([
-    path for path in ROOT.rglob("*")
-    if path.suffix.lower() in {".jpg", ".jpeg", ".png"}
-])
+# Load failed images (images to retry)
+failed_to_retry = load_failed()
 
+# Load done images (already processed)
 done = load_done()
-todo = [
-    path for path in images
-    if str(path.relative_to(ROOT)) not in done
-]
+
+# Determine which images to process
+if failed_to_retry:
+    # Mode 1: Retry mode - only process failed images
+    images = sorted([
+        path for path in ROOT.rglob("*")
+        if path.suffix.lower() in {".jpg", ".jpeg", ".png"}
+        and str(path.relative_to(ROOT)) in failed_to_retry
+        and str(path.relative_to(ROOT)) not in done
+    ])
+    mode = "RETRY"
+else:
+    # Mode 2: Full mode - process all images except done ones
+    all_images = sorted([
+        path for path in ROOT.rglob("*")
+        if path.suffix.lower() in {".jpg", ".jpeg", ".png"}
+    ])
+    images = [
+        path for path in all_images
+        if str(path.relative_to(ROOT)) not in done
+    ]
+    mode = "FULL"
 
 failed = set()
 
-print("Total images:", len(images), flush=True)
+print(f"Mode: {mode}", flush=True)
 print("Already done:", len(done), flush=True)
-print("Remaining:", len(todo), flush=True)
+print("Remaining:", len(images), flush=True)
 
 with ThreadPoolExecutor(max_workers=6) as executor:
     futures = {
         executor.submit(ask, path): path
-        for path in todo
+        for path in images
     }
 
     for number, future in enumerate(as_completed(futures), 1):
@@ -153,7 +189,7 @@ with ThreadPoolExecutor(max_workers=6) as executor:
                 encoding="utf-8",
             )
             print(
-                f"Progress {number}/{len(todo)} | failed={len(failed)}",
+                f"Progress {number}/{len(images)} | failed={len(failed)}",
                 flush=True,
             )
 
