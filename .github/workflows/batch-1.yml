@@ -15,12 +15,43 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download previous results (always)
-        uses: actions/download-artifact@v4
-        with:
-          name: results-${{ matrix.part }}
-          path: .
-        continue-on-error: true
+      - name: Download ALL results-* artifacts (force)
+        run: |
+          echo "=== Listing all results-* artifacts ==="
+          ids=$(gh api repos/${{ github.repository }}/actions/artifacts --paginate --jq '.artifacts[] | select(.name | startswith("results-")) | "\(.id) \(.name)"' 2>/dev/null || echo "")
+          if [ -z "$ids" ]; then
+            echo "No results-* artifacts found"
+          else
+            echo "$ids" | while read artifact_id artifact_name; do
+              echo "Downloading artifact: $artifact_name (id: $artifact_id)"
+              gh api repos/${{ github.repository }}/actions/artifacts/$artifact_id/zip \
+                --output "/tmp/$artifact_name.zip" 2>/dev/null || echo "Failed to download $artifact_name"
+              if [ -f "/tmp/$artifact_name.zip" ]; then
+                unzip -q -o "/tmp/$artifact_name.zip" -d .
+                echo "Extracted: $artifact_name"
+              fi
+            done
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List loaded results
+        run: |
+          echo "=== Loaded result files ==="
+          for part in L21 L23 L24 L25 L26_a L26_b L26_c L26_d L26_e L27 L28 L29 L30; do
+            if [ -f "results_${part}.jsonl" ]; then
+              lines=$(wc -l < "results_${part}.jsonl" 2>/dev/null || echo 0)
+              echo "✓ results_${part}.jsonl ($lines lines)"
+            else
+              echo "✗ results_${part}.jsonl (missing)"
+            fi
+            if [ -f "failed_${part}.json" ]; then
+              cnt=$(cat "failed_${part}.json" | jq '. | length' 2>/dev/null || echo 0)
+              echo "  failed_${part}.json: $cnt failed"
+            else
+              echo "  failed_${part}.json (missing)"
+            fi
+          done
 
       - name: Download keyframes
         run: |
@@ -42,7 +73,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests
 
-      - name: Run Luna (always run to retry failed)
+      - name: Run Luna (forced retry mode)
         env:
           AIC1: ${{ secrets.AIC1 }}
           AIC2: ${{ secrets.AIC2 }}
