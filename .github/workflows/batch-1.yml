@@ -20,7 +20,20 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Download previous results
+      - name: Extract old results if available
+        id: extract_old
+        run: |
+          if [ -f "old_results/results_${{ matrix.part }}.zip" ]; then
+            echo "Extracting old results for ${{ matrix.part }}"
+            unzip -q "old_results/results_${{ matrix.part }}.zip" -d .
+            echo "exist=true" >> $GITHUB_OUTPUT
+          else
+            echo "No old results found for ${{ matrix.part }}"
+            echo "exist=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download previous results from artifacts
+        if: steps.extract_old.outputs.exist == 'false'
         uses: actions/download-artifact@v4
         with:
           name: results-${{ matrix.part }}
@@ -32,8 +45,10 @@ jobs:
         run: |
           if [ -f "results_${{ matrix.part }}.jsonl" ]; then
             echo "exist=true" >> $GITHUB_OUTPUT
+            echo "Results found: results_${{ matrix.part }}.jsonl"
           else
             echo "exist=false" >> $GITHUB_OUTPUT
+            echo "No results found, will run full"
           fi
 
       - name: Download keyframes
@@ -46,7 +61,7 @@ jobs:
             -d data \
             https://aic-data.ledo.io.vn/Keyframes_${{ matrix.part }}.zip
 
-      - name: Extract
+      - name: Extract keyframes
         if: steps.check_results.outputs.exist == 'false'
         run: |
           mkdir -p keyframes
