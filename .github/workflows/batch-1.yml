@@ -12,7 +12,15 @@ jobs:
         part: [L21, L23, L24, L25, L26_a, L26_b, L26_c, L26_d, L26_e, L27, L28, L29, L30]
 
     steps:
-      - name: Download previous results (if any)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Download previous results
         uses: actions/download-artifact@v4
         with:
           name: results-${{ matrix.part }}
@@ -35,19 +43,24 @@ jobs:
           rm -rf data
 
       - name: Install Python packages
-        run: pip install requests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests
 
       - name: Run Luna
         env:
           AIC1: ${{ secrets.AIC1 }}
+          AIC2: ${{ secrets.AIC2 }}
           AIC3: ${{ secrets.AIC3 }}
         run: |
           python run_batch.py keyframes results_${{ matrix.part }}.jsonl failed_${{ matrix.part }}.json
 
       - name: Upload results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: results-${{ matrix.part }}
           path: |
             results_${{ matrix.part }}.jsonl
             failed_${{ matrix.part }}.json
+          retention-days: 90
