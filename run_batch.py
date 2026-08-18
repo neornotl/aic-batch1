@@ -18,12 +18,16 @@ KEYS = [os.environ["AIC1"], os.environ["AIC2"], os.environ["AIC3"]]
 
 import itertools
 
+# AIC1 is low on tokens: 20% load, AIC2/AIC3 40% each. Retries cycle
+# through the same pattern, so AIC1 only used as last resort.
+CYCLE = [1, 2, 1, 2, 0]
+
 KEY_COUNTER = itertools.count()
 
 
 def ask(image_path):
     encoded = base64.b64encode(image_path.read_bytes()).decode()
-    start = next(KEY_COUNTER) % len(KEYS)
+    start = next(KEY_COUNTER) % len(CYCLE)
 
     payload = {
         "model": "gpt-5.6-luna",
@@ -58,7 +62,7 @@ def ask(image_path):
     }
 
     for attempt in range(5):
-        key = KEYS[(start + attempt) % len(KEYS)]
+        key = KEYS[CYCLE[(start + attempt) % len(CYCLE)]]
         try:
             response = requests.post(
                 "https://api.pateway.ai/v1/chat/completions",
