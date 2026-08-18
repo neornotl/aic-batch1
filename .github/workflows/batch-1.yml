@@ -15,25 +15,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download ALL results-* artifacts (force)
+      - name: Extract old results from repo (old result/ folder)
         run: |
-          echo "=== Listing all results-* artifacts ==="
-          ids=$(gh api repos/${{ github.repository }}/actions/artifacts --paginate --jq '.artifacts[] | select(.name | startswith("results-")) | "\(.id) \(.name)"' 2>/dev/null || echo "")
-          if [ -z "$ids" ]; then
-            echo "No results-* artifacts found"
-          else
-            echo "$ids" | while read artifact_id artifact_name; do
-              echo "Downloading artifact: $artifact_name (id: $artifact_id)"
-              gh api repos/${{ github.repository }}/actions/artifacts/$artifact_id/zip \
-                --output "/tmp/$artifact_name.zip" 2>/dev/null || echo "Failed to download $artifact_name"
-              if [ -f "/tmp/$artifact_name.zip" ]; then
-                unzip -q -o "/tmp/$artifact_name.zip" -d .
-                echo "Extracted: $artifact_name"
-              fi
-            done
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "=== Extracting all results-*.zip from 'old result/' ==="
+          ls -la "old result/"
+          for f in "old result"/results-*.zip; do
+            echo "Extracting: $f"
+            unzip -q -o "$f" -d .
+          done
+          find . -name "results_*.jsonl" -not -path "./old result/*" -exec mv -f {} . \; 2>/dev/null || true
+          find . -name "failed_*.json" -not -path "./old result/*" -exec mv -f {} . \; 2>/dev/null || true
+          echo "=== Done extracting ==="
 
       - name: List loaded results
         run: |
@@ -41,15 +33,13 @@ jobs:
           for part in L21 L23 L24 L25 L26_a L26_b L26_c L26_d L26_e L27 L28 L29 L30; do
             if [ -f "results_${part}.jsonl" ]; then
               lines=$(wc -l < "results_${part}.jsonl" 2>/dev/null || echo 0)
-              echo "✓ results_${part}.jsonl ($lines lines)"
+              echo "OK results_${part}.jsonl ($lines lines)"
             else
-              echo "✗ results_${part}.jsonl (missing)"
+              echo "MISSING results_${part}.jsonl"
             fi
             if [ -f "failed_${part}.json" ]; then
               cnt=$(cat "failed_${part}.json" | jq '. | length' 2>/dev/null || echo 0)
               echo "  failed_${part}.json: $cnt failed"
-            else
-              echo "  failed_${part}.json (missing)"
             fi
           done
 
