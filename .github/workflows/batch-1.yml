@@ -1,4 +1,4 @@
-name: AIC Batch 1
+name: AIC Batch 1 - Finish Remaining
 
 on:
   workflow_dispatch:
@@ -9,7 +9,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        part: [L21, L22, L25, L26_a, L26_b, L26_c, L26_d, L26_e, L28, L29, L30]
+        include:
+          - part: small_missing
+            zip: ""
+            failed: failed_small.json
+          - part: L25_a
+            zip: L25
+            failed: failed_L25_a.json
+          - part: L25_b
+            zip: L25
+            failed: failed_L25_b.json
+          - part: L25_c
+            zip: L25
+            failed: failed_L25_c.json
+          - part: L25_d
+            zip: L25
+            failed: failed_L25_d.json
 
     steps:
       - name: Checkout code
@@ -30,7 +45,7 @@ jobs:
       - name: List loaded results
         run: |
           echo "=== Loaded result files ==="
-          for part in L21 L23 L24 L25 L26_a L26_b L26_c L26_d L26_e L27 L28 L29 L30; do
+          for part in L21 L22 L23 L24 L25 L26_a L26_b L26_c L26_d L26_e L27 L28 L29 L30; do
             if [ -f "results_${part}.jsonl" ]; then
               lines=$(wc -l < "results_${part}.jsonl" 2>/dev/null || echo 0)
               echo "OK results_${part}.jsonl ($lines lines)"
@@ -42,21 +57,32 @@ jobs:
               echo "  failed_${part}.json: $cnt failed"
             fi
           done
+          # Also check new parts
+          for part in small_missing L25_a L25_b L25_c L25_d; do
+            if [ -f "failed_${part}.json" ]; then
+              cnt=$(cat "failed_${part}.json" | jq '. | length' 2>/dev/null || echo 0)
+              echo "  failed_${part}.json: $cnt failed (RETRY)"
+            fi
+          done
 
       - name: Download keyframes
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y aria2 unzip
           mkdir -p data
-          aria2c -c -x 8 -s 8 \
-            -d data \
-            https://aic-data.ledo.io.vn/Keyframes_${{ matrix.part }}.zip
+          if [ -n "${{ matrix.zip }}" ]; then
+            aria2c -c -x 8 -s 8 \
+              -d data \
+              https://aic-data.ledo.io.vn/Keyframes_${{ matrix.zip }}.zip
+          fi
 
       - name: Extract keyframes
         run: |
           mkdir -p keyframes
-          unzip -q data/*.zip -d keyframes
-          rm -rf data
+          if [ -n "${{ matrix.zip }}" ]; then
+            unzip -q data/*.zip -d keyframes
+            rm -rf data
+          fi
 
       - name: Install Python packages
         run: |
@@ -69,7 +95,7 @@ jobs:
           AIC2: ${{ secrets.AIC2 }}
           AIC3: ${{ secrets.AIC3 }}
         run: |
-          python run_batch.py keyframes results_${{ matrix.part }}.jsonl failed_${{ matrix.part }}.json
+          python run_batch.py keyframes results_${{ matrix.part }}.jsonl ${{ matrix.failed }}
 
       - name: Upload results
         uses: actions/upload-artifact@v4
