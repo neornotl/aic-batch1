@@ -16,9 +16,14 @@ LOCK = threading.Lock()
 
 KEYS = [os.environ["AIC1"], os.environ["AIC2"], os.environ["AIC3"]]
 
+import itertools
+
+KEY_COUNTER = itertools.count()
+
 
 def ask(image_path):
     encoded = base64.b64encode(image_path.read_bytes()).decode()
+    start = next(KEY_COUNTER) % len(KEYS)
 
     payload = {
         "model": "gpt-5.6-luna",
@@ -53,7 +58,7 @@ def ask(image_path):
     }
 
     for attempt in range(5):
-        key = KEYS[attempt % len(KEYS)]
+        key = KEYS[(start + attempt) % len(KEYS)]
         try:
             response = requests.post(
                 "https://api.pateway.ai/v1/chat/completions",
