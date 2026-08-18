@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        part: [L24, L26_c, L28, L29]
+        part: [L21, L23, L25, L26_a, L26_b, L26_d, L26_e, L27, L30]
 
     steps:
       - name: Checkout code
