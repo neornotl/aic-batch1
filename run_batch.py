@@ -14,13 +14,12 @@ OUT = Path(sys.argv[2])
 FAILED = Path(sys.argv[3])
 LOCK = threading.Lock()
 
-KEYS = [os.environ["AIC1"], os.environ["AIC2"], os.environ["AIC3"]]
+KEYS = [os.environ["AIC2"], os.environ["AIC3"]]
 
 import itertools
 
-# AIC1 is low on tokens: 20% load, AIC2/AIC3 40% each. Retries cycle
-# through the same pattern, so AIC1 only used as last resort.
-CYCLE = [1, 2, 1, 2, 0]
+# AIC2/AIC3 only (AIC1 exhausted). Retries cycle through AIC2/AIC3
+CYCLE = [1, 0, 1, 0, 1]
 
 KEY_COUNTER = itertools.count()
 
