@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - part: L25_r1
+- part: L25_r1
             zip: L25
             failed: failed_L25_r1.json
           - part: L25_r2
@@ -22,8 +22,20 @@ jobs:
           - part: L25_r4
             zip: L25
             failed: failed_L25_r4.json
-          
+          - part: L25_r5
+            zip: L25
+            failed: failed_L25_r5.json
+          - part: L25_r6
+            zip: L25
+            failed: failed_L25_r6.json
+          - part: L25_r7
+            zip: L25
+            failed: failed_L25_r7.json
+          - part: L25_r8
+            zip: L25
+            failed: failed_L25_r8.json
 
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -56,7 +68,7 @@ jobs:
             fi
           done
           # Also check new parts
-          for part in L25_r1 L25_r2 L25_r3 L25_r4; do
+          for part in L25_r1 L25_r2 L25_r3 L25_r4 L25_r5 L25_r6 L25_r7 L25_r8; do
             if [ -f "failed_${part}.json" ]; then
               cnt=$(cat "failed_${part}.json" | jq '. | length' 2>/dev/null || echo 0)
               echo "  failed_${part}.json: $cnt failed (RETRY)"
