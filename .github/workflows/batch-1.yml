@@ -1,4 +1,4 @@
-name: AIC Batch 1 - Finish Remaining v3
+name: AIC Batch 1 - Finish Remaining v4
 
 on:
   workflow_dispatch:
@@ -6,59 +6,28 @@ on:
 jobs:
   process:
     runs-on: ubuntu-latest
-    timeout-minutes: 300
     strategy:
       fail-fast: false
       matrix:
         include:
-          - part: L22
-            zip: L22
-            failed: failed_L22.json
-          - part: L26_a
-            zip: L26_a
-            failed: failed_L26_a.json
-          - part: L26_b
-            zip: L26_b
-            failed: failed_L26_b.json
-          - part: L26_c
-            zip: L26_c
-            failed: failed_L26_c.json
-          - part: L26_d
-            zip: L26_d
-            failed: failed_L26_d.json
-          - part: L26_e
-            zip: L26_e
-            failed: failed_L26_e.json
-          - part: L28
-            zip: L28
-            failed: failed_L28.json
-          - part: L29
-            zip: L29
-            failed: failed_L29.json
-          - part: L25_p1
+          - part: L25_r1
             zip: L25
-            failed: failed_L25_p1.json
-          - part: L25_p2
+            failed: failed_L25_r1.json
+          - part: L25_r2
             zip: L25
-            failed: failed_L25_p2.json
-          - part: L25_p3
+            failed: failed_L25_r2.json
+          - part: L25_r3
             zip: L25
-            failed: failed_L25_p3.json
-          - part: L25_p4
+            failed: failed_L25_r3.json
+          - part: L25_r4
             zip: L25
-            failed: failed_L25_p4.json
-          - part: L25_p5
+            failed: failed_L25_r4.json
+          - part: L25_r5
             zip: L25
-            failed: failed_L25_p5.json
-          - part: L25_p6
+            failed: failed_L25_r5.json
+          - part: L25_r6
             zip: L25
-            failed: failed_L25_p6.json
-          - part: L25_p7
-            zip: L25
-            failed: failed_L25_p7.json
-          - part: L25_p8
-            zip: L25
-            failed: failed_L25_p8.json
+            failed: failed_L25_r6.json
 
     steps:
       - name: Checkout code
@@ -92,7 +61,7 @@ jobs:
             fi
           done
           # Also check new parts
-          for part in L25_p1 L25_p2 L25_p3 L25_p4 L25_p5 L25_p6 L25_p7 L25_p8; do
+          for part in L25_r1 L25_r2 L25_r3 L25_r4 L25_r5 L25_r6; do
             if [ -f "failed_${part}.json" ]; then
               cnt=$(cat "failed_${part}.json" | jq '. | length' 2>/dev/null || echo 0)
               echo "  failed_${part}.json: $cnt failed (RETRY)"
