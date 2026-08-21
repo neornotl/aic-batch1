@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aic_pipeline"
+version = "0.1.0"
+description = "AIC Video Retrieval Pipeline"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aic_pipeline*"]
+exclude = ["tests*", "scripts*", "work*", "*.egg-info", "__pycache__"]
