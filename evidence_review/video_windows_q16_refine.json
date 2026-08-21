@@ -1,0 +1,28 @@
+{
+  "windows": [
+    {
+      "id": "query-p1-16-e1-turn-refine",
+      "video_id": "L24_V035",
+      "start_frame": 3300,
+      "end_frame": 3600,
+      "fps": 25,
+      "sample_fps": 5
+    },
+    {
+      "id": "query-p1-16-e2-land-refine",
+      "video_id": "L24_V035",
+      "start_frame": 15250,
+      "end_frame": 15450,
+      "fps": 25,
+      "sample_fps": 5
+    },
+    {
+      "id": "query-p1-16-e3-e4-refine",
+      "video_id": "L24_V035",
+      "start_frame": 15800,
+      "end_frame": 16300,
+      "fps": 25,
+      "sample_fps": 5
+    }
+  ]
+}
