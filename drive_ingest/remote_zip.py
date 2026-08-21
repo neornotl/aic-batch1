@@ -1,9 +1,12 @@
 """Read ZIP members over HTTP Range requests without downloading the archive."""
-import argparse, json, os, re, sys
+import argparse, json, os, re, sys, time
+from urllib.error import HTTPError, URLError
+from http.client import IncompleteRead
 from urllib.request import Request, urlopen
 import zipfile
 
 class RemoteFile:
+    _attempts = 4
     def __init__(self, url):
         self.url=url; self.pos=0; self.size=None
         h=urlopen(Request(url, method='HEAD', headers={'User-Agent':'AIC2026-official-ingest/1.0'})); self.size=int(h.headers['Content-Length'])
@@ -16,7 +19,16 @@ class RemoteFile:
         if n<=0:return b''
         end=min(self.size,self.pos+n)-1
         req=Request(self.url,headers={'Range':f'bytes={self.pos}-{end}','User-Agent':'AIC2026-official-ingest/1.0'})
-        with urlopen(req) as r: data=r.read()
+        expected=end-self.pos+1
+        for attempt in range(self._attempts):
+            try:
+                with urlopen(req, timeout=60) as r: data=r.read()
+                if len(data) != expected:
+                    raise IOError(f'HTTP Range returned {len(data)} bytes, expected {expected}')
+                break
+            except (HTTPError, URLError, OSError, IncompleteRead, IOError) as exc:
+                if attempt + 1 == self._attempts: raise IOError(f'failed HTTP Range {self.pos}-{end}') from exc
+                time.sleep(0.5 * (2 ** attempt))
         self.pos += len(data); return data
     def close(self): pass
     def seekable(self): return True
