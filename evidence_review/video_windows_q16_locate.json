@@ -1,0 +1,20 @@
+{
+  "windows": [
+    {
+      "id": "query-p1-16-turn-locate",
+      "video_id": "L24_V035",
+      "start_frame": 3000,
+      "end_frame": 4400,
+      "fps": 25,
+      "sample_fps": 1
+    },
+    {
+      "id": "query-p1-16-finale-locate",
+      "video_id": "L24_V035",
+      "start_frame": 14700,
+      "end_frame": 16300,
+      "fps": 25,
+      "sample_fps": 1
+    }
+  ]
+}
