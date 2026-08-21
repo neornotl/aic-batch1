@@ -1,0 +1,107 @@
+name: AIC Batch 1 - Finish Remaining v4
+
+on:
+  workflow_dispatch:
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - part: L25_r1
+            zip: L25
+            failed: failed_L25_r1.json
+          - part: L25_r2
+            zip: L25
+            failed: failed_L25_r2.json
+          - part: L25_r3
+            zip: L25
+            failed: failed_L25_r3.json
+          - part: L25_r4
+            zip: L25
+            failed: failed_L25_r4.json
+          - part: L25_r5
+            zip: L25
+            failed: failed_L25_r5.json
+          - part: L25_r6
+            zip: L25
+            failed: failed_L25_r6.json
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract old results from repo (old result/ folder)
+        run: |
+          echo "=== Extracting all results-*.zip from 'old result/' ==="
+          ls -la "old result/"
+          for f in "old result"/results-*.zip; do
+            echo "Extracting: $f"
+            unzip -q -o "$f" -d .
+          done
+          find . -name "results_*.jsonl" -not -path "./old result/*" -exec mv -f {} . \; 2>/dev/null || true
+          find . -name "failed_*.json" -not -path "./old result/*" -exec mv -f {} . \; 2>/dev/null || true
+          echo "=== Done extracting ==="
+
+      - name: List loaded results
+        run: |
+          echo "=== Loaded result files ==="
+          for part in L21 L22 L23 L24 L25 L26_a L26_b L26_c L26_d L26_e L27 L28 L29 L30; do
+            if [ -f "results_${part}.jsonl" ]; then
+              lines=$(wc -l < "results_${part}.jsonl" 2>/dev/null || echo 0)
+              echo "OK results_${part}.jsonl ($lines lines)"
+            else
+              echo "MISSING results_${part}.jsonl"
+            fi
+            if [ -f "failed_${part}.json" ]; then
+              cnt=$(cat "failed_${part}.json" | jq '. | length' 2>/dev/null || echo 0)
+              echo "  failed_${part}.json: $cnt failed"
+            fi
+          done
+          # Also check new parts
+          for part in L25_r1 L25_r2 L25_r3 L25_r4 L25_r5 L25_r6; do
+            if [ -f "failed_${part}.json" ]; then
+              cnt=$(cat "failed_${part}.json" | jq '. | length' 2>/dev/null || echo 0)
+              echo "  failed_${part}.json: $cnt failed (RETRY)"
+            fi
+          done
+
+      - name: Download keyframes
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y aria2 unzip
+          mkdir -p data
+          aria2c -c -x 8 -s 8 \
+            -d data \
+            https://aic-data.ledo.io.vn/Keyframes_${{ matrix.zip }}.zip
+
+      - name: Extract keyframes
+        run: |
+          mkdir -p keyframes
+          unzip -q data/*.zip -d keyframes
+          rm -rf data
+
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests
+
+      - name: Run Luna (forced retry mode)
+        env:
+          AIC1: ${{ secrets.AIC1 }}
+          AIC2: ${{ secrets.AIC2 }}
+          AIC3: ${{ secrets.AIC3 }}
+        run: |
+          python run_batch.py keyframes results_${{ matrix.part }}.jsonl ${{ matrix.failed }}
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-${{ matrix.part }}
+          path: |
+            results_${{ matrix.part }}.jsonl
+            ${{ matrix.failed }}
+          retention-days: 90
