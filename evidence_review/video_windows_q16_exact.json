@@ -1,0 +1,36 @@
+{
+  "windows": [
+    {
+      "id": "query-p1-16-e1-turn-exact",
+      "video_id": "L24_V035",
+      "start_frame": 3380,
+      "end_frame": 3430,
+      "fps": 25,
+      "sample_fps": 25
+    },
+    {
+      "id": "query-p1-16-e2-land-exact",
+      "video_id": "L24_V035",
+      "start_frame": 15330,
+      "end_frame": 15380,
+      "fps": 25,
+      "sample_fps": 25
+    },
+    {
+      "id": "query-p1-16-e3-bow-exact",
+      "video_id": "L24_V035",
+      "start_frame": 16180,
+      "end_frame": 16270,
+      "fps": 25,
+      "sample_fps": 25
+    },
+    {
+      "id": "query-p1-16-e4-dragon-exact",
+      "video_id": "L24_V035",
+      "start_frame": 16260,
+      "end_frame": 16300,
+      "fps": 25,
+      "sample_fps": 25
+    }
+  ]
+}
