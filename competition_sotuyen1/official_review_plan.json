@@ -1,0 +1,1334 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "query-p1-1-kis",
+      "kind": "kis",
+      "text": "Cảnh quay một nhóm hơn 5 người xếp thành hàng tập thể dục, cùng thực hiện động tác hai tay chạm mũi chân. Trong nhóm chỉ có một người đeo kính và ba người đội nón có màu đỏ.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L29_V005",
+          "frames": [
+            {
+              "frame_id": 1215,
+              "member": "keyframes/L29_V005/070.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L22_V029",
+          "frames": [
+            {
+              "frame_id": 8033,
+              "member": "keyframes/L22_V029/076.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L29_V017",
+          "frames": [
+            {
+              "frame_id": 9585,
+              "member": "keyframes/L29_V017/251.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L29_V009",
+          "frames": [
+            {
+              "frame_id": 1215,
+              "member": "keyframes/L29_V009/069.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L29_V014",
+          "frames": [
+            {
+              "frame_id": 1215,
+              "member": "keyframes/L29_V014/029.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L29_V018",
+          "frames": [
+            {
+              "frame_id": 8505,
+              "member": "keyframes/L29_V018/244.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L29_V016",
+          "frames": [
+            {
+              "frame_id": 1215,
+              "member": "keyframes/L29_V016/069.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L30_V046",
+          "frames": [
+            {
+              "frame_id": 689,
+              "member": "keyframes/L30_V046/010.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-10-kis",
+      "kind": "kis",
+      "text": "Hành động cắt chùm nho bằng kéo từ giàn nho bằng một chiếc kéo màu đen. Có thể thấy có một sợi dây màu xanh dương được buộc vào cuống của chùm nho này trước khi nó được cắt.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L29_V013",
+          "frames": [
+            {
+              "frame_id": 9855,
+              "member": "keyframes/L29_V013/220.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L29_V013",
+          "frames": [
+            {
+              "frame_id": 12394,
+              "member": "keyframes/L29_V013/248.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L29_V013",
+          "frames": [
+            {
+              "frame_id": 12174,
+              "member": "keyframes/L29_V013/246.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L29_V013",
+          "frames": [
+            {
+              "frame_id": 14444,
+              "member": "keyframes/L29_V013/283.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L29_V013",
+          "frames": [
+            {
+              "frame_id": 10395,
+              "member": "keyframes/L29_V013/226.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L29_V013",
+          "frames": [
+            {
+              "frame_id": 18495,
+              "member": "keyframes/L29_V013/342.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L29_V013",
+          "frames": [
+            {
+              "frame_id": 20906,
+              "member": "keyframes/L29_V013/372.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L27_V012",
+          "frames": [
+            {
+              "frame_id": 5670,
+              "member": "keyframes/L27_V012/131.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-11-kis",
+      "kind": "kis",
+      "text": "Cảnh quay chậm tại vị trí vạch đích của cuộc đua xe đạp. Góc máy sát mặt đường bắt trọn khoảnh khắc về đích theo thứ tự nhất, nhì, ba lần lượt là 1 tay đua áo vàng quần đen, 1 tay đua áo xanh dương quần đen và 1 tay đua áo xanh dương quần đỏ",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L23_V017",
+          "frames": [
+            {
+              "frame_id": 3327,
+              "member": "keyframes/L23_V017/029.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L23_V025",
+          "frames": [
+            {
+              "frame_id": 16625,
+              "member": "keyframes/L23_V025/179.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L23_V016",
+          "frames": [
+            {
+              "frame_id": 4696,
+              "member": "keyframes/L23_V016/037.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L23_V004",
+          "frames": [
+            {
+              "frame_id": 8250,
+              "member": "keyframes/L23_V004/093.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L23_V014",
+          "frames": [
+            {
+              "frame_id": 6875,
+              "member": "keyframes/L23_V014/069.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L23_V017",
+          "frames": [
+            {
+              "frame_id": 7650,
+              "member": "keyframes/L23_V017/062.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L23_V006",
+          "frames": [
+            {
+              "frame_id": 7000,
+              "member": "keyframes/L23_V006/099.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L23_V013",
+          "frames": [
+            {
+              "frame_id": 6175,
+              "member": "keyframes/L23_V013/064.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-12-kis",
+      "kind": "kis",
+      "text": "Có thể thấy trong cảnh quay có 4 tài xế xe ôm công nghệ trong trạm xăng, trong đó 3 người đứng đợi còn 1 người lái xe từ trái sang phải khung hình. Trước đó là cảnh một người đậy nắp bình xăng xe máy của họ. Có thông tin về giá dầu mazut được hiển thị trong khung hình.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L22_V008",
+          "frames": [
+            {
+              "frame_id": 7852,
+              "member": "keyframes/L22_V008/079.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L22_V029",
+          "frames": [
+            {
+              "frame_id": 6441,
+              "member": "keyframes/L22_V029/055.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L22_V029",
+          "frames": [
+            {
+              "frame_id": 6261,
+              "member": "keyframes/L22_V029/054.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L22_V015",
+          "frames": [
+            {
+              "frame_id": 4070,
+              "member": "keyframes/L22_V015/039.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L22_V015",
+          "frames": [
+            {
+              "frame_id": 4587,
+              "member": "keyframes/L22_V015/044.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L22_V022",
+          "frames": [
+            {
+              "frame_id": 5036,
+              "member": "keyframes/L22_V022/047.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L22_V001",
+          "frames": [
+            {
+              "frame_id": 2646,
+              "member": "keyframes/L22_V001/029.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L22_V015",
+          "frames": [
+            {
+              "frame_id": 4203,
+              "member": "keyframes/L22_V015/040.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-13-kis",
+      "kind": "kis",
+      "text": "Một người đứng dưới nước và rọi đèn. Tiếp theo là cảnh người này kéo lưới cá lúc bình minh, sau đó được một nhóm người khác tiến đến dùng máy quay ghi hình.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L27_V007",
+          "frames": [
+            {
+              "frame_id": 944,
+              "member": "keyframes/L27_V007/071.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L29_V021",
+          "frames": [
+            {
+              "frame_id": 8775,
+              "member": "keyframes/L29_V021/112.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L29_V021",
+          "frames": [
+            {
+              "frame_id": 9918,
+              "member": "keyframes/L29_V021/126.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L27_V006",
+          "frames": [
+            {
+              "frame_id": 4575,
+              "member": "keyframes/L27_V006/137.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L21_V019",
+          "frames": [
+            {
+              "frame_id": 23217,
+              "member": "keyframes/L21_V019/186.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L28_V022",
+          "frames": [
+            {
+              "frame_id": 21864,
+              "member": "keyframes/L28_V022/268.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L29_V020",
+          "frames": [
+            {
+              "frame_id": 2999,
+              "member": "keyframes/L29_V020/163.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L29_V021",
+          "frames": [
+            {
+              "frame_id": 6995,
+              "member": "keyframes/L29_V021/087.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-14-kis",
+      "kind": "kis",
+      "text": "Người đầu bếp lần lượt đặt các miếng nguyên liệu dạng thanh và những lát cắt hình hoa vào một đĩa đang được hấp trong nồi.\nCác nguyên liệu được dùng đũa sắp xếp xen kẽ xung quanh phần thức ăn đã có sẵn trên đĩa.\nSau đó, đầu bếp dùng muỗng lấy thêm một loại nguyên liệu mềm từ tô thủy tinh.\nPhần nguyên liệu này được đặt vào giữa đĩa, xung quanh là các miếng dạng thanh và hình hoa đã được sắp xếp trước đó.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V052",
+          "frames": [
+            {
+              "frame_id": 2964,
+              "member": "keyframes/L26_V052/058.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L26_V246",
+          "frames": [
+            {
+              "frame_id": 4352,
+              "member": "keyframes/L26_V246/093.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L26_V310",
+          "frames": [
+            {
+              "frame_id": 3325,
+              "member": "keyframes/L26_V310/075.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L26_V246",
+          "frames": [
+            {
+              "frame_id": 1358,
+              "member": "keyframes/L26_V246/037.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L26_V170",
+          "frames": [
+            {
+              "frame_id": 7117,
+              "member": "keyframes/L26_V170/148.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L26_V310",
+          "frames": [
+            {
+              "frame_id": 3328,
+              "member": "keyframes/L26_V310/076.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L26_V171",
+          "frames": [
+            {
+              "frame_id": 7168,
+              "member": "keyframes/L26_V171/173.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L26_V170",
+          "frames": [
+            {
+              "frame_id": 300,
+              "member": "keyframes/L26_V170/013.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-15-qa",
+      "kind": "qa",
+      "text": "Bản đồ phân bố động đất tại một vùng trên thế giới, với một bảng chú giải phía bên trái gồm các kí hiệu nhiều màu sắc tương ứng với các vị trí tâm chấn có cấp độ động đất khác nhau. Không tính bảng chú giải, có bao nhiêu vị trí ghi nhận động đất cấp độ 4?",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L21_V006",
+          "frames": [
+            {
+              "frame_id": 561,
+              "member": "keyframes/L21_V006/007.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 2,
+          "video_id": "L21_V010",
+          "frames": [
+            {
+              "frame_id": 19500,
+              "member": "keyframes/L21_V010/189.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V069",
+          "frames": [
+            {
+              "frame_id": 44100,
+              "member": "keyframes/L25_V069/396.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 4,
+          "video_id": "L22_V009",
+          "frames": [
+            {
+              "frame_id": 9343,
+              "member": "keyframes/L22_V009/107.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 5,
+          "video_id": "L21_V010",
+          "frames": [
+            {
+              "frame_id": 19380,
+              "member": "keyframes/L21_V010/188.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 6,
+          "video_id": "L22_V009",
+          "frames": [
+            {
+              "frame_id": 9504,
+              "member": "keyframes/L22_V009/108.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 7,
+          "video_id": "L21_V030",
+          "frames": [
+            {
+              "frame_id": 4788,
+              "member": "keyframes/L21_V030/041.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V076",
+          "frames": [
+            {
+              "frame_id": 9150,
+              "member": "keyframes/L25_V076/100.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        }
+      ]
+    },
+    {
+      "id": "query-p1-2-kis",
+      "kind": "kis",
+      "text": "Đoạn phim bắt đầu bằng một bản đồ, trên đó một loại công trình thủy lợi lần lượt xuất hiện bốn lần. Sau đó chuyển sang cảnh một con đập được quay từ trên cao, tiếp đến là cảnh cận con đập dưới trời mưa.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V069",
+          "frames": [
+            {
+              "frame_id": 13950,
+              "member": "keyframes/L25_V069/162.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L28_V008",
+          "frames": [
+            {
+              "frame_id": 944,
+              "member": "keyframes/L28_V008/071.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L28_V021",
+          "frames": [
+            {
+              "frame_id": 944,
+              "member": "keyframes/L28_V021/061.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V069",
+          "frames": [
+            {
+              "frame_id": 13800,
+              "member": "keyframes/L25_V069/161.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L28_V020",
+          "frames": [
+            {
+              "frame_id": 20655,
+              "member": "keyframes/L28_V020/319.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V087",
+          "frames": [
+            {
+              "frame_id": 2023,
+              "member": "keyframes/L25_V087/018.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V016",
+          "frames": [
+            {
+              "frame_id": 19584,
+              "member": "keyframes/L25_V016/229.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L28_V002",
+          "frames": [
+            {
+              "frame_id": 270,
+              "member": "keyframes/L28_V002/018.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-3-qa",
+      "kind": "qa",
+      "text": "Hình ảnh một con cá được đặt lên cân, sau đó có cảnh một con cá khác cùng loại bị một người cầm đuôi. Con số hiển thị cuối cùng trên cân là bao nhiêu?",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L28_V011",
+          "frames": [
+            {
+              "frame_id": 4185,
+              "member": "keyframes/L28_V011/126.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 2,
+          "video_id": "L21_V013",
+          "frames": [
+            {
+              "frame_id": 8346,
+              "member": "keyframes/L21_V013/073.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 3,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11313,
+              "member": "keyframes/L21_V015/097.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 4,
+          "video_id": "L28_V001",
+          "frames": [
+            {
+              "frame_id": 12022,
+              "member": "keyframes/L28_V001/206.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 5,
+          "video_id": "L21_V013",
+          "frames": [
+            {
+              "frame_id": 8205,
+              "member": "keyframes/L21_V013/072.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 6,
+          "video_id": "L28_V006",
+          "frames": [
+            {
+              "frame_id": 17574,
+              "member": "keyframes/L28_V006/301.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 7,
+          "video_id": "L29_V019",
+          "frames": [
+            {
+              "frame_id": 22928,
+              "member": "keyframes/L29_V019/500.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 8,
+          "video_id": "L29_V019",
+          "frames": [
+            {
+              "frame_id": 22950,
+              "member": "keyframes/L29_V019/501.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        }
+      ]
+    },
+    {
+      "id": "query-p1-4-kis",
+      "kind": "kis",
+      "text": "Một đàn sư tử đang nghỉ ngơi và leo trèo trên các bục gỗ trong khu nuôi dưỡng, phía trước có bảng thông tin của London Zoo phục vụ công tác theo dõi và bảo tồn động vật.. Sau đó có cảnh hai nhân viên mặc áo xanh lá đang cân và ghi nhận số liệu của một con vật trong khuôn viên sở thú.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L22_V021",
+          "frames": [
+            {
+              "frame_id": 10871,
+              "member": "keyframes/L22_V021/110.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 26481,
+              "member": "keyframes/L21_V014/226.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 26673,
+              "member": "keyframes/L21_V014/228.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 26409,
+              "member": "keyframes/L21_V014/225.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L22_V021",
+          "frames": [
+            {
+              "frame_id": 10925,
+              "member": "keyframes/L22_V021/111.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 26282,
+              "member": "keyframes/L21_V014/224.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 25896,
+              "member": "keyframes/L21_V014/221.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 26060,
+              "member": "keyframes/L21_V014/222.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-5-kis",
+      "kind": "kis",
+      "text": "Đoạn clip bắt đầu bằng việc đậu hà lan được bỏ vào với mực đang được xào trên chảo, bên cạnh là đĩa hành tây và ớt đỏ thái lát chuẩn bị cho vào món ăn. Đoạn clip kết thúc với khung quay chậm (slow motion) cảnh lắc chảo trên bếp lửa.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V035",
+          "frames": [
+            {
+              "frame_id": 6232,
+              "member": "keyframes/L26_V035/120.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L26_V177",
+          "frames": [
+            {
+              "frame_id": 6029,
+              "member": "keyframes/L26_V177/138.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L26_V035",
+          "frames": [
+            {
+              "frame_id": 6537,
+              "member": "keyframes/L26_V035/126.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L26_V132",
+          "frames": [
+            {
+              "frame_id": 5935,
+              "member": "keyframes/L26_V132/123.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L26_V483",
+          "frames": [
+            {
+              "frame_id": 6751,
+              "member": "keyframes/L26_V483/163.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L26_V039",
+          "frames": [
+            {
+              "frame_id": 4648,
+              "member": "keyframes/L26_V039/092.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L26_V039",
+          "frames": [
+            {
+              "frame_id": 4725,
+              "member": "keyframes/L26_V039/093.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L26_V120",
+          "frames": [
+            {
+              "frame_id": 5804,
+              "member": "keyframes/L26_V120/118.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-6-kis",
+      "kind": "kis",
+      "text": "Mẩu tin bắt đầu với hình ảnh nột người đàn ông mặc vest xanh đậm, sơ mi trắng và cà vạt, đang ngồi trên một chiếc ghế lớn. Ông cầm bằng hai tay một khối đá quý thô khá lớn, đưa lên gần mặt để quan sát.\nBên phải là một phụ nữ mặc trang phục công sở màu đen và khăn trùm đầu màu hồng tím, đang đứng cạnh và mỉm cười. Tiếp theo có hình ảnh toàn cảnh từ trên cao của một mỏ đá quý lộ thiên quy mô lớn với hố khai thác sâu nhiều tầng và hệ thống đường vận chuyển bao quanh.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L22_V023",
+          "frames": [
+            {
+              "frame_id": 18180,
+              "member": "keyframes/L22_V023/180.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L30_V075",
+          "frames": [
+            {
+              "frame_id": 3819,
+              "member": "keyframes/L30_V075/056.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L22_V023",
+          "frames": [
+            {
+              "frame_id": 685,
+              "member": "keyframes/L22_V023/010.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L30_V068",
+          "frames": [
+            {
+              "frame_id": 4599,
+              "member": "keyframes/L30_V068/062.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L30_V068",
+          "frames": [
+            {
+              "frame_id": 4455,
+              "member": "keyframes/L30_V068/061.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L30_V068",
+          "frames": [
+            {
+              "frame_id": 5319,
+              "member": "keyframes/L30_V068/067.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L30_V068",
+          "frames": [
+            {
+              "frame_id": 4335,
+              "member": "keyframes/L30_V068/060.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L30_V068",
+          "frames": [
+            {
+              "frame_id": 3354,
+              "member": "keyframes/L30_V068/044.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-7-kis",
+      "kind": "kis",
+      "text": "Đoạn clip bắt đầu bằng cảnh cà rốt cắt hình ngôi sao đang được luộc trong nồi nước sôi, đặt trong rổ lưới kim loại và được đảo bằng đôi đũa gỗ. \nĐoạn clip kết thúc bằng hình ảnh đĩa rau củ luộc và đồ chiên được trình bày đẹp mắt, gồm đậu bắp, súp lơ, cà rốt hình ngôi sao, bí xanh, chén nước chấm màu hồng ở giữa và đôi đũa màu hồng nhạt đặt bên phải",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 7369,
+              "member": "keyframes/L26_V041/136.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 405,
+              "member": "keyframes/L26_V041/012.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 300,
+              "member": "keyframes/L26_V041/011.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 2928,
+              "member": "keyframes/L26_V041/058.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 6787,
+              "member": "keyframes/L26_V041/127.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 2970,
+              "member": "keyframes/L26_V041/059.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 7425,
+              "member": "keyframes/L26_V041/137.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L26_V230",
+          "frames": [
+            {
+              "frame_id": 6272,
+              "member": "keyframes/L26_V230/132.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-8-kis",
+      "kind": "kis",
+      "text": "Người đầu bếp lần lượt đặt các miếng nguyên liệu dạng thanh và những lát cắt hình hoa vào một đĩa đang được hấp trong nồi.\nCác nguyên liệu được dùng đũa sắp xếp xen kẽ xung quanh phần thức ăn đã có sẵn trên đĩa.\nSau đó, đầu bếp dùng muỗng lấy thêm một loại nguyên liệu mềm từ tô thủy tinh.\nPhần nguyên liệu này được đặt vào giữa đĩa, xung quanh là các miếng dạng thanh và hình hoa đã được sắp xếp trước đó.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V052",
+          "frames": [
+            {
+              "frame_id": 2964,
+              "member": "keyframes/L26_V052/058.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L26_V246",
+          "frames": [
+            {
+              "frame_id": 4352,
+              "member": "keyframes/L26_V246/093.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L26_V310",
+          "frames": [
+            {
+              "frame_id": 3325,
+              "member": "keyframes/L26_V310/075.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L26_V246",
+          "frames": [
+            {
+              "frame_id": 1358,
+              "member": "keyframes/L26_V246/037.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L26_V170",
+          "frames": [
+            {
+              "frame_id": 7117,
+              "member": "keyframes/L26_V170/148.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L26_V310",
+          "frames": [
+            {
+              "frame_id": 3328,
+              "member": "keyframes/L26_V310/076.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L26_V171",
+          "frames": [
+            {
+              "frame_id": 7168,
+              "member": "keyframes/L26_V171/173.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L26_V170",
+          "frames": [
+            {
+              "frame_id": 300,
+              "member": "keyframes/L26_V170/013.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-9-qa",
+      "kind": "qa",
+      "text": "Đoạn phim ghi lại cảnh những chiếc xe ô tô lội nước, chiếc xe màu vàng, màu đỏ và màu đen lần lượt chuẩn bị đi qua cầu. Con số được ghi trên biển báo bên trái của cây cầu là bao nhiêu?",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L22_V008",
+          "frames": [
+            {
+              "frame_id": 24518,
+              "member": "keyframes/L22_V008/229.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 2,
+          "video_id": "L27_V010",
+          "frames": [
+            {
+              "frame_id": 11662,
+              "member": "keyframes/L27_V010/251.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 3,
+          "video_id": "L28_V022",
+          "frames": [
+            {
+              "frame_id": 12150,
+              "member": "keyframes/L28_V022/145.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 4,
+          "video_id": "L22_V016",
+          "frames": [
+            {
+              "frame_id": 16037,
+              "member": "keyframes/L22_V016/167.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 5,
+          "video_id": "L22_V030",
+          "frames": [
+            {
+              "frame_id": 3329,
+              "member": "keyframes/L22_V030/038.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 6,
+          "video_id": "L27_V007",
+          "frames": [
+            {
+              "frame_id": 13615,
+              "member": "keyframes/L27_V007/307.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 7,
+          "video_id": "L22_V011",
+          "frames": [
+            {
+              "frame_id": 28463,
+              "member": "keyframes/L22_V011/239.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        },
+        {
+          "rank": 8,
+          "video_id": "L28_V021",
+          "frames": [
+            {
+              "frame_id": 17157,
+              "member": "keyframes/L28_V021/273.jpg"
+            }
+          ],
+          "answer": "PENDING"
+        }
+      ]
+    }
+  ]
+}

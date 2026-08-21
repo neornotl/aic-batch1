@@ -11,6 +11,11 @@ on:
         description: "Top candidates per query (6 is fast; use 16 only for a final review)"
         required: false
         default: "6"
+      review_plan:
+        description: "Path to a committed evidence-review plan JSON"
+        required: false
+        default: work/aic_pipeline/review_plan.json
+        type: string
 
 permissions:
   contents: read
@@ -31,7 +36,7 @@ jobs:
       - name: Render contact sheets from exact keyframes
         run: |
           PYTHONPATH=. python scripts/render_evidence_review.py \
-            --plan work/aic_pipeline/review_plan.json \
+            --plan "${{ inputs.review_plan }}" \
             --queries "${{ inputs.queries }}" \
             --max-candidates "${{ inputs.max_candidates }}" \
             --output review-artifact
