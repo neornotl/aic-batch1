@@ -1,0 +1,53 @@
+name: Publish public source-video links
+
+on:
+  workflow_dispatch:
+
+# This workflow intentionally uses GitHub Release assets, not Actions
+# artifacts.  Release asset URLs work without signing in, unlike artifact URLs.
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install archive reader
+        run: python -m pip install --disable-pip-version-check -e .
+      - name: Download only the four official source videos
+        run: |
+          printf '%s\n' '["L30_V046", "L21_V003", "L26_V035", "L26_V041"]' > selected-videos.json
+          PYTHONPATH=. python scripts/download_candidates.py \
+            --candidates selected-videos.json \
+            --output videos \
+            --video-workers 2 \
+            --workers 4 \
+            --chunk-mb 4
+      - name: Publish public direct links (no Actions artifact)
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="aic-source-videos-${{ github.run_number }}"
+          gh release create "$tag" videos/*.mp4 \
+            --title "AIC official source videos — Q1, Q2, Q5, Q7" \
+            --notes "Official source-video copies for manual review. Q1: L30_V046; Q2: L21_V003; Q5: L26_V035; Q7: L26_V041."
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+      - name: Print permanent direct links
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          echo '## Public direct video links' >> "$GITHUB_STEP_SUMMARY"
+          echo '' >> "$GITHUB_STEP_SUMMARY"
+          echo "- Q1 — [L30_V046.mp4](https://github.com/${{ github.repository }}/releases/download/$TAG/L30_V046.mp4)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Q2 — [L21_V003.mp4](https://github.com/${{ github.repository }}/releases/download/$TAG/L21_V003.mp4)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Q5 — [L26_V035.mp4](https://github.com/${{ github.repository }}/releases/download/$TAG/L26_V035.mp4)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Q7 — [L26_V041.mp4](https://github.com/${{ github.repository }}/releases/download/$TAG/L26_V041.mp4)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Remove runner files
+        if: always()
+        run: rm -rf videos selected-videos.json

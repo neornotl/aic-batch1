@@ -1,0 +1,1798 @@
+{
+  "version": 1,
+  "audit": "Q11 independent FTS expansion after manual rejection of prior evidence",
+  "queries": [
+    {
+      "id": "query-p1-11-kis",
+      "kind": "kis",
+      "text": "Cảnh quay chậm tại vị trí vạch đích của cuộc đua xe đạp. Góc máy sát mặt đường bắt trọn khoảnh khắc về đích theo thứ tự nhất, nhì, ba lần lượt là 1 tay đua áo vàng quần đen, 1 tay đua áo xanh dương quần đen và 1 tay đua áo xanh dương quần đỏ",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L23_V017",
+          "frames": [
+            {
+              "frame_id": 3327,
+              "member": "keyframes/L23_V017/029.jpg"
+            }
+          ],
+          "score": 0.07213226,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows a cyclist riding toward the camera on a wide gray paved road. The cyclist is wearing a white helmet, dark sunglasses, a blue and white racing jersey, black cycling shorts, dark socks, and white shoes, and is riding a red road bicycle. Broadcast graphics overlay the top and lower-left portions of the image, including stage and race timing information, rider rankings, a distance indicator, and a speed-style gauge.",
+          "objects": "cyclist white bicycle helmet sunglasses blue and white cycling jersey red road bicycle gray paved road race broadcast graphics checkered finish flag icon speed gauge"
+        },
+        {
+          "rank": 2,
+          "video_id": "L23_V006",
+          "frames": [
+            {
+              "frame_id": 6000,
+              "member": "keyframes/L23_V006/076.jpg"
+            }
+          ],
+          "score": 0.06530936,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A close-up television broadcast shot shows three cyclists riding closely together in a road cycling race. The central cyclist wears a blue jersey and white helmet with race number 20 pinned to his back. On the right, another cyclist wears an orange-red jersey, white helmet, and race number 2. In the foreground, a third cyclist wears a multicolored red, blue, and white jersey, dark helmet with yellow sunglasses attached, and race number 65. The riders are moving along a paved urban road beside a blurred concrete barrier.",
+          "objects": "three road bicycles three cyclists white cycling helmets dark cycling helmet yellow sunglasses race number 20 race number 2 race number 65 paved road concrete roadside barrier television broadcast graphics"
+        },
+        {
+          "rank": 3,
+          "video_id": "L22_V016",
+          "frames": [
+            {
+              "frame_id": 35100,
+              "member": "keyframes/L22_V016/360.jpg"
+            }
+          ],
+          "score": 0.05623847,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised road cycling race shows a cyclist in a bright yellow helmet and matching yellow-green racing kit riding toward the camera across a finish line. The cyclist is centered in the foreground, with a dark support or race motorcycle directly behind them, followed by a white official race car and several other cyclists. Metal crowd barriers line both sides of the road, packed with spectators reaching toward the course. Broadcast graphics and a Vietnamese news ticker overlay the bottom of the screen.",
+          "objects": "Yellow-clad cyclist Bicycle Race motorcycle White official race car Other cyclists Crowd-control barriers Spectators Finish-line road markings Television broadcast graphics News ticker"
+        },
+        {
+          "rank": 4,
+          "video_id": "L23_V017",
+          "frames": [
+            {
+              "frame_id": 4714,
+              "member": "keyframes/L23_V017/040.jpg"
+            }
+          ],
+          "score": 0.05473055,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A close-up replay of a male road cyclist wearing a white helmet, reflective sunglasses, and a blue, white, and red racing jersey. He is raising one arm in celebration while moving along a finish or race route. Spectators and photographers crowd the roadside behind him, with several people holding cameras and orange flags or banners. The scene appears to be part of a televised cycling race.",
+          "objects": "male cyclist white cycling helmet reflective sunglasses cycling jersey bicycle race route spectators photographers cameras orange flags and banners television broadcast graphics"
+        },
+        {
+          "rank": 5,
+          "video_id": "L23_V021",
+          "frames": [
+            {
+              "frame_id": 8026,
+              "member": "keyframes/L23_V021/083.jpg"
+            }
+          ],
+          "score": 0.0534519,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised replay shows several road cyclists racing along a city street in front of small storefronts with awnings. The main cyclist in the foreground wears a white helmet, a red-and-white cycling jersey, black shorts, and race number 61 attached to his back and shorts while riding a dark red bicycle. Behind him, another cyclist in a white helmet and yellow jersey wears race number 102 and rides a mint-green bicycle. On the left, a cyclist in a green, yellow, and blue uniform wears race number 34. Additional cyclists are partially visible at the edges. A small delivery truck is parked outside the shops, and green trash bins and stacked crates are visible near the sidewalk.",
+          "objects": "road bicycles cyclists cycling helmets race number bibs storefronts awnings delivery truck green trash bins stacked crates sidewalk HTV Thể Thao logo Replay indicator"
+        },
+        {
+          "rank": 6,
+          "video_id": "L23_V010",
+          "frames": [
+            {
+              "frame_id": 375,
+              "member": "keyframes/L23_V010/005.jpg"
+            }
+          ],
+          "score": 0.0518956,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows a male cyclist in a blue team jersey, black shorts, helmet, and gloves riding a red-and-black road bicycle along a paved road beside a stone bridge or riverside railing. The camera tracks him from the side, with blurred green trees and a bridge structure in the background. A lower-third graphic displays the rider's portrait, race number, name, and biographical statistics. Broadcast graphics at the top show the stage number, elapsed race time, distance, and channel logo.",
+          "objects": "male cyclist blue cycling jersey black cycling shorts red-and-black road bicycle cycling helmet cycling gloves stone bridge railing trees television broadcast graphics rider portrait race number badge"
+        },
+        {
+          "rank": 7,
+          "video_id": "L23_V004",
+          "frames": [
+            {
+              "frame_id": 8250,
+              "member": "keyframes/L23_V004/093.jpg"
+            }
+          ],
+          "score": 0.0518847,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A celebratory cycling race scene shows a cyclist in the foreground wearing a black helmet, reflective blue sunglasses, and a white racing jersey with red and blue sleeves. He has both arms raised in triumph as he crosses or approaches the finish area. Another cyclist in a green, white, and yellow racing kit is bent forward beside him. Behind them, a large cheering crowd wearing orange caps reaches toward the riders, takes photos with smartphones, and waves Vietnamese flags. Colorful race barriers, sponsor banners, and event decorations line the roadway.",
+          "objects": "two cyclists bicycle racing helmets reflective sunglasses cycling jerseys crowd of spectators smartphones and cameras Vietnamese flags orange caps race barriers sponsor banners HTV Thể thao logo"
+        },
+        {
+          "rank": 8,
+          "video_id": "L23_V019",
+          "frames": [
+            {
+              "frame_id": 0,
+              "member": "keyframes/L23_V019/001.jpg"
+            }
+          ],
+          "score": 0.04991513,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A road cycling race is taking place on a sunny urban street. A cyclist wearing a yellow helmet and yellow racing jersey with a white race number pinned to the back rides a road bicycle in the foreground, viewed from behind. The cyclist is leaning forward and appears to be drafting closely behind a white sedan. A black support or race vehicle is driving ahead on the left, while another motorcycle is visible farther up the street. Parked vehicles, storefronts, sidewalks, and buildings line the road. Broadcast graphics appear in the upper corners of the frame.",
+          "objects": "cyclist road bicycle yellow cycling helmet yellow racing jersey white race number white sedan black support vehicle motorcycle urban road sidewalks storefronts broadcast graphics"
+        },
+        {
+          "rank": 9,
+          "video_id": "L23_V025",
+          "frames": [
+            {
+              "frame_id": 19000,
+              "member": "keyframes/L23_V025/214.jpg"
+            }
+          ],
+          "score": 0.04913456,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race replay shows several cyclists riding together on a sunny urban road. In the foreground, a cyclist wearing a red, yellow, and black jersey, red helmet, reflective sunglasses, and a race number 7 armband rides prominently. To his left, another cyclist in a bright yellow jersey and yellow helmet rides alongside him. Additional cyclists in blue and white jerseys follow behind. Overhead utility wires, roadside buildings, and trees are visible in the background.",
+          "objects": "road bicycles cyclists cycling helmets sunglasses race number 7 armband race number 73 utility wires roadside buildings trees television channel logo"
+        },
+        {
+          "rank": 10,
+          "video_id": "L23_V007",
+          "frames": [
+            {
+              "frame_id": 2505,
+              "member": "keyframes/L23_V007/022.jpg"
+            }
+          ],
+          "score": 0.04726622,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race shows a cyclist in a blue racing jersey and black-and-white helmet bent forward over the handlebars while riding on a track. A race information graphic overlays the lower part of the image, and the HTV Thể Thao logo appears in the upper-right corner. Trees, a metal fence, and an outdoor sports facility are visible in the background.",
+          "objects": "cyclist racing bicycle cycling helmet blue racing jersey race number bib cycling track metal fence trees HTV Thể Thao logo race information graphic speed gauge"
+        },
+        {
+          "rank": 11,
+          "video_id": "L22_V031",
+          "frames": [
+            {
+              "frame_id": 27398,
+              "member": "keyframes/L22_V031/280.jpg"
+            }
+          ],
+          "score": 0.04391643,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows three professional cyclists riding closely together on a paved road bordered by dense green trees and vegetation. The central cyclist wears a red-and-white racing jersey and helmet with race number 157, while the cyclist on the right wears a dark blue and purple jersey and helmet with race number 565. A third cyclist is partially visible on the left wearing a bright yellow jersey and black-and-yellow helmet. Broadcast graphics identify La Vuelta and display race timing and distance information, while a Vietnamese news ticker runs along the bottom.",
+          "objects": "three road bicycles three professional cyclists cycling helmets race number 157 race number 565 paved road trees and dense vegetation television broadcast graphics Vietnamese news ticker"
+        },
+        {
+          "rank": 12,
+          "video_id": "L23_V019",
+          "frames": [
+            {
+              "frame_id": 10307,
+              "member": "keyframes/L23_V019/084.jpg"
+            }
+          ],
+          "score": 0.04256515,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A sunny outdoor cycling race scene on a wide city street beneath a large red inflatable finish-line arch labeled DICH. A lone cyclist rides toward the finish area while crowds, race officials, photographers, and spectators stand behind barricades along the road. The street has painted zebra-crossing stripes and lane markings. Decorative displays, trees, buildings, and distant hills are visible in the background. Television broadcast graphics appear in the upper corners.",
+          "objects": "red inflatable finish-line arch cyclist and bicycle crowd of spectators race officials and security personnel photographers and cameras sponsor barricade banners television broadcast graphics zebra crossing road lane markings trees buildings decorative roadside display distant hills"
+        },
+        {
+          "rank": 13,
+          "video_id": "L23_V019",
+          "frames": [
+            {
+              "frame_id": 2030,
+              "member": "keyframes/L23_V019/017.jpg"
+            }
+          ],
+          "score": 0.04239493,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised road cycling race is taking place on a broad urban boulevard in bright daylight. The camera follows a cyclist wearing a yellow helmet and yellow jersey with a visible race number, riding alone in the center-left lane. Several motorcycles and vehicles are farther ahead, while spectators stand along the sidewalks. Commercial buildings, trees, landscaped areas, streetlights, parked cars, umbrellas, and race-related signage line the road. A broadcast overlay shows the cyclist's speed and race timing information.",
+          "objects": "cyclist wearing a yellow helmet and jersey road bicycle motorcycles cars spectators sidewalks commercial buildings trees streetlights parked vehicles umbrellas race banners and signs television broadcast graphics"
+        },
+        {
+          "rank": 14,
+          "video_id": "L23_V017",
+          "frames": [
+            {
+              "frame_id": 3170,
+              "member": "keyframes/L23_V017/028.jpg"
+            }
+          ],
+          "score": 0.04190011,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race shows a cyclist riding toward the camera on a wet city street. The cyclist wears a helmet and a dark racing uniform and is approaching a finish or checkpoint approximately 0.4 kilometers away. A large crowd of spectators stands along the right side of the road, many holding umbrellas, suggesting rainy weather. Traffic signs in the foreground include a red no-entry sign and a blue keep-right sign. Trees line the left side of the street, and broadcast graphics overlay the top of the image.",
+          "objects": "cyclist road bicycle cycling race broadcast graphics spectators umbrellas red no-entry traffic sign blue keep-right traffic sign trees street overhead wires roadside signboard"
+        },
+        {
+          "rank": 15,
+          "video_id": "L23_V025",
+          "frames": [
+            {
+              "frame_id": 16625,
+              "member": "keyframes/L23_V025/179.jpg"
+            }
+          ],
+          "score": 0.04097599,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race scene on a city street in bright daylight. A cyclist wearing a yellow helmet and green-and-yellow racing clothing rides a road bicycle across a colorful red, orange, blue, and purple finish-line carpet. Large crowds of spectators stand behind metal barriers, many waving red flags and taking photos. Event staff, security personnel, photographers, and television crew line the roadside. Trees, traffic lights, utility structures, and a distinctive building with a red tiled roof are visible in the background. The broadcast includes a replay indicator and a sports-channel watermark.",
+          "objects": "Road bicycle Cyclist in racing gear Finish-line carpet Metal crowd barriers Red flags Spectators Photographers and cameras Security personnel Orange event pillar Traffic lights Red-roofed building HTV Thể Thao broadcast logo"
+        },
+        {
+          "rank": 16,
+          "video_id": "L23_V001",
+          "frames": [
+            {
+              "frame_id": 1250,
+              "member": "keyframes/L23_V001/017.jpg"
+            }
+          ],
+          "score": 0.04075,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race shows a tightly packed group of cyclists riding toward the camera on a paved roadway. The riders wear helmets, colorful team uniforms, cycling shoes, and race number bibs. A cyclist in a blue, yellow, and red uniform leads the group in the center foreground, with several teammates and competitors closely following behind. Broadcast graphics at the top display stage and race timing information, while a sports television logo appears in the upper-right corner.",
+          "objects": "road bicycles cyclists cycling helmets race number bibs sports broadcast graphics television channel logo paved roadway"
+        },
+        {
+          "rank": 17,
+          "video_id": "L23_V002",
+          "frames": [
+            {
+              "frame_id": 1183,
+              "member": "keyframes/L23_V002/014.jpg"
+            }
+          ],
+          "score": 0.04048898,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race is shown in close-up. Two cyclists are riding side by side on a paved road. The cyclist in the center wears a red jersey, black shorts, a black helmet, red gloves, and has a visible race number 84 attached to the back and bicycle. Another cyclist in blue and black is partially visible on the left. The background is blurred, suggesting motion, and broadcast graphics appear in the upper corners.",
+          "objects": "two racing bicycles two cyclists cycling helmets race number 84 red cycling jersey blue and black cycling outfit paved road television broadcast graphics"
+        },
+        {
+          "rank": 18,
+          "video_id": "L23_V012",
+          "frames": [
+            {
+              "frame_id": 7600,
+              "member": "keyframes/L23_V012/068.jpg"
+            }
+          ],
+          "score": 0.04007118,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race shows several cyclists approaching the camera on a wide city street. Two cyclists in front ride closely together, one wearing a yellow jersey and white helmet and the other wearing a blue jersey and red helmet. Additional cyclists follow behind them, accompanied by multiple motorcycle officials or camera operators in red uniforms. Spectators and trees line the roadway, while metal crowd-control barriers and colorful race signage run along the right side. Broadcast graphics overlay the image, including the stage number, elapsed time, distance to the finish, race position, broadcaster logo, and speed.",
+          "objects": "road bicycles cyclists motorcycles motorcycle race officials yellow and blue cycling jerseys helmets city roadway trees spectators metal crowd-control barriers race banners and signage television broadcast graphics"
+        },
+        {
+          "rank": 19,
+          "video_id": "L23_V025",
+          "frames": [
+            {
+              "frame_id": 2125,
+              "member": "keyframes/L23_V025/019.jpg"
+            }
+          ],
+          "score": 0.03941159,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows two cyclists in matching blue, white, and black racing jerseys riding road bicycles on a wide urban street. The nearer cyclist wears a dark helmet and has race number 116 attached near the rear of the bicycle, while the cyclist ahead wears a bright blue helmet. Trees, landscaped flowerbeds, modern buildings, and roadside spectators are visible in the background. Broadcast graphics surround the main video, including a race progress panel, distance indicator, speed gauge, and channel branding. A picture-in-picture inset at the lower right shows several officials and participants standing together indoors, including people wearing orange-and-white cycling event uniforms and an older man in a green military-style uniform.",
+          "objects": "two road racing bicycles two cyclists cycling helmets race number 116 urban roadway trees flowerbeds modern buildings roadside spectators television broadcast graphics speed gauge picture-in-picture inset event officials orange-and-white uniforms green military-style uniform"
+        },
+        {
+          "rank": 20,
+          "video_id": "L23_V011",
+          "frames": [
+            {
+              "frame_id": 5000,
+              "member": "keyframes/L23_V011/060.jpg"
+            }
+          ],
+          "score": 0.0387028,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race is taking place on a broad tree-lined city street. A cyclist in a blue and black racing uniform rides toward the camera in the center of the road, while a group of cyclists and support motorcycles approaches in the distance. Crowds of spectators line both sides behind metal barriers, with many wearing orange clothing and hats. Red and orange event banners, sponsor boards, flags, and an inflatable finish or race arch span the road. A large electronic display on the left shows Vietnamese text, and a television sports channel logo appears in the upper-right corner.",
+          "objects": "road bicycle cyclist distant cyclists support motorcycles spectators metal crowd barriers red inflatable race arch large electronic display sponsor banners event flags HTV Thể Thao logo"
+        },
+        {
+          "rank": 21,
+          "video_id": "L23_V016",
+          "frames": [
+            {
+              "frame_id": 8312,
+              "member": "keyframes/L23_V016/068.jpg"
+            }
+          ],
+          "score": 0.03796796,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A large group of cyclists competes in a road bicycle race on a broad city street under bright daylight. Riders in colorful racing uniforms and helmets spread across the roadway, with one cyclist near the center raising both arms while riding. Spectators line the left side behind metal barriers covered with colorful advertising banners. A large red inflatable finish or event arch spans the road in the background, and trees, buildings, flags, and umbrellas are visible along the route. The image appears to be a replay from a televised sporting event.",
+          "objects": "Road racing bicycles Cyclists wearing helmets and colorful jerseys Spectators Metal crowd-control barriers Advertising banners Red inflatable race arch Trees Buildings Flags Umbrellas"
+        },
+        {
+          "rank": 22,
+          "video_id": "L23_V006",
+          "frames": [
+            {
+              "frame_id": 5859,
+              "member": "keyframes/L23_V006/064.jpg"
+            }
+          ],
+          "score": 0.03777681,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race is taking place on a city street. Two cyclists wearing helmets and racing jerseys are seen from behind riding closely together in the foreground. The nearer cyclist wears a white, red, and blue jersey with a large race number 66 on the back, while the cyclist ahead wears a predominantly blue jersey with colorful sponsor markings. Other cyclists or race personnel are blurred at the right edge. Parked cars line the street behind a low hedge, and a red, translucent foreground obstruction partially covers the left side of the image. The camera captures the riders in motion with noticeable background blur.",
+          "objects": "two racing cyclists bicycle handlebars and frames cycling helmets racing jerseys race number 66 parked cars roadside hedge sidewalk television broadcast graphics"
+        },
+        {
+          "rank": 23,
+          "video_id": "L23_V022",
+          "frames": [
+            {
+              "frame_id": 6254,
+              "member": "keyframes/L23_V022/051.jpg"
+            }
+          ],
+          "score": 0.03741568,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A sunny urban road is set up as a bicycle race finish or checkpoint, with a large red overhead banner spanning the street. A cyclist rides toward the camera in the foreground while a group of motorcycle escorts follows behind. Spectators crowd both sides of the road behind advertising barriers, many holding umbrellas for shade. Trees, parked vehicles, buildings, flags, and race signage line the street.",
+          "objects": "bicycle racer motorcycles motorcycle escorts overhead race banner spectators umbrellas advertising barricades parked cars trees Vietnamese flags race signage"
+        },
+        {
+          "rank": 24,
+          "video_id": "L23_V024",
+          "frames": [
+            {
+              "frame_id": 7625,
+              "member": "keyframes/L23_V024/083.jpg"
+            }
+          ],
+          "score": 0.03740839,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised replay shows three male cyclists riding closely together in a road race. The central cyclist wears a white helmet, large blue reflective sunglasses, black gloves, and a green-and-yellow racing jersey, with his arms raised and hands near his chest. The cyclist behind him wears a white helmet and blue racing jersey with race number 37. On the right, another cyclist wears a red helmet, dark sunglasses, and a yellow, red, and black jersey with Vietnamese text. Spectators lean over bright yellow advertising barriers in the background. A sports broadcast logo appears in the upper-right corner.",
+          "objects": "three road bicycles cycling helmets reflective sunglasses racing jerseys black cycling gloves race number bibs yellow advertising barriers spectators television broadcast graphics"
+        },
+        {
+          "rank": 25,
+          "video_id": "L23_V012",
+          "frames": [
+            {
+              "frame_id": 6058,
+              "member": "keyframes/L23_V012/053.jpg"
+            }
+          ],
+          "score": 0.03688836,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised cycling race scene shows a cyclist in a bright yellow jersey and dark cycling shorts riding away from the camera on a broad paved city road. The cyclist is positioned near the center of the roadway, following a yellow center line. Trees, pedestrians, and urban buildings line the road, while race graphics and the broadcaster logo overlay the upper portion of the frame.",
+          "objects": "cyclist racing bicycle yellow road center line paved city road trees pedestrians urban buildings checkered flags graphic race broadcast graphics HTV7 logo"
+        },
+        {
+          "rank": 26,
+          "video_id": "L23_V002",
+          "frames": [
+            {
+              "frame_id": 6008,
+              "member": "keyframes/L23_V002/054.jpg"
+            }
+          ],
+          "score": 0.03642685,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\""
+          ],
+          "caption": "A televised road cycling race shows a cyclist riding along a paved road beside a stone retaining wall and a gray building with white railings. The cyclist is viewed from behind and wears a red jersey, black cycling shorts, a white helmet, and a race number pinned to the back.",
+          "objects": "road bicycle cyclist white helmet red cycling jersey black cycling shorts race number bib paved road stone retaining wall building with white railings television broadcast graphics"
+        },
+        {
+          "rank": 27,
+          "video_id": "L21_V013",
+          "frames": [
+            {
+              "frame_id": 29450,
+              "member": "keyframes/L21_V013/240.jpg"
+            }
+          ],
+          "score": 0.03592112,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race finish shows a cyclist in the foreground wearing a white helmet, orange-tinted sunglasses, and a blue-and-white racing jersey, raising both arms in celebration while riding toward the finish. Several other cyclists in colorful team uniforms follow behind, including riders in pink, red, white, dark blue, and orange. A dense crowd of spectators lines both sides of the road, many holding smartphones and wearing bright yellow hats. Finish-line barriers and broadcast graphics are visible.",
+          "objects": "Celebrating cyclist Bicycle Cycling helmets Sunglasses Cycling jerseys Other cyclists Spectators Smartphones Yellow hats Finish-line barriers Television broadcast graphics"
+        },
+        {
+          "rank": 28,
+          "video_id": "L23_V006",
+          "frames": [
+            {
+              "frame_id": 7000,
+              "member": "keyframes/L23_V006/099.jpg"
+            }
+          ],
+          "score": 0.03508375,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "An overhead television broadcast view of a bicycle road race on a city street. Several cyclists wearing colorful racing jerseys and helmets ride toward and beneath a large red inflatable finish-line arch. White zebra-crossing stripes span the gray road, while spectators, event staff, and photographers stand behind barriers along the right side. A cyclist in a yellow jersey is partially visible at the bottom edge, and additional riders are partly obscured by the arch. The upper-right corner contains a Vietnamese sports television watermark.",
+          "objects": "bicycles road cyclists racing helmets red inflatable finish-line arch zebra crossing spectators event staff photographers barriers race signage HTV Thể Thao television logo"
+        },
+        {
+          "rank": 29,
+          "video_id": "L23_V016",
+          "frames": [
+            {
+              "frame_id": 4696,
+              "member": "keyframes/L23_V016/037.jpg"
+            }
+          ],
+          "score": 0.03480229,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised bicycle road race is taking place on a wide city street under bright midday sunlight. A large group of cyclists rides toward the camera beneath a red inflatable finish or race arch, while spectators line both sides behind colorful advertising barriers. Event flags, umbrellas, trees, buildings, and race signage fill the background. Broadcast graphics appear across the top of the image.",
+          "objects": "Road bicycles Cyclists wearing helmets and racing uniforms Red inflatable race arch Spectators Advertising barriers Yellow event flags Umbrellas Trees City street Broadcast graphics"
+        },
+        {
+          "rank": 30,
+          "video_id": "L23_V003",
+          "frames": [
+            {
+              "frame_id": 1161,
+              "member": "keyframes/L23_V003/009.jpg"
+            }
+          ],
+          "score": 0.03422619,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A close-up television broadcast image shows a cyclist in a red, white, and blue racing uniform bent forward on the ground or over a bicycle, appearing to have fallen or be recovering from an incident. The cyclist is wearing a white helmet with black markings. The background is blurred, suggesting motion or a roadside/race-course setting. A race-status graphic is displayed across the top of the screen, with the HTV Thể Thao logo in the upper-right corner.",
+          "objects": "cyclist white bicycle helmet cycling racing uniform television race-status graphics HTV Thể Thao logo"
+        },
+        {
+          "rank": 31,
+          "video_id": "L23_V002",
+          "frames": [
+            {
+              "frame_id": 0,
+              "member": "keyframes/L23_V002/001.jpg"
+            }
+          ],
+          "score": 0.03409174,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "An aerial view of a wide, freshly paved divided roadway during a televised cycling race. A group of cyclists rides in a loose line along the center of the road, with one cyclist farther ahead. A motorbike rider or camera operator travels on the left side. At the top of the frame, race officials or marshals wave checkered flags near a marked crossing or finish-point area. The road has multiple lanes, dashed white lane markings, double yellow center lines, curved sidewalks, streetlights, trees, and landscaped embankments.",
+          "objects": "Road cyclists Bicycle racing group Motorbike Checkered flags Race officials Wide multi-lane roadway Double yellow center lines Dashed white lane markings Streetlights Trees Curved sidewalks Landscaped embankments Television broadcast graphics"
+        },
+        {
+          "rank": 32,
+          "video_id": "L23_V018",
+          "frames": [
+            {
+              "frame_id": 11205,
+              "member": "keyframes/L23_V018/096.jpg"
+            }
+          ],
+          "score": 0.03364264,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race replay shows two cyclists riding uphill or toward the finish area on a narrow road lined with dense spectators and event barriers. The cyclist on the right wears a blue racing jersey, black cycling shorts, a white aerodynamic helmet, and reflective sunglasses, and is raising one arm while gripping the handlebars with the other. A cyclist on the left wears a green, yellow, and white jersey, a white helmet with orange accents, and blue sunglasses. In the foreground, another cyclist wearing a blue jersey and red helmet is partially visible, leaning forward over a bicycle. Spectators stand close to the riders, many holding phones and cameras. The road and barriers display colorful advertising graphics.",
+          "objects": "three racing bicycles three cyclists cycling helmets reflective sunglasses spectators smartphones and cameras event barriers roadside advertisements"
+        },
+        {
+          "rank": 33,
+          "video_id": "L23_V023",
+          "frames": [
+            {
+              "frame_id": 6007,
+              "member": "keyframes/L23_V023/049.jpg"
+            }
+          ],
+          "score": 0.03205562,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A bright daytime street scene at the finish line of a cycling race. A large red and orange inflatable arch spans the road, with crowds gathered behind metal barricades on both sides. Spectators are holding umbrellas and flags, while race officials and security personnel stand along the course. One cyclist or race participant in a green vest and helmet is moving toward the finish line in the foreground. Urban buildings, trees, motorcycles, and vehicles line the street in the background.",
+          "objects": "Inflatable finish-line arch Metal crowd-control barricades Cyclist or race participant Spectators Flags Umbrellas Race officials Security personnel Motorcycles Cars Urban buildings Trees"
+        },
+        {
+          "rank": 34,
+          "video_id": "L23_V020",
+          "frames": [
+            {
+              "frame_id": 645,
+              "member": "keyframes/L23_V020/006.jpg"
+            }
+          ],
+          "score": 0.0310682,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "An aerial television broadcast view of a road cycling race on a broad paved city street. Five cyclists ride in a staggered line near the center of the road, with the leading rider wearing a blue jersey and red helmet. Several riders behind wear blue, red, black, and yellow jerseys. A motorcycle carrying a camera operator or race official travels alongside them on the right. Spectators and race staff stand near the right edge of the roadway, while a landscaped median filled with flowering plants and a metal support structure runs along the left side. Broadcast graphics overlay the image, including race timing, distance, rankings, temperature, and the HTV Thể Thao logo.",
+          "objects": "five racing cyclists bicycles motorcycle with race personnel spectators race staff roadway landscaped median flowering plants metal support structure broadcast graphics HTV Thể Thao logo"
+        },
+        {
+          "rank": 35,
+          "video_id": "L23_V023",
+          "frames": [
+            {
+              "frame_id": 9261,
+              "member": "keyframes/L23_V023/076.jpg"
+            }
+          ],
+          "score": 0.03077761,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised replay of a road cycling race on a sunny urban street. Several cyclists wearing colorful team jerseys, helmets, sunglasses, and racing gear are riding closely together from left to right. A yellow-clad cyclist with race number 27 is partially visible in the foreground, while a cyclist in a dark blue kit and white helmet dominates the center. Additional cyclists in white, blue, and orange kits follow behind. Spectators stand behind roadside advertising barriers, some holding umbrellas and red flags. Commercial buildings and shopfronts line the street, and strong sunlight casts sharp bicycle and rider shadows onto the pavement.",
+          "objects": "road bicycles cyclists cycling helmets race number 27 roadside advertising barriers spectators umbrellas red flags shopfronts HTV Thể Thao broadcast logo"
+        },
+        {
+          "rank": 36,
+          "video_id": "L23_V003",
+          "frames": [
+            {
+              "frame_id": 2968,
+              "member": "keyframes/L23_V003/025.jpg"
+            }
+          ],
+          "score": 0.03075862,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised bicycle race is taking place on a broad urban street. A cyclist wearing a bright neon yellow-green jersey, dark shorts, and a white helmet rides a road bicycle in the left foreground. The road curves or extends into the distance, with a landscaped median, red-and-white curbs, parked cars, storefronts, trees, and other indistinct vehicles in the background. A race broadcast graphic overlays the top of the frame, including checkered flags and competitor rankings.",
+          "objects": "road bicycle cyclist white helmet neon yellow-green cycling jersey urban roadway red-and-white curb landscaped median parked cars buildings and storefronts broadcast race graphics checkered flags"
+        },
+        {
+          "rank": 37,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 32364,
+              "member": "keyframes/L21_V014/280.jpg"
+            }
+          ],
+          "score": 0.03042481,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race shows a cyclist in a blue racing uniform and red-and-blue helmet riding directly toward the camera on a paved roadway. A blue support or race vehicle follows closely behind the cyclist. The road has dashed white lane markings and white barriers along the right side. Broadcast graphics overlay the bottom of the screen with race standings, distance information, and a Vietnamese news ticker. The HTV9 HD logo and time are displayed in the upper-right corner.",
+          "objects": "cyclist racing bicycle blue support vehicle road dashed lane markings white roadside barriers race broadcast graphics HTV9 HD logo"
+        },
+        {
+          "rank": 38,
+          "video_id": "L23_V016",
+          "frames": [
+            {
+              "frame_id": 6250,
+              "member": "keyframes/L23_V016/050.jpg"
+            }
+          ],
+          "score": 0.02987737,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"bicycle\" AND \"finish\""
+          ],
+          "caption": "A televised replay of a road cycling race shows a large group of cyclists riding toward the camera on a wide city street beneath a red inflatable finish-line or race-entrance arch. Spectators line the left side behind barriers, while photographers and television camera operators film the riders from the right foreground. Tall modern apartment and office buildings, trees, banners, umbrellas, and roadside event signage are visible in the background. Bright daylight creates strong shadows across the roadway.",
+          "objects": "road bicycles cyclists red inflatable race arch spectators metal crowd barriers television cameras photographers event banners umbrellas digital display screen modern high-rise buildings trees cars"
+        },
+        {
+          "rank": 39,
+          "video_id": "L23_V012",
+          "frames": [
+            {
+              "frame_id": 6792,
+              "member": "keyframes/L23_V012/061.jpg"
+            }
+          ],
+          "score": 0.029754,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "Aerial view of a road cycling race on a wide paved road. Four cyclists ride in a single line toward the top of the frame, with the lead rider wearing blue and the following riders wearing yellow, black, and dark red jerseys. Race broadcast graphics appear along the top and lower-left corners. A few people or race personnel are visible near the road edges.",
+          "objects": "four racing bicycles four cyclists wide paved road race broadcast graphics checkered flags roadside curb trees race personnel"
+        },
+        {
+          "rank": 40,
+          "video_id": "L21_V026",
+          "frames": [
+            {
+              "frame_id": 31361,
+              "member": "keyframes/L21_V026/263.jpg"
+            }
+          ],
+          "score": 0.02922062,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows a male cyclist wearing a black-and-white helmet and a light-colored racing jersey climbing or riding toward the camera. He is surrounded by spectators standing along the roadside, some holding phones and colorful signs. A blue support vehicle or barrier is visible behind him, with bicycles and race equipment in the background. Multiple broadcast graphics overlay the image, including race standings, time gaps, channel branding, and a scrolling news ticker.",
+          "objects": "Male cyclist Black-and-white bicycle helmet Cycling jersey Spectators Smartphones Colorful signs Blue race vehicle or barrier Bicycles and race equipment Broadcast graphics Scrolling news ticker"
+        },
+        {
+          "rank": 41,
+          "video_id": "L23_V001",
+          "frames": [
+            {
+              "frame_id": 2000,
+              "member": "keyframes/L23_V001/026.jpg"
+            }
+          ],
+          "score": 0.02892819,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race is underway on a broad paved urban road. Two cyclists wearing helmets ride from left to right in the foreground: the cyclist on the left wears a green racing kit and rides a light-colored bicycle, while the cyclist on the right wears a dark blue and black racing kit with pink accents and rides a red bicycle. Both riders are leaning forward over their handlebars and pedaling. The background is motion-blurred, showing landscaped flower beds, a large tan architectural structure with an arched opening, and what appears to be a fountain or shallow water feature. A sports broadcast graphic overlays the top of the frame.",
+          "objects": "two road bicycles two helmeted cyclists green cycling jersey and shorts dark blue and black cycling jersey and shorts red bicycle light-colored bicycle roadway flower beds fountain or water feature arched architectural structure cycling race broadcast graphics checkered flag icon"
+        },
+        {
+          "rank": 42,
+          "video_id": "L23_V014",
+          "frames": [
+            {
+              "frame_id": 7750,
+              "member": "keyframes/L23_V014/078.jpg"
+            }
+          ],
+          "score": 0.0288831,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A televised replay of a road cycling race or sprint finish on a sunny outdoor roadway. Several cyclists in racing helmets and tight sports jerseys ride closely together in the foreground, with one cyclist in a green-and-black jersey leaning forward on a black racing bicycle and another cyclist on a white bicycle partially visible at the right edge. Spectators stand behind barriers along the roadside, waving small red flags. Advertising boards line the course, and a Vietnamese sports television watermark appears in the upper-right corner.",
+          "objects": "Road racing bicycles Cyclists wearing helmets and racing jerseys Roadway with painted lines Spectators Small red flags Roadside barriers TON DONG A advertising boards Television broadcast watermark"
+        },
+        {
+          "rank": 43,
+          "video_id": "L23_V020",
+          "frames": [
+            {
+              "frame_id": 4320,
+              "member": "keyframes/L23_V020/040.jpg"
+            }
+          ],
+          "score": 0.02862416,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A televised replay of a road cycling race shows a lone cyclist riding away from the camera on a wide paved road. Dense green trees partially obscure the left side of the frame, while a large red inflatable finish or sponsor arch spans the road near the top, with only part of the white lettering visible. A sports broadcast logo appears in the upper-right corner.",
+          "objects": "cyclist road bicycle wide paved roadway red inflatable arch green trees HTV Thể Thao broadcast logo"
+        },
+        {
+          "rank": 44,
+          "video_id": "L23_V004",
+          "frames": [
+            {
+              "frame_id": 2739,
+              "member": "keyframes/L23_V004/030.jpg"
+            }
+          ],
+          "score": 0.02844569,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race is taking place on a broad urban roadway. Several cyclists in colorful racing jerseys and helmets are riding toward the camera in a tightly packed group. The leading cyclist in the center wears a black helmet and a white, blue, and red jersey, leaning forward over a blue road bicycle. Other cyclists follow behind and to the right, including riders in blue, red and yellow, and white and purple uniforms. A blue Ford pickup truck with its amber lights on follows the cyclists. Spectators, race officials, and photographers stand along the roadside in the background.",
+          "objects": "road bicycles cyclists racing helmets blue Ford pickup truck vehicle license plate spectators race officials cameras roadway"
+        },
+        {
+          "rank": 45,
+          "video_id": "L23_V022",
+          "frames": [
+            {
+              "frame_id": 7206,
+              "member": "keyframes/L23_V022/060.jpg"
+            }
+          ],
+          "score": 0.02837302,
+          "searches": [
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A close-up replay shot shows a cyclist riding across a colorful finish-line area, raising one arm in celebration. The cyclist wears a white aerodynamic helmet, green-tinted sunglasses, a blue racing jersey with sponsor logos, and black cycling shorts. Spectators and photographers lean over barriers in the background, while strong sunlight casts shadows across the multicolored track.",
+          "objects": "cyclist white cycling helmet green sunglasses blue racing jersey black cycling shorts bicycle handlebars spectators photographers colorful finish-line track HTV Thể Thao logo"
+        },
+        {
+          "rank": 46,
+          "video_id": "L23_V021",
+          "frames": [
+            {
+              "frame_id": 10536,
+              "member": "keyframes/L23_V021/104.jpg"
+            }
+          ],
+          "score": 0.02747616,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race replay shows three cyclists riding closely together on a paved urban road. The cyclist in the center wears a blue, white, and orange racing jersey with the number 65 and rides a red aerodynamic bicycle. A cyclist on the left wears a blue jersey with the number 16 and rides a dark bicycle with green accents. A cyclist on the right wears a red racing jersey with the number 1 and rides a black aerodynamic bicycle marked with the number 81. Residential and commercial buildings, a green rolling door, trees, utility poles, and overhead wires are visible in the background.",
+          "objects": "three road bicycles three cyclists cycling race number tags residential and commercial buildings green rolling door trees utility poles overhead power lines"
+        },
+        {
+          "rank": 47,
+          "video_id": "L23_V023",
+          "frames": [
+            {
+              "frame_id": 3825,
+              "member": "keyframes/L23_V023/031.jpg"
+            }
+          ],
+          "score": 0.02711945,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A sunny urban bicycle race is taking place on a broad city street lined with metal barriers and large advertising boards. Many cyclists are riding toward the camera, while one cyclist in the foreground raises a fist in celebration. A red inflatable finish-line arch spans the road, with spectators gathered densely on both sides. Multi-story buildings, utility wires, palm trees, and other greenery surround the course. Broadcast graphics appear in the upper corners and lower left.",
+          "objects": "bicycles cyclists red inflatable finish-line arch spectators metal crowd barriers advertising banners multi-story buildings palm trees green foliage broadcast graphics checkered flag graphic"
+        },
+        {
+          "rank": 48,
+          "video_id": "L21_V017",
+          "frames": [
+            {
+              "frame_id": 21663,
+              "member": "keyframes/L21_V017/211.jpg"
+            }
+          ],
+          "score": 0.02696303,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\""
+          ],
+          "caption": "A televised road cycling race shows a lone cyclist in a red and dark racing outfit riding toward the camera on a wide paved road. The cyclist is centered in the lane and appears to be competing near the finish area. Dense crowds of spectators line both sides of the course behind pink and orange advertising barriers, with many people reaching out and waving. White rectangular road markings and a dashed center line are visible. Broadcast graphics overlay the image, including a race time, channel logo, speed indicator, and a Vietnamese news ticker along the bottom.",
+          "objects": "road bicycle cyclist crowd of spectators pink and orange advertising barriers road markings broadcast graphics HTV9 logo bottom news ticker"
+        },
+        {
+          "rank": 49,
+          "video_id": "L23_V021",
+          "frames": [
+            {
+              "frame_id": 9494,
+              "member": "keyframes/L23_V021/096.jpg"
+            }
+          ],
+          "score": 0.02643803,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race replay shows a large group of road cyclists riding together across a bridge. The riders wear helmets, colorful team jerseys, cycling shorts, gloves, and numbered race bibs. Several cyclists in purple, blue, red, and dark-colored uniforms are prominent in the foreground and middle ground. The road is bordered by a metal guardrail, with trees, utility poles, and numerous overhead power lines visible in the background under a bright sky.",
+          "objects": "road bicycles cyclists bicycle helmets cycling jerseys race number bibs bridge guardrail utility poles overhead power lines trees television channel logo"
+        },
+        {
+          "rank": 50,
+          "video_id": "L23_V014",
+          "frames": [
+            {
+              "frame_id": 7000,
+              "member": "keyframes/L23_V014/070.jpg"
+            }
+          ],
+          "score": 0.02575224,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A low-angle replay view of a road cycling race finish or checkpoint. The camera is positioned close to the asphalt, looking toward a crowd of spectators behind advertising barriers. A large red-orange inflatable arch or support column stands near the center, with overhead cables extending across the sky. Flags and banners are visible among the spectators, including Vietnamese flags. The front portion of a racing bicycle and rider appears at the far right edge of the frame. Broadcast graphics are overlaid in the upper-right and lower-left corners.",
+          "objects": "racing bicycle cyclist partially visible at the right edge road surface with yellow centerline spectator crowd advertising barriers TON DONG A sponsor banners HTV banners large inflatable arch or column Vietnamese flags umbrellas overhead cables HTV Thể Thao broadcast logo"
+        },
+        {
+          "rank": 51,
+          "video_id": "L23_V008",
+          "frames": [
+            {
+              "frame_id": 4875,
+              "member": "keyframes/L23_V008/049.jpg"
+            }
+          ],
+          "score": 0.02556171,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised replay of a road cycling race shows a large group of cyclists riding toward the camera on a broad city street. Riders wear colorful helmets, jerseys, and cycling gear, with several competitors sprinting or straining near the front. A race official at the lower left waves a checkered flag. Spectators line the right side behind concrete barriers decorated with advertisements and rows of yellow-orange event banners. Trees, utility wires, streetlights, and vehicles are visible along the urban route. The HTV Thể Thao sports broadcast logo appears in the upper right.",
+          "objects": "road bicycles cyclists cycling helmets checkered race flag race official concrete safety barriers yellow-orange event banners spectators trees streetlights vehicles HTV Thể Thao broadcast logo"
+        },
+        {
+          "rank": 52,
+          "video_id": "L23_V010",
+          "frames": [
+            {
+              "frame_id": 7500,
+              "member": "keyframes/L23_V010/077.jpg"
+            }
+          ],
+          "score": 0.02543269,
+          "searches": [
+            "\"cyclist\" AND \"race\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "An overhead television sports broadcast view of a road cycling race finish line. Several cyclists are riding along a wide paved urban road toward and beneath a large red finish arch. One cyclist in a white jersey is closest to the arch with an arm raised, followed by a cyclist in a dark green and black jersey, two cyclists in blue jerseys, and another cyclist in red farther behind. Spectators, event staff, motorcycles, barriers, trees, and buildings line the left side of the road. Double yellow center lines and white lane markings are visible, and strong sunlight casts shadows across the pavement.",
+          "objects": "cyclists bicycles red finish-line arch road double yellow center lines white lane markings spectators event staff motorcycles trees broadcast logos REPLAY indicator"
+        },
+        {
+          "rank": 53,
+          "video_id": "L23_V009",
+          "frames": [
+            {
+              "frame_id": 125,
+              "member": "keyframes/L23_V009/002.jpg"
+            }
+          ],
+          "score": 0.02475931,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race shows two cyclists riding closely together on a paved urban roadway. The cyclist on the left wears a white helmet, bright yellow-and-white jersey, black shorts, and rides a red-and-white road bicycle. The cyclist on the right wears a white helmet, blue-and-black racing kit with red accents, and rides a black aerodynamic road bicycle. Part of a third bicycle is visible at the far left edge. The road has white lane markings and a concrete median, with commercial and residential buildings in the background. Broadcast graphics display the race stage, distance, rider position, network logo, and speed.",
+          "objects": "two road bicycles two cyclists partial third bicycle bicycle helmets concrete road median urban roadway commercial buildings residential buildings broadcast graphics"
+        },
+        {
+          "rank": 54,
+          "video_id": "L23_V018",
+          "frames": [
+            {
+              "frame_id": 7714,
+              "member": "keyframes/L23_V018/066.jpg"
+            }
+          ],
+          "score": 0.02421066,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race is taking place on a wide paved urban road. Several cyclists wearing helmets, sunglasses, colorful team jerseys, and numbered bibs are riding toward the camera. A cyclist in a white, blue, and red uniform is prominent in the center foreground, with another similarly dressed cyclist riding behind on the left. A cyclist in a green and yellow uniform rides to the right, while part of another blue-and-white cyclist is visible at the far right edge. A man in a gray shirt and jeans is moving across the road near the riders while holding a blue object. Spectators stand along the sidewalk in the background, and double yellow center lines run down the road.",
+          "objects": "road bicycles cyclists cycling helmets sunglasses race jerseys numbered bibs spectators sidewalk double yellow road lines television broadcast graphics"
+        },
+        {
+          "rank": 55,
+          "video_id": "L23_V022",
+          "frames": [
+            {
+              "frame_id": 4941,
+              "member": "keyframes/L23_V022/041.jpg"
+            }
+          ],
+          "score": 0.02414185,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race is taking place on a wide city street under bright, hot weather. Several cyclists wearing helmets, sunglasses, and colorful team jerseys are riding toward the camera, with a cyclist in a green and yellow jersey near the center and others in blue, white, and black uniforms around them. In the lower-left foreground, a race official or marshal in a green and red outfit is waving a large black-and-white checkered flag. Spectators line the route behind metal barriers, which are covered with colorful advertisements and event branding.",
+          "objects": "Road bicycles Cyclists Protective helmets Sunglasses Checkered race flag Race official Crowd of spectators Metal barriers Advertising banners Television broadcast graphics"
+        },
+        {
+          "rank": 56,
+          "video_id": "L23_V011",
+          "frames": [
+            {
+              "frame_id": 2000,
+              "member": "keyframes/L23_V011/026.jpg"
+            }
+          ],
+          "score": 0.02390547,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race shows a tightly packed group of cyclists riding at high speed on a city street. Several riders wear blue team jerseys and helmets, while others wear red, yellow, white, and black cycling uniforms. The riders are leaning forward over their handlebars, with bicycles overlapping in the foreground. A broadcast graphic at the top displays stage and race-distance information, a sports channel logo appears in the upper-right corner, and a speedometer-style graphic in the lower-left shows 56.",
+          "objects": "road bicycles cyclists cycling helmets sunglasses team jerseys race broadcast graphics checkered flags speedometer graphic"
+        },
+        {
+          "rank": 57,
+          "video_id": "L22_V021",
+          "frames": [
+            {
+              "frame_id": 33207,
+              "member": "keyframes/L22_V021/282.jpg"
+            }
+          ],
+          "score": 0.02378208,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race scene shows two cyclists riding side by side toward the camera on a sunlit course. The cyclist on the left wears a red team jersey, black shorts, sunglasses, and a red-blue helmet. The cyclist on the right wears a dark navy and purple team kit, white socks, sunglasses, and a blue-white helmet. Another cyclist is partially visible behind them. Red-and-white sponsor barriers line both sides of the route, with trees in the background and a race official or spectator in a yellow shirt at the left edge. Overhead race signage includes sponsor and distance markers.",
+          "objects": "Road bicycles Two foreground cyclists Partially visible cyclist Cycling helmets Sunglasses Red-and-white sponsor barriers SKODA sign Cofidis sign Carrefour sign Distance markers showing 75 and 50 Television channel logo Trees Yellow-shirted spectator or official"
+        },
+        {
+          "rank": 58,
+          "video_id": "L23_V007",
+          "frames": [
+            {
+              "frame_id": 3608,
+              "member": "keyframes/L23_V007/032.jpg"
+            }
+          ],
+          "score": 0.02362617,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race on a wide urban roadway. Two cyclists in matching red-and-yellow uniforms and red helmets ride closely together in the foreground, leaning forward over their bicycles. A dark blue Ford support vehicle follows directly behind them with its headlights on. Motorcyclists wearing helmets and red uniforms escort the race on both sides. A broadcast graphic at the bottom displays race and speed information, and an HTV Thể Thao logo appears in the upper-right corner.",
+          "objects": "two road bicycles two cyclists dark blue Ford car two escort motorcycles motorcycle riders race broadcast graphics HTV Thể Thao logo"
+        },
+        {
+          "rank": 59,
+          "video_id": "L23_V015",
+          "frames": [
+            {
+              "frame_id": 2425,
+              "member": "keyframes/L23_V015/020.jpg"
+            }
+          ],
+          "score": 0.02322225,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "An overhead aerial view of a road cycling race on a wide paved multi-lane roadway. A tightly grouped peloton of cyclists wearing colorful helmets, jerseys, and shorts rides along the center of the road, with a few riders separated toward the right side and several support or lead riders farther ahead. White dashed lane markings and yellow center markings are visible. A small landscaped traffic island with a palm tree appears on the right, while part of a curved structure or road edge is visible on the left. Broadcast graphics overlay the image, including race stage, elapsed time, distance, weather, channel branding, and a gauge.",
+          "objects": "Peloton of road cyclists Bicycles Cycling helmets and colorful racing jerseys Wide paved roadway White dashed lane markings Yellow road markings Palm tree Landscaped traffic island Race broadcast graphics Weather indicator Checkered race flag icon Speed or race gauge"
+        },
+        {
+          "rank": 60,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 35865,
+              "member": "keyframes/L21_V015/286.jpg"
+            }
+          ],
+          "score": 0.02259641,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised road cycling race shows three cyclists riding uphill toward the camera on a wide paved road. The leading cyclist on the right wears a bright yellow helmet and yellow jersey, while another cyclist on the left wears dark clothing and a white helmet. A third cyclist follows behind them in darker clothing. The road is lined with dense crowds behind pink and orange sponsor barriers, with additional race signage and banners along the course. Broadcast graphics display race timing, sponsor branding, a speed indicator, a television station logo, and a scrolling news ticker.",
+          "objects": "three road cyclists racing bicycles yellow helmet and yellow jersey white helmet road race barriers crowd of spectators sponsor banners television broadcast graphics digital speedometer news ticker"
+        },
+        {
+          "rank": 61,
+          "video_id": "L23_V020",
+          "frames": [
+            {
+              "frame_id": 2605,
+              "member": "keyframes/L23_V020/023.jpg"
+            }
+          ],
+          "score": 0.02249783,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "An aerial broadcast view of a paved road partially covered by large tree shadows and bordered by dense green foliage on the right. A single cyclist wearing a blue jersey, dark shorts, and a red helmet rides away from the camera near the lower center of the frame. The cyclist casts a long shadow on the road. The image includes colorful cycling race graphics and a speed-style gauge overlay.",
+          "objects": "Cyclist Bicycle Paved road Dense leafy trees Tree shadows Race broadcast graphics Temperature indicator Circular gauge Cartoon cycling icons HTV logo"
+        },
+        {
+          "rank": 62,
+          "video_id": "L23_V018",
+          "frames": [
+            {
+              "frame_id": 5301,
+              "member": "keyframes/L23_V018/044.jpg"
+            }
+          ],
+          "score": 0.02210031,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "An aerial overhead view of a wide, freshly paved divided roadway during a bicycle race. A long line of cyclists rides along the double yellow center lines, with one cyclist slightly ahead near the top of the frame and several others following closely behind. A few spectators or race personnel stand on the sidewalks. The road is bordered on the left by a greenish body of water, trees, and a paved pedestrian walkway, and on the right by a landscaped sidewalk and a building. Broadcast graphics overlay the race progress and timing information.",
+          "objects": "Road Double yellow center lines Bicycles Cyclists Spectators or race personnel Sidewalks Trees Body of water Landscaped greenery Building Red flag Broadcast graphics"
+        },
+        {
+          "rank": 63,
+          "video_id": "L23_V003",
+          "frames": [
+            {
+              "frame_id": 5625,
+              "member": "keyframes/L23_V003/049.jpg"
+            }
+          ],
+          "score": 0.02203122,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised road cycling race is taking place on a wide tree-lined city street. A large group of cyclists rides toward the camera along the roadway, with one cyclist in a bright neon yellow helmet and jersey near the foreground and another rider partially visible at the lower right. Spectators line both sides behind metal barricades and sponsor panels, many holding red-and-white umbrellas and Vietnamese flags. Yellow promotional flags, red event banners, trees, and a large red-and-white inflatable finish or race arch frame the course. A broadcast graphic appears in the upper-left corner, and a sports television logo is displayed in the upper-right.",
+          "objects": "road bicycles cyclists neon yellow helmet and jersey spectators red-and-white umbrellas Vietnamese flags metal barricades sponsor advertising boards yellow event flags red event banners inflatable race arch trees television broadcast graphics"
+        },
+        {
+          "rank": 64,
+          "video_id": "L23_V009",
+          "frames": [
+            {
+              "frame_id": 4479,
+              "member": "keyframes/L23_V009/033.jpg"
+            }
+          ],
+          "score": 0.02101931,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A large group of competitive cyclists rides closely together toward the camera on a broad urban road during a road cycling race. The cyclists wear colorful team jerseys and helmets, with support vehicles following behind them. Trees, buildings, roadside banners, and race officials are visible in the background. A partial cyclist in a yellow helmet and orange jersey appears prominently at the right edge of the frame. Broadcast graphics overlay the scene, showing the race stage, distance, timer, speed, and channel branding.",
+          "objects": "road racing bicycles large group of cyclists cycling helmets colorful team jerseys support vehicles race officials roadside banners trees urban buildings broadcast graphics"
+        },
+        {
+          "rank": 65,
+          "video_id": "L23_V013",
+          "frames": [
+            {
+              "frame_id": 6175,
+              "member": "keyframes/L23_V013/064.jpg"
+            }
+          ],
+          "score": 0.02060383,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"bicycle\" AND \"finish\""
+          ],
+          "caption": "A televised cycling race finish area on a broad urban road in daylight. A large red inflatable finish arch spans the road, with several cyclists riding toward and past it. Spectators wearing orange hats and clothing line both sides, some holding Vietnamese flags and taking photos. Race officials and event staff stand near the barriers. Sponsor boards, colorful flags, umbrellas, trees, utility wires, and a large electronic screen are visible in the background.",
+          "objects": "large red inflatable finish arch road bicycle racers bicycles spectators Vietnamese flags orange hats race officials event barriers sponsor banners umbrellas electronic display screen flags trees utility wires"
+        },
+        {
+          "rank": 66,
+          "video_id": "L23_V010",
+          "frames": [
+            {
+              "frame_id": 4596,
+              "member": "keyframes/L23_V010/047.jpg"
+            }
+          ],
+          "score": 0.02032115,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "Aerial overhead view of a city road during a televised bicycle race. Several cyclists in colorful jerseys are riding along the left side of a broad, freshly paved divided roadway, approaching and crossing a zebra-striped pedestrian crosswalk. The road has double yellow center lines, white lane markings, directional arrows, and a large X marking. Race-event banners line both sides of the street, with parked motorcycles and spectators or event personnel visible near the sidewalks. A tree-lined tiled sidewalk occupies the left side, while tents and race infrastructure are positioned along the right side. Broadcast graphics show the stage number, race time, elapsed segment time, and a speed gauge reading 66.",
+          "objects": "Road bicycles Cyclists in colorful racing jerseys Zebra pedestrian crosswalk Double yellow center lines White lane markings Directional arrows Roadside race banners Parked motorcycles Event tents and umbrellas Trees Tiled sidewalk Broadcast graphics"
+        },
+        {
+          "rank": 67,
+          "video_id": "L23_V008",
+          "frames": [
+            {
+              "frame_id": 1125,
+              "member": "keyframes/L23_V008/012.jpg"
+            }
+          ],
+          "score": 0.0198693,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows an aerial view of a large group of cyclists riding along a broad paved urban road. The riders are spread into several lines, wearing colorful cycling jerseys and helmets. Trees, low-rise buildings, roadside signs, parked motorcycles, and spectators line the right side of the road. A smaller inset video at the lower right shows cyclists riding on another urban street, filmed from a moving motorcycle, with a motorcycle mirror visible in the foreground. The broadcast layout has bright yellow, orange, blue, and green graphic borders, a speed-style gauge at the lower left, race status graphics across the top, and channel and sponsor branding.",
+          "objects": "road bicycles cyclists cycling helmets broad urban road trees low-rise buildings roadside signs parked motorcycles spectators motorcycle mirror television broadcast graphics race timer speed gauge HTV logos sponsor branding"
+        },
+        {
+          "rank": 68,
+          "video_id": "L23_V005",
+          "frames": [
+            {
+              "frame_id": 4000,
+              "member": "keyframes/L23_V005/047.jpg"
+            }
+          ],
+          "score": 0.01977927,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A rainy road cycling race is underway on a broad, tree-lined urban avenue. A large red inflatable finish or checkpoint arch spans the wet roadway, with crowds of spectators gathered behind sponsor barriers on both sides. A group of cyclists and escort motorcycles approaches from the distance, while a race official or staff member in a red uniform and yellow helmet stands in the lower-right foreground. Sponsor banners, flags, and signs line the route, and a large electronic display on the right shows race information.",
+          "objects": "red inflatable race arch cyclists escort motorcycles wet asphalt road spectators sponsor barriers sponsor banners and flags electronic race information screen trees race official in red uniform and yellow helmet"
+        },
+        {
+          "rank": 69,
+          "video_id": "L23_V008",
+          "frames": [
+            {
+              "frame_id": 125,
+              "member": "keyframes/L23_V008/002.jpg"
+            }
+          ],
+          "score": 0.01964804,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows an aerial view of a large group of cyclists riding along a divided urban roadway beside railway tracks. A motorcycle travels near the cyclists. Buildings and a tire shop line the left side of the road. A smaller inset at the lower right shows cyclists riding in close formation from a side view. The broadcast graphics use bright yellow, orange, blue, and green racing-themed decorations.",
+          "objects": "road cyclists bicycle racing motorcycles divided roadway railway tracks urban buildings tire shop broadcast graphics race distance indicator race timer picture-in-picture inset"
+        },
+        {
+          "rank": 70,
+          "video_id": "L23_V001",
+          "frames": [
+            {
+              "frame_id": 1185,
+              "member": "keyframes/L23_V001/016.jpg"
+            }
+          ],
+          "score": 0.01956699,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race shows a large tightly packed peloton riding toward the camera on a paved road. Dozens of cyclists wear colorful team jerseys, helmets, sunglasses, and race number bibs while pedaling in formation. Broadcast graphics overlay the top of the image, and a large blurry orange-and-blue object partially obstructs the lower foreground.",
+          "objects": "road bicycles cyclists cycling helmets sunglasses race number bibs paved road television broadcast graphics orange-and-blue blurred foreground object"
+        },
+        {
+          "rank": 71,
+          "video_id": "L23_V005",
+          "frames": [
+            {
+              "frame_id": 2167,
+              "member": "keyframes/L23_V005/024.jpg"
+            }
+          ],
+          "score": 0.01931521,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised road cycling race scene shows a dense crowd of spectators gathered behind a branded safety barrier on the left side of a wide paved street. Many spectators are holding smartphones and cameras toward the roadway. In the foreground, an event official wearing a bright red-orange jacket vigorously waves a black-and-white checkered flag toward the road. Another official or volunteer in yellow clothing and gloves is partially visible at the lower left. The roadway is mostly empty, with scattered green leaves along the edge and a blurred cyclist or race participant moving rapidly in the mid-right area.",
+          "objects": "black-and-white checkered flag red-orange race official jacket crowd of spectators smartphones and cameras event barriers Vietnamese flags paved road scattered leaves blurred cyclist or race participant"
+        },
+        {
+          "rank": 72,
+          "video_id": "L23_V013",
+          "frames": [
+            {
+              "frame_id": 961,
+              "member": "keyframes/L23_V013/010.jpg"
+            }
+          ],
+          "score": 0.01926546,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race is taking place on a sunny urban street. A large group of cyclists rides closely together toward the camera, with a cyclist in a blue racing uniform centered in the foreground and cyclists in red, blue, and other colorful uniforms surrounding him. Buildings, trees, streetlights, and spectators or roadside structures line the route. Broadcast graphics appear across the top of the frame, including Vietnamese race information, a distance indicator, a position marker, and a sports channel logo.",
+          "objects": "road bicycles road cyclists cycling helmets sunglasses race number plates urban buildings trees streetlights broadcast graphics HTV Thể Thao logo"
+        },
+        {
+          "rank": 73,
+          "video_id": "L21_V019",
+          "frames": [
+            {
+              "frame_id": 30834,
+              "member": "keyframes/L21_V019/249.jpg"
+            }
+          ],
+          "score": 0.01899946,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised cycling race finish on a mountain climb, showing a narrow road lined with dense crowds behind barricades. Two cyclists are riding toward the finish area, with one cyclist in the foreground raising both arms in celebration. A dark race support or official vehicle follows behind them. Large Tour de France branding, sponsor structures, banners, and finish gantries dominate the scene. Buildings and mountainous terrain are visible in the background. Television graphics overlay the top and bottom of the image.",
+          "objects": "Two cyclists Dark race support vehicle Tour de France finish gantry Crowd-control barriers Large spectator crowd Tour de France-branded yellow structure Sponsor banners and signs Television broadcast graphics Road markings Buildings Mountainous background"
+        },
+        {
+          "rank": 74,
+          "video_id": "L23_V011",
+          "frames": [
+            {
+              "frame_id": 7750,
+              "member": "keyframes/L23_V011/086.jpg"
+            }
+          ],
+          "score": 0.01841755,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"bicycle\" AND \"finish\""
+          ],
+          "caption": "A televised cycling race finish on a broad, tree-lined city street in Vietnam. A large red inflatable finish-line arch spans the road with the word \"ĐÍCH\" prominently displayed. A large group of cyclists rides toward the finish line while dense crowds of spectators line both sides behind barricades, many holding cameras, umbrellas, and Vietnamese flags. Event banners, sponsor panels, orange promotional flags, and HTV branding decorate the roadside. The image is marked as a replay.",
+          "objects": "road bicycle racers bicycles red inflatable finish-line arch spectator crowds Vietnamese flags umbrellas cameras and smartphones roadside barricades sponsor banners orange promotional flags trees streetlights"
+        },
+        {
+          "rank": 75,
+          "video_id": "L23_V024",
+          "frames": [
+            {
+              "frame_id": 6375,
+              "member": "keyframes/L23_V024/067.jpg"
+            }
+          ],
+          "score": 0.01829167,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A sunny outdoor cycling race scene on a broad city street lined with tall trees, commercial buildings, spectators, sponsor banners, and colorful flags. A large red overhead race arch spans the road with the word \"DICH\" prominently displayed. Several vehicles, including a dark blue lead car and multiple cars behind it, are driving toward the camera through the race route. Crowds on both sides of the street are watching and waving orange flags, while officials or event staff stand behind barricades covered with advertising boards. Umbrellas provide shade for spectators and staff.",
+          "objects": "red overhead race arch dark blue lead car several following cars spectators orange flags event barricades sponsor banners umbrellas race staff trees commercial buildings utility poles and wires"
+        },
+        {
+          "rank": 76,
+          "video_id": "L21_V018",
+          "frames": [
+            {
+              "frame_id": 27870,
+              "member": "keyframes/L21_V018/283.jpg"
+            }
+          ],
+          "score": 0.01821976,
+          "searches": [
+            "\"cyclist\" AND \"race\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised cycling race finishes on a straight road beneath a large Carrefour-branded finishing arch. Spectators crowd both sides behind metal barriers, cheering and photographing the riders. A cyclist in a yellow-and-black racing kit is riding toward the finish line, with a dark official vehicle following behind. The road and barriers are covered with Cofidis, Tissot, Škoda, and other sponsor branding. Broadcast graphics overlay the bottom of the image, showing race standings and timing.",
+          "objects": "cyclist finish line Carrefour finishing arch official vehicle spectators metal crowd barriers sponsor banners television broadcast graphics road trees and greenery"
+        },
+        {
+          "rank": 77,
+          "video_id": "L23_V004",
+          "frames": [
+            {
+              "frame_id": 6426,
+              "member": "keyframes/L23_V004/076.jpg"
+            }
+          ],
+          "score": 0.01816823,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"bicycle\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A wide elevated view of a city road set up as the finish area for a bicycle race. Several cyclists ride toward the camera beneath a large red inflatable finish arch labeled DICH, while crowds and event staff line both sides behind barricades covered with advertisements. Red, orange, and yellow sponsor flags and banners decorate the roadway, and a camera operator films from the lower right corner. Trees, buildings, and parked vehicles are visible in the background.",
+          "objects": "bicycles cyclists red inflatable finish arch crowd of spectators event staff roadside barricades sponsor banners sponsor flags road markings camera and camera operator trees buildings parked vehicles"
+        },
+        {
+          "rank": 78,
+          "video_id": "L23_V015",
+          "frames": [
+            {
+              "frame_id": 4227,
+              "member": "keyframes/L23_V015/033.jpg"
+            }
+          ],
+          "score": 0.01793546,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"bicycle\" AND \"finish\""
+          ],
+          "caption": "Aerial view of a bicycle race on a wide divided boulevard under bright sunlight. A line of cyclists rides along the right-side roadway, while a few race officials or spectators stand near the palm-lined parking area on the far right. The landscaped median on the left contains trimmed shrubs and decorative streetlights. Broadcast graphics indicate the race leader is 0.7 kilometers from the finish, with the current temperature shown as 34 degrees Celsius.",
+          "objects": "cyclists bicycles divided boulevard landscaped median trimmed shrubs streetlights palm trees parking area race officials or spectators race broadcast graphics"
+        },
+        {
+          "rank": 79,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 31674,
+              "member": "keyframes/L21_V014/269.jpg"
+            }
+          ],
+          "score": 0.01743005,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised road cycling race is taking place on a broad, tree-lined urban road. A red Škoda support or race vehicle marked with France Télévisions branding drives directly in front of a large group of female cyclists. A yellow LCL roof sign and a yellow flag are visible on the vehicle, with a camera operator or race official standing through the roof opening. Spectators line the roadside behind barriers, and street signs, lampposts, buildings, and road markings are visible. A red Vietnamese television news banner spans the bottom of the screen.",
+          "objects": "red Škoda race vehicle group of female cyclists bicycles yellow LCL roof sign yellow race flag camera operator or race official spectators roadside barriers traffic signs street lamps trees urban buildings television broadcast graphics"
+        },
+        {
+          "rank": 80,
+          "video_id": "L21_V022",
+          "frames": [
+            {
+              "frame_id": 26076,
+              "member": "keyframes/L21_V022/204.jpg"
+            }
+          ],
+          "score": 0.01676328,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised cycling race broadcast shows a close-up side view of a male cyclist riding outdoors through a wooded area. He wears a white and blue Specialized helmet with Red Bull branding, dark sunglasses, black gloves, and a red-and-white racing jersey with Carrefour sponsorship. He is holding a white water bottle to his mouth while continuing to ride. Broadcast graphics overlay the image, including race standings, a Vietnamese news headline, a scrolling ticker, channel branding, and a digital clock.",
+          "objects": "male professional cyclist racing bicycle white and blue Specialized helmet Red Bull logo dark sunglasses black cycling gloves white water bottle red-and-white racing jersey Carrefour sponsor logo television broadcast graphics race standings overlay news ticker"
+        },
+        {
+          "rank": 81,
+          "video_id": "L22_V020",
+          "frames": [
+            {
+              "frame_id": 36312,
+              "member": "keyframes/L22_V020/292.jpg"
+            }
+          ],
+          "score": 0.01676033,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised road cycling race shows a tightly packed group of cyclists riding toward the camera on a sunlit course. The riders wear colorful racing jerseys and helmets, including prominent riders in black, neon yellow, orange, red, and white. Spectators and event staff stand behind barriers along the right side of the road, while tropical palm trees and race signage are visible in the background. A Vietnamese television broadcast overlay appears in the upper-right corner, and a maroon news ticker runs along the bottom.",
+          "objects": "road bicycles cyclists helmets colorful cycling jerseys palm trees spectators metal crowd barriers race signage television broadcast graphics news ticker"
+        },
+        {
+          "rank": 82,
+          "video_id": "L22_V024",
+          "frames": [
+            {
+              "frame_id": 29035,
+              "member": "keyframes/L22_V024/270.jpg"
+            }
+          ],
+          "score": 0.01653674,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\""
+          ],
+          "caption": "A televised road cycling race broadcast shows a close-up of cyclist Ben O'Connor riding in a red-and-white racing jersey, wearing a white aerodynamic helmet and red-tinted sunglasses. Race graphics appear across the top and lower-left of the screen, while a Vietnamese news ticker scrolls along the bottom. The cyclist is moving past a pale wall in the background.",
+          "objects": "road cyclist white aerodynamic bicycle helmet red-tinted cycling sunglasses red-and-white cycling jersey La Vuelta broadcast graphics race leaderboard HTV7 HD logo Vietnamese news ticker"
+        },
+        {
+          "rank": 83,
+          "video_id": "L23_V007",
+          "frames": [
+            {
+              "frame_id": 9601,
+              "member": "keyframes/L23_V007/082.jpg"
+            }
+          ],
+          "score": 0.01617722,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "An elevated view overlooks a broad city street during a cycling race or organized road event. A red inflatable arch spans the roadway near the center, with cyclists and motorcyclists traveling along the route. A support or race vehicle is passing beneath the arch. Spectators and event staff, many wearing red clothing, stand behind barriers and decorated banners on both sides of the street. Flags line the route, while palm trees and other greenery separate the roadway from the sidewalk. Multi-story modern buildings with balconies and storefronts line the right side, and a blue bus is visible at the lower right.",
+          "objects": "red inflatable race arch bicycles cyclists motorcycles race support vehicle spectators event staff barriers flags promotional banners palm trees modern multi-story buildings blue bus"
+        },
+        {
+          "rank": 84,
+          "video_id": "L22_V028",
+          "frames": [
+            {
+              "frame_id": 29163,
+              "member": "keyframes/L22_V028/229.jpg"
+            }
+          ],
+          "score": 0.01614623,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\""
+          ],
+          "caption": "A televised cycling race shows two professional cyclists riding closely together on a paved finishing-course road. The cyclist on the left wears a dark navy racing kit and a white helmet, while the cyclist on the right wears a green racing kit and a white helmet with colored accents. Both riders are leaning forward over their drop handlebars and appear to be exerting themselves near the end of a race. Barriers, blurred spectators, and event signage line the course. Broadcast graphics and a scrolling news ticker overlay the image.",
+          "objects": "two road bicycles two professional cyclists cycling helmets road-race barriers spectators broadcast graphics news ticker"
+        },
+        {
+          "rank": 85,
+          "video_id": "L21_V026",
+          "frames": [
+            {
+              "frame_id": 29997,
+              "member": "keyframes/L21_V026/250.jpg"
+            }
+          ],
+          "score": 0.01597867,
+          "searches": [
+            "\"cyclist\" AND \"race\"",
+            "\"cyclist\" AND \"finish\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised sports news broadcast shows a male presenter wearing glasses and a dark navy shirt standing in a studio. Behind him, a large screen displays a road cycling race with a cyclist riding toward the finish between cheering crowds, barriers, and a support vehicle. The studio background features warm yellow-orange graphics and a city skyline. A maroon news ticker runs along the bottom of the screen.",
+          "objects": "male television presenter glasses large studio display road cyclist support car crowd of spectators race barriers television graphics city skyline background news ticker"
+        },
+        {
+          "rank": 86,
+          "video_id": "L23_V024",
+          "frames": [
+            {
+              "frame_id": 1327,
+              "member": "keyframes/L23_V024/014.jpg"
+            }
+          ],
+          "score": 0.01586483,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised bicycle race is taking place on a broad paved urban road in a Vietnamese town. A large group of cyclists approaches from the background along a curved roadway, while a race marshal in a yellow helmet and orange safety vest stands in the foreground directing traffic. The road has prominent white diagonal lane markings and a narrow raised divider with decorative barriers. Spectators stand along the left roadside, and Vietnamese flags, trees, utility poles, and colorful multi-story buildings line the route. Broadcast graphics overlay the image, including race timing, distance, rankings, and a channel logo.",
+          "objects": "large group of racing bicycles and cyclists race marshal wearing a yellow helmet and orange safety vest spectators roadway with white diagonal markings raised road divider with decorative metal barriers Vietnamese flags trees and bushes utility poles and overhead wires multi-story residential and commercial buildings television broadcast graphics"
+        },
+        {
+          "rank": 87,
+          "video_id": "L23_V009",
+          "frames": [
+            {
+              "frame_id": 1455,
+              "member": "keyframes/L23_V009/011.jpg"
+            }
+          ],
+          "score": 0.01544179,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race shows a group of cyclists riding in formation along a wide paved urban road. Most riders wear matching white, purple, and black cycling uniforms and helmets, while a prominent rider in the foreground wears a blue jersey with a visible number 17. Trees, roadside signs, buildings, and a vehicle appear in the background. Broadcast graphics overlay the upper portion of the image.",
+          "objects": "Road bicycles Cyclists Cycling helmets Cycling jerseys with race numbers Paved road Roadside signs Trees Buildings Vehicle Television broadcast graphics"
+        },
+        {
+          "rank": 88,
+          "video_id": "L23_V015",
+          "frames": [
+            {
+              "frame_id": 2673,
+              "member": "keyframes/L23_V015/022.jpg"
+            }
+          ],
+          "score": 0.01540449,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "An overhead aerial view shows a group of cyclists racing along a wide paved urban road. The cyclists are riding in a stretched pack, wearing colorful team jerseys and helmets. The road has dashed yellow lane markings and a white lane divider, with a tree-lined sidewalk and spectators or event staff on the left. Broadcast graphics indicate the race stage, elapsed time, temperature, remaining distance, and a countdown or ranking indicator.",
+          "objects": "Road bicycles Cyclists Helmets Colorful cycling jerseys Race bib numbers Wide paved roadway Dashed yellow lane markings White lane divider Trees Sidewalk Spectators or race staff Broadcast race graphics"
+        },
+        {
+          "rank": 89,
+          "video_id": "L23_V005",
+          "frames": [
+            {
+              "frame_id": 5250,
+              "member": "keyframes/L23_V005/062.jpg"
+            }
+          ],
+          "score": 0.0153189,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A group of road cyclists wearing helmets and colorful racing uniforms rides closely together toward the camera on a wet urban road. Two cyclists dominate the foreground, one riding a red bicycle on the left and another riding a blue bicycle on the right. Several more cyclists follow behind them in a tightly packed race. The road is lined with multicolored barricades on the right, and white rectangular road markings are visible in the foreground. The scene appears to be filmed during a competitive cycling event in overcast or rainy conditions.",
+          "objects": "road bicycles cyclists bicycle helmets racing uniforms race number bibs road markings event barricades HTV Thể Thao logo"
+        },
+        {
+          "rank": 90,
+          "video_id": "L23_V013",
+          "frames": [
+            {
+              "frame_id": 5392,
+              "member": "keyframes/L23_V013/058.jpg"
+            }
+          ],
+          "score": 0.01481357,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A large group of competitive road cyclists rides toward the camera on a broad paved road during a televised cycling race. Riders wear colorful team jerseys, helmets, sunglasses, and race numbers, with several cyclists in yellow, red, blue, and white uniforms near the front. Support vehicles and motorcycles follow behind the peloton, while spectators line the left side of the road. Pink flowering bushes, greenery, and large planters border the roadway in bright daylight.",
+          "objects": "road bicycles cyclists helmets team jerseys race numbers support cars motorcycles spectators pink flowering bushes large planters television broadcast graphics"
+        },
+        {
+          "rank": 91,
+          "video_id": "L21_V014",
+          "frames": [
+            {
+              "frame_id": 32277,
+              "member": "keyframes/L21_V014/279.jpg"
+            }
+          ],
+          "score": 0.01402031,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\""
+          ],
+          "caption": "A televised street cycling race is taking place on a city road. A cyclist wearing a pink racing outfit and white helmet rides past a branded barrier while photographers and event staff stand alongside the course. A large crowd watches from behind metal fencing in the background, with modern office buildings and trees visible beyond them. Several people in the foreground hold cameras and smartphones, and a yellow-clad race staff member stands near the cyclist. The broadcast overlay shows the HTV9 HD logo and a time display in the upper-right corner, while a Vietnamese technical-credit ticker runs along the bottom.",
+          "objects": "racing cyclist road bicycle white helmet race barriers TISSOT sponsor logos spectators metal crowd-control fencing photographers cameras smartphones event staff modern office buildings trees television broadcast graphics"
+        },
+        {
+          "rank": 92,
+          "video_id": "L21_V026",
+          "frames": [
+            {
+              "frame_id": 31391,
+              "member": "keyframes/L21_V026/264.jpg"
+            }
+          ],
+          "score": 0.0139627,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\""
+          ],
+          "caption": "A televised road cycling race shows a cyclist in the foreground riding with his head lowered, wearing a black-and-white aerodynamic helmet, sunglasses, and a white racing jersey with red and dark lettering. Spectators line the roadside on the right, reaching toward the rider, while a race vehicle or equipment vehicle is visible behind him on the left. Broadcast graphics overlay the image, including a race-leader distance indicator, a time-gap ranking panel, a Tissot sponsor board, and a Vietnamese news ticker.",
+          "objects": "Professional road cyclist Aerodynamic cycling helmet Sunglasses White cycling jersey Roadside spectators Race support vehicle Television broadcast graphics Tissot sponsor sign Red La Vuelta logo"
+        },
+        {
+          "rank": 93,
+          "video_id": "L23_V014",
+          "frames": [
+            {
+              "frame_id": 7875,
+              "member": "keyframes/L23_V014/079.jpg"
+            }
+          ],
+          "score": 0.01369863,
+          "searches": [
+            "\"cycling\" AND \"race\""
+          ],
+          "caption": "A close-up, low-angle replay shot of a road cycling race in bright daylight. Several cyclists wearing colorful racing jerseys, helmets, sunglasses, and cycling shoes ride closely together on a paved road. The foreground is dominated by the large wheels and frames of multiple racing bicycles, with race number plates attached to the bikes, including visible numbers 41 and 137. A Vietnamese flag is flying in the background near spectators and event barriers. A television sports broadcast logo appears in the upper-right corner, and the word REPLAY is displayed in red at the lower-left.",
+          "objects": "Racing bicycles Cyclists Cycling helmets Sunglasses Cycling shoes Race number plates Vietnamese flag Spectators Road barriers Television broadcast graphics"
+        },
+        {
+          "rank": 94,
+          "video_id": "L21_V029",
+          "frames": [
+            {
+              "frame_id": 30359,
+              "member": "keyframes/L21_V029/255.jpg"
+            }
+          ],
+          "score": 0.01359989,
+          "searches": [
+            "\"bicycle\" AND \"race\"",
+            "\"cyclist\" AND \"race\""
+          ],
+          "caption": "A televised cycling race scene on a narrow wooded road. A cyclist in a red racing uniform and white-and-red helmet is stopped in the center of the road, appearing to repair or remount his bicycle. Several bicycles are mounted on the roofs of two support cars behind him, including a dark Citroën and another dark vehicle. Two people stand on the left beside spare bicycles, while spectators and race personnel are visible along the roadside. Broadcast graphics show race gaps and distance at the top, a television channel logo and time in the upper right, and a red Vietnamese news ticker across the bottom.",
+          "objects": "cyclist in red racing clothing road bicycle white-and-red helmet two support cars bicycles mounted on car roofs spare bicycles at the roadside spectators race personnel television broadcast graphics red news ticker"
+        },
+        {
+          "rank": 95,
+          "video_id": "L22_V021",
+          "frames": [
+            {
+              "frame_id": 32262,
+              "member": "keyframes/L22_V021/274.jpg"
+            }
+          ],
+          "score": 0.01008638,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A televised road cycling race shows a large group of cyclists riding closely together on a paved mountain road. The riders wear colorful helmets, jerseys, and cycling gear, with several support or event vehicles visible at the right edge. Red and green overhead race banners span the course. The road is bordered by metal barriers, rocky dry hillsides, and scattered trees under a bright blue sky. A Vietnamese sports-news broadcast overlay occupies the bottom of the screen.",
+          "objects": "road cyclists bicycles colorful cycling helmets and jerseys red and green overhead race banners metal roadside barriers support vehicle rocky hillside trees television news graphics"
+        },
+        {
+          "rank": 96,
+          "video_id": "L21_V013",
+          "frames": [
+            {
+              "frame_id": 27864,
+              "member": "keyframes/L21_V013/227.jpg"
+            }
+          ],
+          "score": 0.0097419,
+          "searches": [
+            "\"cycling\" AND \"race\"",
+            "\"cyclist\" AND \"race\"",
+            "\"race\" AND \"yellow\"",
+            "\"race\" AND \"blue\""
+          ],
+          "caption": "A television sports news broadcast shows a male presenter standing on the right side of a studio set, wearing glasses, a dark navy shirt, patterned tie, and holding a tablet. Behind him, a large screen displays a road cycling race with a group of cyclists riding toward the camera, led by a cyclist in a light blue jersey and white helmet. The studio background features warm orange and yellow graphics with a city skyline, while a scrolling news ticker runs along the bottom.",
+          "objects": "male television presenter glasses tablet large studio display road bicycles cyclists helmets cycling race barriers news ticker city skyline graphic"
+        }
+      ]
+    }
+  ]
+}
