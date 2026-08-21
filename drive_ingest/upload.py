@@ -7,8 +7,11 @@ BASE='https://aic-data.ledo.io.vn/'
 VIDEO_ARCHIVES=['Videos_L21_a.zip','Videos_L22_a.zip','Videos_L23_a.zip','Videos_L24_a.zip','Videos_L25_a.zip','Videos_L26_a.zip','Videos_L26_b.zip','Videos_L26_c.zip','Videos_L26_d.zip','Videos_L26_e.zip','Videos_L27_a.zip','Videos_L28_a.zip','Videos_L29_a.zip','Videos_L30_a.zip']
 KEYFRAME_ARCHIVES=['Keyframes_L21.zip','Keyframes_L22.zip','Keyframes_L23.zip','Keyframes_L24.zip','Keyframes_L25.zip','Keyframes_L26_a.zip','Keyframes_L26_b.zip','Keyframes_L26_c.zip','Keyframes_L26_d.zip','Keyframes_L26_e.zip','Keyframes_L27.zip','Keyframes_L28.zip','Keyframes_L29.zip','Keyframes_L30.zip']
 LOGICAL_BATCHES={**{f'L{i}':[f'Videos_L{i}_a.zip',f'Keyframes_L{i}.zip'] for i in [21,22,23,24,25,27,28,29,30]}, **{f'L26_{p}':[f'Videos_L26_{p}.zip',f'Keyframes_L26_{p}.zip'] for p in 'abcde'}}
+RCLONE_PACING=['--tpslimit','2','--tpslimit-burst','1','--drive-pacer-min-sleep','5s','--drive-pacer-burst','1']
+def rclone(*args):
+    return ['rclone',*RCLONE_PACING,*args]
 def ensure_sidecar(folder, vid, timelines):
-    side=f'{folder}/{vid[:3]}/{vid}/timestamps.jsonl'; probe=subprocess.run(['rclone','lsjson',side],capture_output=True,text=True)
+    side=f'{folder}/{vid[:3]}/{vid}/timestamps.jsonl'; probe=subprocess.run(rclone('lsjson',side),capture_output=True,text=True)
     try: exists=bool(json.loads(probe.stdout)) if probe.returncode==0 else False
     except json.JSONDecodeError: exists=False
     if exists: return
@@ -16,7 +19,7 @@ def ensure_sidecar(folder, vid, timelines):
     try:
       with os.fdopen(fd,'w',encoding='utf8') as sf:
         for t in timelines.get(vid,[]): sf.write(json.dumps({k:t.get(k) for k in ('video_id','keyframe','keyframe_number','frame_id','timestamp_s','fps')},separators=(',',':'))+'\n')
-      subprocess.run(['rclone','copyto',sp,side],check=True)
+      subprocess.run(rclone('copyto',sp,side),check=True)
     finally:
       if os.path.exists(sp): os.unlink(sp)
 def main(name):
@@ -42,25 +45,25 @@ def main(name):
           if not vid: continue
           leaf=os.path.basename(info.filename)
           dest=f'{folder}/{vid[:3]}/{vid}/{vid}.mp4' if is_video else f'{folder}/{vid[:3]}/{vid}/keyframes/{leaf}'
-          probe=subprocess.run(['rclone','lsjson',dest],capture_output=True,text=True)
+          probe=subprocess.run(rclone('lsjson',dest),capture_output=True,text=True)
           try: existing=bool(json.loads(probe.stdout)) if probe.returncode==0 else False
           except json.JSONDecodeError: existing=False
           if existing:
             if is_video: ensure_sidecar(folder,vid,timelines)
             continue
-          p=subprocess.Popen(['rclone','rcat',dest],stdin=subprocess.PIPE)
+          p=subprocess.Popen(rclone('rcat',dest),stdin=subprocess.PIPE)
           with z.open(info) as src:
             while b:=src.read(1024*1024): p.stdin.write(b)
           p.stdin.close(); p.wait();
           if p.returncode: raise SystemExit(f'upload failed: {vid}')
-          meta=subprocess.run(['rclone','lsjson',dest],capture_output=True,text=True,check=True)
+          meta=subprocess.run(rclone('lsjson',dest),capture_output=True,text=True,check=True)
           items=json.loads(meta.stdout); item=items[0] if items else {}
           file_id=item.get('ID') or item.get('Id')
           row={'video_id':vid,'archive':archive,'member':info.filename,'drive_path':dest,'drive_file_id':file_id,'drive_url':f'https://drive.google.com/file/d/{file_id}/view' if file_id else None,'timestamp_index':f'drive:{vid[:3]}/{vid}/timestamps.jsonl'}
           cat.write(json.dumps(row,ensure_ascii=False)+'\n'); cat.flush()
           if is_video:
             side=f'{folder}/{vid[:3]}/{vid}/timestamps.jsonl'
-            probe=subprocess.run(['rclone','lsjson',side],capture_output=True,text=True)
+            probe=subprocess.run(rclone('lsjson',side),capture_output=True,text=True)
             try: side_exists=bool(json.loads(probe.stdout)) if probe.returncode==0 else False
             except json.JSONDecodeError: side_exists=False
             if not side_exists:
@@ -69,8 +72,8 @@ def main(name):
                 with os.fdopen(fd,'w',encoding='utf8') as sf:
                   for t in timelines.get(vid,[]):
                     sf.write(json.dumps({k:t.get(k) for k in ('video_id','keyframe','keyframe_number','frame_id','timestamp_s','fps')},separators=(',',':'))+'\n')
-                subprocess.run(['rclone','copyto',sp,side],check=True)
+                subprocess.run(rclone('copyto',sp,side),check=True)
               finally:
                 if os.path.exists(sp): os.unlink(sp)
-    subprocess.run(['rclone','copyto',out,f'drive:{out}'],check=True)
+    subprocess.run(rclone('copyto',out,f'drive:{out}'),check=True)
 if __name__=='__main__': main(sys.argv[1] if len(sys.argv)>1 else 'all')
