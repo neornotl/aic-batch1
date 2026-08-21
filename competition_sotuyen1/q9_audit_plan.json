@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "audit": "Q9 exact BTC keyframe verification",
+  "queries": [
+    {
+      "id": "query-p1-9-qa",
+      "kind": "qa",
+      "text": "Đoạn phim ghi lại cảnh những chiếc xe ô tô lội nước, chiếc xe màu vàng, màu đỏ và màu đen lần lượt chuẩn bị đi qua cầu. Con số được ghi trên biển báo bên trái của cây cầu là bao nhiêu?",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L21_V003",
+          "frames": [{"frame_id": 26220, "member": "keyframes/L21_V003/252.jpg"}],
+          "answer": "2,15"
+        },
+        {
+          "rank": 2,
+          "video_id": "L22_V008",
+          "frames": [{"frame_id": 24518, "member": "keyframes/L22_V008/229.jpg"}]
+        },
+        {
+          "rank": 3,
+          "video_id": "L27_V010",
+          "frames": [{"frame_id": 11662, "member": "keyframes/L27_V010/251.jpg"}]
+        },
+        {
+          "rank": 4,
+          "video_id": "L28_V022",
+          "frames": [{"frame_id": 12150, "member": "keyframes/L28_V022/145.jpg"}]
+        },
+        {
+          "rank": 5,
+          "video_id": "L22_V016",
+          "frames": [{"frame_id": 16037, "member": "keyframes/L22_V016/167.jpg"}]
+        },
+        {
+          "rank": 6,
+          "video_id": "L22_V030",
+          "frames": [{"frame_id": 3329, "member": "keyframes/L22_V030/038.jpg"}]
+        },
+        {
+          "rank": 7,
+          "video_id": "L27_V007",
+          "frames": [{"frame_id": 13615, "member": "keyframes/L27_V007/307.jpg"}]
+        },
+        {
+          "rank": 8,
+          "video_id": "L22_V011",
+          "frames": [{"frame_id": 28463, "member": "keyframes/L22_V011/239.jpg"}]
+        }
+      ]
+    }
+  ]
+}
