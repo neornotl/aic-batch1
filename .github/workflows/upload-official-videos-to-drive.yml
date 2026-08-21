@@ -5,11 +5,7 @@ on:
       archive:
         description: 'One archive basename, or all'
         required: true
-        default: Videos_L21_a.zip
-        type: string
-      folder_id:
-        description: '01_Videos_Original folder ID (or repository variable GDRIVE_FOLDER_ID)'
-        required: false
+        default: L21
         type: string
 jobs:
   ingest:
@@ -19,10 +15,9 @@ jobs:
       - name: Validate inputs and configure rclone
         env:
           SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
-          FOLDER: ${{ inputs.folder_id || vars.GDRIVE_FOLDER_ID }}
+          FOLDER: '1E8u-YURTRexdR1Ax4Hu2aq7Vt646VQuN'
         run: |
           test -n "$SA" || { echo 'Missing GDRIVE_SERVICE_ACCOUNT_JSON'; exit 1; }
-          test -n "$FOLDER" || { echo 'Missing folder ID'; exit 1; }
           mkdir -p "$RUNNER_TEMP/rclone"
           printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
           {
@@ -37,6 +32,10 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y rclone
           python -m pip install --disable-pip-version-check requests
+      - name: Fetch exact BTC timestamp map
+        run: |
+          rclone copyto 'drive:02_Timelines/btc_keyframe_timestamps.jsonl' "$RUNNER_TEMP/btc_keyframe_timestamps.jsonl"
+          echo "TIMESTAMP_MAP=$RUNNER_TEMP/btc_keyframe_timestamps.jsonl" >> "$GITHUB_ENV"
       - name: Stream archive members to Drive
         env:
           ARCHIVE: ${{ inputs.archive }}
