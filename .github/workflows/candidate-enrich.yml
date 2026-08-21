@@ -1,0 +1,30 @@
+name: Enrich Candidate Videos
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidates:
+        description: Path to JSON list of video IDs
+        required: true
+        default: work/aic_pipeline/candidates.json
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Download candidate videos by HTTP ranges
+        run: python scripts/download_candidates.py --candidates "${{ inputs.candidates }}" --output work/candidates --workers 4 --video-workers 12 --chunk-mb 4
+      - name: Run candidate enrichment
+        run: python scripts/enrich_candidates.py --videos work/candidates --output work/evidence
+      - uses: actions/upload-artifact@v4
+        with:
+          name: candidate-evidence
+          path: work/evidence
+          retention-days: 2

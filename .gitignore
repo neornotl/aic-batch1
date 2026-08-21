@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (large)
+work/data/
+work/aic_pipeline/*.sqlite
+work/aic_pipeline/*.sqlite-*
+work/aic_pipeline/dense/vectors_tfidf.npz
+work/aic_pipeline/clip-index/vectors.npy
+work/aic_pipeline/clip-features-32/*.zip
+work/aic_pipeline/*.zip
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# Temporary
+*.tmp
+*.temp
