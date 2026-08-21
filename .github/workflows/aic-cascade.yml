@@ -1,0 +1,73 @@
+name: AIC Cascade Processing
+
+on:
+  workflow_dispatch:
+    inputs:
+      shards:
+        description: Comma-separated list of shard numbers to process (1-10)
+        required: false
+        default: "1,2,3,4,5,6,7,8,9,10"
+
+jobs:
+  cascade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      max-parallel: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Cache CLIP index
+        uses: actions/cache@v4
+        with:
+          path: work/aic_pipeline/clip-index
+          key: clip-index-${{ hashFiles('work/aic_pipeline/clip-index/vectors.npy') }}
+          restore-keys: |
+            clip-index-
+
+      - name: Cache dense index
+        uses: actions/cache@v4
+        with:
+          path: work/aic_pipeline/dense
+          key: dense-index-${{ hashFiles('work/aic_pipeline/dense/vectors_tfidf.npz') }}
+          restore-keys: |
+            dense-index-
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Download candidate videos
+        run: |
+          python scripts/download_candidates.py \
+            --candidates work/aic_pipeline/overnight/shard_${{ matrix.shard }}.json \
+            --output work/videos \
+            --video-workers 2 \
+            --workers 4 \
+            --chunk-mb 4
+
+      - name: Enrich candidates (ASR)
+        run: |
+          python scripts/enrich_candidates.py \
+            --videos work/videos \
+            --output work/evidence
+
+      - name: Clean up video files
+        run: |
+          find work/videos -name "*.mp4" -delete
+
+      - name: Upload evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-shard-${{ matrix.shard }}
+          path: work/evidence/
+          retention-days: 2
