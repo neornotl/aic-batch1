@@ -29,6 +29,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+          pip install -e .
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
+      - name: Verify shard file
+        run: |
+          ls -lh work/aic_pipeline/overnight/shard_${{ matrix.shard }}.json
+          head -c 500 work/aic_pipeline/overnight/shard_${{ matrix.shard }}.json; echo
 
       - name: Download candidate videos (if not already present)
         run: |
@@ -42,23 +50,27 @@ jobs:
       - name: Extract frames from videos
         run: |
           mkdir -p work/frames
-          # Find all downloaded mp4 videos
+          echo "Videos downloaded:"
+          ls -lh work/videos/*.mp4 2>&1 | head -20
+          echo "Total mp4: $(find work/videos -name '*.mp4' | wc -l)"
           videos=$(find work/videos -name "*.mp4" -type f | head -50)
+          if [ -z "$videos" ]; then echo "No videos found, skipping"; exit 0; fi
           count=0
           for video in $videos; do
             video_name=$(basename "$video" .mp4)
-            # Extract 1 frame per second, save as jpg in work/frames/${video_name}_%06d.jpg
-            ffmpeg -i "$video" -vf "fps=1" -q:v 2 work/frames/${video_name}_%06d.jpg 2>/dev/null
+            echo "Extracting $video_name..."
+            ffmpeg -y -i "$video" -vf "fps=1" -q:v 2 work/frames/${video_name}_%06d.jpg 2>&1 | tail -5
             count=$((count + 1))
-            if [ $((count % 10)) -eq 0 ]; then
-              echo "Processed $count videos..."
-            fi
           done
           echo "Total videos processed: $count"
+          echo "Frames extracted: $(find work/frames -name '*.jpg' | wc -l)"
+          ls -lh work/frames | head -20
 
       - name: Upload frames artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: frames-shard-${{ matrix.shard }}
           path: work/frames/
           retention-days: 7
+          if-no-files-found: warn
