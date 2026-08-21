@@ -3,15 +3,20 @@ name: Extract Frames from Candidate Videos
 on:
   workflow_dispatch:
     inputs:
-      shard:
-        description: Shard number to process (1-10)
+      shards:
+        description: Comma-separated shards to run (e.g. 1,2,3 or 1-10 for all)
         required: false
-        default: "1"
+        default: "1,2,3,4,5,6,7,8,9,10"
 
 jobs:
   extract:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      max-parallel: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,7 +33,7 @@ jobs:
       - name: Download candidate videos (if not already present)
         run: |
           python scripts/download_candidates.py \
-            --candidates work/aic_pipeline/overnight/shard_${{ inputs.shard }}.json \
+            --candidates work/aic_pipeline/overnight/shard_${{ matrix.shard }}.json \
             --output work/videos \
             --video-workers 2 \
             --workers 4 \
@@ -54,6 +59,6 @@ jobs:
       - name: Upload frames artifact
         uses: actions/upload-artifact@v4
         with:
-          name: frames-shard-${{ inputs.shard }}
+          name: frames-shard-${{ matrix.shard }}
           path: work/frames/
           retention-days: 7
