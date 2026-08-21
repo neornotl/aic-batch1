@@ -1,0 +1,59 @@
+name: Extract Frames from Candidate Videos
+
+on:
+  workflow_dispatch:
+    inputs:
+      shard:
+        description: Shard number to process (1-10)
+        required: false
+        default: "1"
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Download candidate videos (if not already present)
+        run: |
+          python scripts/download_candidates.py \
+            --candidates work/aic_pipeline/overnight/shard_${{ inputs.shard }}.json \
+            --output work/videos \
+            --video-workers 2 \
+            --workers 4 \
+            --chunk-mb 4
+
+      - name: Extract frames from videos
+        run: |
+          mkdir -p work/frames
+          # Find all downloaded mp4 videos
+          videos=$(find work/videos -name "*.mp4" -type f | head -50)
+          count=0
+          for video in $videos; do
+            video_name=$(basename "$video" .mp4)
+            # Extract 1 frame per second, save as jpg in work/frames/${video_name}_%06d.jpg
+            ffmpeg -i "$video" -vf "fps=1" -q:v 2 work/frames/${video_name}_%06d.jpg 2>/dev/null
+            count=$((count + 1))
+            if [ $((count % 10)) -eq 0 ]; then
+              echo "Processed $count videos..."
+            fi
+          done
+          echo "Total videos processed: $count"
+
+      - name: Upload frames artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frames-shard-${{ inputs.shard }}
+          path: work/frames/
+          retention-days: 7
