@@ -30,7 +30,7 @@ jobs:
           python -m pip install --disable-pip-version-check -e .
       - name: Render contact sheets from exact keyframes
         run: |
-          python scripts/render_evidence_review.py \
+          PYTHONPATH=. python scripts/render_evidence_review.py \
             --plan work/aic_pipeline/review_plan.json \
             --queries "${{ inputs.queries }}" \
             --max-candidates "${{ inputs.max_candidates }}" \

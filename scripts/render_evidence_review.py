@@ -15,7 +15,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageOps
 
-from aic_pipeline.range_zip import RangeZip
+from evidence_review.range_zip import RangeZip
 
 
 ARCHIVE_ROOT = "https://aic-data.ledo.io.vn/Keyframes_{}.zip"

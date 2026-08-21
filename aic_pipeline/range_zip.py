@@ -112,23 +112,11 @@ class RangeZip:
                 return entry
         raise KeyError(name)
 
-    def _data_start(self, entry: RemoteEntry) -> int:
-        """Read the local header; its extra field may differ from the central directory."""
-        header = self._request(entry.local_offset, entry.local_offset + 29)
-        signature, _, _, compression, _, _, _, _, _, filename_size, extra_size = struct.unpack(
-            "<4s5H3I2H", header
-        )
-        if signature != b"PK\x03\x04":
-            raise RuntimeError(f"invalid local header for {entry.name}")
-        if compression != entry.compression:
-            raise RuntimeError(f"compression mismatch for {entry.name}")
-        return entry.local_offset + 30 + filename_size + extra_size
-
     def download(self, name: str, output: Path) -> RemoteEntry:
         entry = self.find(name)
         if entry.compression != 0:
             raise RuntimeError(f"entry is compressed; range extraction cannot stream {entry.name}")
-        data_start = self._data_start(entry)
+        data_start = entry.local_offset + 30 + entry.filename_size + entry.extra_size
         data_end = data_start + entry.compressed_size - 1
         output.parent.mkdir(parents=True, exist_ok=True)
         with output.open("wb") as handle:
@@ -149,7 +137,7 @@ class RangeZip:
         entry = self.find(name)
         if entry.compression != 0:
             raise RuntimeError(f"entry is compressed; range extraction cannot stream {entry.name}")
-        data_start = self._data_start(entry)
+        data_start = entry.local_offset + 30 + entry.filename_size + entry.extra_size
         data_end = data_start + entry.compressed_size - 1
         ranges = [(start, min(start + chunk_size - 1, data_end))
                   for start in range(data_start, data_end + 1, chunk_size)]
