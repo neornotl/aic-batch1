@@ -54,17 +54,27 @@ class RangeZip:
                     time.sleep(0.5 * (attempt + 1))
         raise RuntimeError(f"range {start}-{end} failed") from last_error
 
-    def _content_length(self) -> int:
-        request = urllib.request.Request(self.url, method="HEAD", headers={
-            "User-Agent": "Mozilla/5.0 AIC26-range-client",
-            "Accept": "*/*",
-        })
-        with urllib.request.urlopen(request, timeout=self.timeout) as response:
-            length = response.headers.get("Content-Length")
-            ranges = response.headers.get("Accept-Ranges", "")
-        if not length or "bytes" not in ranges.lower():
-            raise RuntimeError("remote archive does not advertise byte ranges")
-        return int(length)
+    def _content_length(self, retries: int = 4) -> int:
+        """Return archive size, tolerating transient BTC 5xx responses."""
+        last_error = None
+        for attempt in range(retries):
+            try:
+                request = urllib.request.Request(self.url, method="HEAD", headers={
+                    "User-Agent": "Mozilla/5.0 AIC26-range-client",
+                    "Accept": "*/*",
+                })
+                with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                    length = response.headers.get("Content-Length")
+                    ranges = response.headers.get("Accept-Ranges", "")
+                if not length or "bytes" not in ranges.lower():
+                    raise RuntimeError("remote archive does not advertise byte ranges")
+                return int(length)
+            except Exception as error:
+                last_error = error
+                if attempt + 1 < retries:
+                    import time
+                    time.sleep(0.5 * (attempt + 1))
+        raise RuntimeError(f"could not read remote archive size: {self.url}") from last_error
 
     def _read_entries(self) -> dict[str, RemoteEntry]:
         tail_start = max(0, self.size - 65536)
