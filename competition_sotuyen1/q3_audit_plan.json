@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "query-p1-3-qa",
+      "kind": "qa",
+      "text": "Fish on scale, then another fish held by its tail; what is the final displayed number?",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 10583,
+              "member": "keyframes/L21_V015/088.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 10665,
+              "member": "keyframes/L21_V015/089.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 10734,
+              "member": "keyframes/L21_V015/090.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 10833,
+              "member": "keyframes/L21_V015/091.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 10893,
+              "member": "keyframes/L21_V015/092.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 10950,
+              "member": "keyframes/L21_V015/093.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11010,
+              "member": "keyframes/L21_V015/094.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11163,
+              "member": "keyframes/L21_V015/095.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11252,
+              "member": "keyframes/L21_V015/096.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11313,
+              "member": "keyframes/L21_V015/097.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11418,
+              "member": "keyframes/L21_V015/098.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11519,
+              "member": "keyframes/L21_V015/099.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11627,
+              "member": "keyframes/L21_V015/100.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11717,
+              "member": "keyframes/L21_V015/101.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11828,
+              "member": "keyframes/L21_V015/102.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 11858,
+              "member": "keyframes/L21_V015/103.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 17,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 12044,
+              "member": "keyframes/L21_V015/104.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 18,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 12243,
+              "member": "keyframes/L21_V015/105.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 19,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 12311,
+              "member": "keyframes/L21_V015/106.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 20,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 12357,
+              "member": "keyframes/L21_V015/107.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 21,
+          "video_id": "L21_V015",
+          "frames": [
+            {
+              "frame_id": 12567,
+              "member": "keyframes/L21_V015/108.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
