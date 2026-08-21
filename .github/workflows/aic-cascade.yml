@@ -63,8 +63,9 @@ jobs:
             --output work/evidence
 
       - name: Clean up video files
+        continue-on-error: true
         run: |
-          find work/videos -name "*.mp4" -delete
+          find work/videos -name "*.mp4" -delete 2>/dev/null || true
 
       - name: Upload evidence artifact
         uses: actions/upload-artifact@v4
