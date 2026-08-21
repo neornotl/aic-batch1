@@ -1,0 +1,20 @@
+{
+  "windows": [
+    {
+      "id": "query-p1-16-lion-course-coarse",
+      "video_id": "L24_V035",
+      "start_frame": 3500,
+      "end_frame": 11000,
+      "fps": 25,
+      "sample_fps": 0.25
+    },
+    {
+      "id": "query-p1-16-closing-coarse",
+      "video_id": "L24_V035",
+      "start_frame": 15000,
+      "end_frame": 19700,
+      "fps": 25,
+      "sample_fps": 0.25
+    }
+  ]
+}

@@ -2,6 +2,12 @@ name: AIC Video Window Review
 
 on:
   workflow_dispatch:
+    inputs:
+      review_spec:
+        description: Path to a committed window-spec JSON file
+        required: false
+        default: evidence_review/video_windows.json
+        type: string
 
 permissions:
   contents: read
@@ -22,7 +28,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
       - name: Render narrow source-video windows
-        run: PYTHONPATH=. python scripts/render_video_windows.py --spec evidence_review/video_windows.json --output video-window-artifact
+        run: PYTHONPATH=. python scripts/render_video_windows.py --spec "${{ inputs.review_spec }}" --output video-window-artifact
       - name: Upload compact contact sheets
         uses: actions/upload-artifact@v4
         with:
