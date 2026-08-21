@@ -1,0 +1,25 @@
+{
+  "windows": [
+    {
+      "id": "query-p1-5-kis",
+      "video_id": "L27_V014",
+      "start_frame": 7400,
+      "end_frame": 8500,
+      "fps": 25
+    },
+    {
+      "id": "query-p1-8-kis",
+      "video_id": "L22_V030",
+      "start_frame": 16800,
+      "end_frame": 18600,
+      "fps": 25
+    },
+    {
+      "id": "query-p1-18-trake",
+      "video_id": "L26_V072",
+      "start_frame": 2350,
+      "end_frame": 4650,
+      "fps": 25
+    }
+  ]
+}

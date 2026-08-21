@@ -1,0 +1,34 @@
+name: AIC Video Window Review
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install review tools
+        run: |
+          python -m pip install --disable-pip-version-check pillow
+          python -m pip install --disable-pip-version-check -e .
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+      - name: Render narrow source-video windows
+        run: PYTHONPATH=. python scripts/render_video_windows.py --spec evidence_review/video_windows.json --output video-window-artifact
+      - name: Upload compact contact sheets
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-window-review-${{ github.run_number }}
+          path: video-window-artifact/
+          retention-days: 2
+      - name: Remove source videos and temporary frames
+        if: always()
+        run: rm -rf /tmp/aic-video-review-* video-window-artifact
