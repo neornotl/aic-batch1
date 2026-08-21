@@ -133,14 +133,14 @@ Hình ảnh một con cá được đặt lên cân, sau đó có cảnh một c
 
 | Rank | Keyframe file | Official frame_id | Source ZIP |
 |---:|---|---:|---|
-| 1 | `L28_V011_126` | `4185` | `Keyframes_L28.zip` |
-| 2 | `L21_V013_073` | `8346` | `Keyframes_L21.zip` |
-| 3 | `L21_V015_097` | `11313` | `Keyframes_L21.zip` |
-| 4 | `L28_V001_206` | `12022` | `Keyframes_L28.zip` |
-| 5 | `L21_V013_072` | `8205` | `Keyframes_L21.zip` |
-| 6 | `L28_V006_301` | `17574` | `Keyframes_L28.zip` |
-| 7 | `L29_V019_500` | `22928` | `Keyframes_L29.zip` |
-| 8 | `L29_V019_501` | `22950` | `Keyframes_L29.zip` |
+| 1 | `L21_V015_097` | `11313` | `Keyframes_L21.zip` |
+| 2 | `L28_V011_126` | `4185` | `Keyframes_L28.zip` |
+| 3 | `L21_V013_073` | `8346` | `Keyframes_L21.zip` |
+| 4 | `L21_V015_097` | `11313` | `Keyframes_L21.zip` |
+| 5 | `L28_V001_206` | `12022` | `Keyframes_L28.zip` |
+| 6 | `L21_V013_072` | `8205` | `Keyframes_L21.zip` |
+| 7 | `L28_V006_301` | `17574` | `Keyframes_L28.zip` |
+| 8 | `L29_V019_500` | `22928` | `Keyframes_L29.zip` |
 
 ## query-p1-4-kis
 
@@ -228,11 +228,11 @@ Phần nguyên liệu này được đặt vào giữa đĩa, xung quanh là cá
 
 | Rank | Keyframe file | Official frame_id | Source ZIP |
 |---:|---|---:|---|
-| 1 | `L22_V008_229` | `24518` | `Keyframes_L22.zip` |
-| 2 | `L27_V010_251` | `11662` | `Keyframes_L27.zip` |
-| 3 | `L28_V022_145` | `12150` | `Keyframes_L28.zip` |
-| 4 | `L22_V016_167` | `16037` | `Keyframes_L22.zip` |
-| 5 | `L22_V030_038` | `3329` | `Keyframes_L22.zip` |
-| 6 | `L27_V007_307` | `13615` | `Keyframes_L27.zip` |
-| 7 | `L22_V011_239` | `28463` | `Keyframes_L22.zip` |
-| 8 | `L28_V021_273` | `17157` | `Keyframes_L28.zip` |
+| 1 | `L21_V003_252` | `26220` | `Keyframes_L21.zip` |
+| 2 | `L22_V008_229` | `24518` | `Keyframes_L22.zip` |
+| 3 | `L27_V010_251` | `11662` | `Keyframes_L27.zip` |
+| 4 | `L28_V022_145` | `12150` | `Keyframes_L28.zip` |
+| 5 | `L22_V016_167` | `16037` | `Keyframes_L22.zip` |
+| 6 | `L22_V030_038` | `3329` | `Keyframes_L22.zip` |
+| 7 | `L27_V007_307` | `13615` | `Keyframes_L27.zip` |
+| 8 | `L22_V011_239` | `28463` | `Keyframes_L22.zip` |
