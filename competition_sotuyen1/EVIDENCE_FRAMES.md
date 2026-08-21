@@ -163,7 +163,7 @@ Một đàn sư tử đang nghỉ ngơi và leo trèo trên các bục gỗ tron
 
 | Rank | Keyframe file | Official frame_id | Source ZIP |
 |---:|---|---:|---|
-| 1 | `L26_V035_120` | `6232` | `Keyframes_L26_a.zip` |
+| 1 | `L26_V035_096` | `5023` | `Keyframes_L26_a.zip` |
 | 2 | `L26_V177_138` | `6029` | `Keyframes_L26_b.zip` |
 | 3 | `L26_V035_126` | `6537` | `Keyframes_L26_a.zip` |
 | 4 | `L26_V132_123` | `5935` | `Keyframes_L26_b.zip` |
