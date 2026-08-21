@@ -7,6 +7,10 @@ on:
         description: "Comma-separated query IDs, e.g. query-p1-1-kis,query-p1-8-kis (blank = all)"
         required: false
         default: ""
+      max_candidates:
+        description: "Top candidates per query (6 is fast; use 16 only for a final review)"
+        required: false
+        default: "6"
 
 permissions:
   contents: read
@@ -29,6 +33,7 @@ jobs:
           python scripts/render_evidence_review.py \
             --plan work/aic_pipeline/review_plan.json \
             --queries "${{ inputs.queries }}" \
+            --max-candidates "${{ inputs.max_candidates }}" \
             --output review-artifact
       - name: Upload compact review artifact
         uses: actions/upload-artifact@v4

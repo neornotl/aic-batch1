@@ -43,8 +43,15 @@ def _cell_label(candidate: dict, frame: dict) -> str:
     return f"#{candidate['rank']}  {candidate['video_id']}  f={frame['frame_id']}"
 
 
-def _sheet_for_query(query: dict, output: Path, scratch: Path, archives: dict[str, RangeZip]) -> dict:
-    cells = [(candidate, frame) for candidate in query.get("candidates", []) for frame in candidate.get("frames", [])]
+def _sheet_for_query(
+    query: dict,
+    output: Path,
+    scratch: Path,
+    archives: dict[str, RangeZip],
+    max_candidates: int,
+) -> dict:
+    candidates = query.get("candidates", [])[:max_candidates]
+    cells = [(candidate, frame) for candidate in candidates for frame in candidate.get("frames", [])]
     rows = max(1, (len(cells) + COLUMNS - 1) // COLUMNS)
     canvas = Image.new("RGB", (COLUMNS * CELL_WIDTH, rows * (CELL_HEIGHT + HEADER_HEIGHT)), "white")
     draw = ImageDraw.Draw(canvas)
@@ -98,6 +105,8 @@ def main() -> None:
     parser.add_argument("--plan", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--queries", default="", help="Comma-separated query IDs; blank means all")
+    parser.add_argument("--max-candidates", type=int, default=6,
+                        help="Top candidates to render per query; keep small for a fast review")
     args = parser.parse_args()
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
     names = {value.strip() for value in args.queries.split(",") if value.strip()}
@@ -107,7 +116,10 @@ def main() -> None:
     archives: dict[str, RangeZip] = {}
     with tempfile.TemporaryDirectory(prefix="aic-review-") as tmp:
         scratch = Path(tmp)
-        items = [_sheet_for_query(query, sheets / f"{query['id']}.jpg", scratch, archives) for query in selected]
+        items = [
+            _sheet_for_query(query, sheets / f"{query['id']}.jpg", scratch, archives, args.max_candidates)
+            for query in selected
+        ]
     (args.output / "review.json").write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
     _write_index(items, args.output / "index.html")
     print(json.dumps({"queries": len(items), "frames": sum(item["frames"] for item in items)}))
