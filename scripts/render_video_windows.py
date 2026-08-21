@@ -37,7 +37,8 @@ def extract_window(video: Path, window: dict, frames: Path) -> list[Path]:
     pattern = str(frames / "%04d.jpg")
     subprocess.run(
         ["ffmpeg", "-hide_banner", "-loglevel", "error", "-ss", f"{start:.6f}",
-         "-i", str(video), "-t", f"{duration:.6f}", "-vf", "fps=1", "-q:v", "3", pattern],
+         "-i", str(video), "-t", f"{duration:.6f}",
+         "-vf", f"fps={float(window.get('sample_fps', 1))}", "-q:v", "3", pattern],
         check=True,
     )
     return sorted(frames.glob("*.jpg"))
@@ -48,13 +49,13 @@ def render(window: dict, frame_paths: list[Path], output: Path) -> dict:
     image = Image.new("RGB", (COLUMNS * CELL_WIDTH, rows * (CELL_HEIGHT + HEADER_HEIGHT)), "white")
     draw = ImageDraw.Draw(image)
     start = int(window["start_frame"])
-    fps = float(window["fps"])
+    frame_step = float(window["fps"]) / float(window.get("sample_fps", 1))
     for index, path in enumerate(frame_paths):
         x, y = index % COLUMNS * CELL_WIDTH, index // COLUMNS * (CELL_HEIGHT + HEADER_HEIGHT)
         with Image.open(path) as source:
             thumb = ImageOps.fit(source.convert("RGB"), (CELL_WIDTH, CELL_HEIGHT), Image.Resampling.LANCZOS)
         image.paste(thumb, (x, y))
-        approximate = round(start + index * fps)
+        approximate = round(start + index * frame_step)
         draw.rectangle((x, y + CELL_HEIGHT, x + CELL_WIDTH, y + CELL_HEIGHT + HEADER_HEIGHT), fill="#111827")
         draw.text((x + 6, y + CELL_HEIGHT + 8), f"~frame {approximate}", fill="white")
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -73,16 +74,22 @@ def main() -> None:
     results = []
     with tempfile.TemporaryDirectory(prefix="aic-video-review-") as temporary:
         root = Path(temporary)
+        by_video: dict[str, list[dict]] = {}
         for window in windows:
-            video = root / f"{window['video_id']}.mp4"
-            frame_dir = root / window["id"]
+            by_video.setdefault(str(window["video_id"]), []).append(window)
+        for video_id, video_windows in by_video.items():
+            video = root / f"{video_id}.mp4"
             try:
-                download_video(window["video_id"], video)
-                frame_dir.mkdir()
-                paths = extract_window(video, window, frame_dir)
-                results.append(render(window, paths, args.output / "sheets" / f"{window['id']}.jpg"))
+                download_video(video_id, video)
+                for window in video_windows:
+                    frame_dir = root / window["id"]
+                    try:
+                        frame_dir.mkdir()
+                        paths = extract_window(video, window, frame_dir)
+                        results.append(render(window, paths, args.output / "sheets" / f"{window['id']}.jpg"))
+                    finally:
+                        shutil.rmtree(frame_dir, ignore_errors=True)
             finally:
-                shutil.rmtree(frame_dir, ignore_errors=True)
                 video.unlink(missing_ok=True)
     (args.output / "review.json").write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({"windows": len(results), "frames": sum(item["frames"] for item in results)}))

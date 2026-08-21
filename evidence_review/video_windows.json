@@ -1,25 +1,52 @@
 {
   "windows": [
     {
-      "id": "query-p1-5-kis",
+      "id": "query-p1-5-kis-exact",
       "video_id": "L27_V014",
-      "start_frame": 7400,
-      "end_frame": 8500,
-      "fps": 25
+      "start_frame": 8050,
+      "end_frame": 8200,
+      "fps": 25,
+      "sample_fps": 25
     },
     {
-      "id": "query-p1-8-kis",
+      "id": "query-p1-8-kis-exact",
       "video_id": "L22_V030",
-      "start_frame": 16800,
-      "end_frame": 18600,
-      "fps": 25
+      "start_frame": 18250,
+      "end_frame": 18400,
+      "fps": 25,
+      "sample_fps": 25
     },
     {
-      "id": "query-p1-18-trake",
+      "id": "query-p1-18-trake-e1-mushroom",
       "video_id": "L26_V072",
-      "start_frame": 2350,
-      "end_frame": 4650,
-      "fps": 25
+      "start_frame": 2425,
+      "end_frame": 2525,
+      "fps": 25,
+      "sample_fps": 25
+    },
+    {
+      "id": "query-p1-18-trake-e2-water-chestnut",
+      "video_id": "L26_V072",
+      "start_frame": 3075,
+      "end_frame": 3250,
+      "fps": 25,
+      "sample_fps": 25
+    },
+    {
+      "id": "query-p1-18-trake-e3-tofu",
+      "video_id": "L26_V072",
+      "start_frame": 3375,
+      "end_frame": 3525,
+      "fps": 25,
+      "sample_fps": 25
+    },
+    {
+      "id": "query-p1-18-trake-e4-pan-flame",
+      "video_id": "L26_V072",
+      "start_frame": 3750,
+      "end_frame": 3875,
+      "fps": 25,
+      "sample_fps": 25
     }
   ]
 }
