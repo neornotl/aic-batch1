@@ -9,7 +9,23 @@ permissions:
 jobs:
   bundle:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - query_id: query-p1-3-qa
+            label: q3
+          - query_id: query-p1-11-kis
+            label: q11
+          - query_id: query-p1-12-kis
+            label: q12
+          - query_id: query-p1-13-kis
+            label: q13
+          - query_id: query-p1-14-kis
+            label: q14
+          - query_id: query-p1-15-qa
+            label: q15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -21,67 +37,19 @@ jobs:
         run: |
           PYTHONPATH=. python scripts/build_evidence_bundles.py \
             --evidence competition_sotuyen1/EVIDENCE_FRAMES.csv \
+            --queries "${{ matrix.query_id }}" \
             --output evidence-bundles
-      - id: q3
-        name: Upload Q3 artifact ZIP
+      - id: upload
+        name: Upload ${{ matrix.label }} artifact ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: aic-evidence-q3-${{ github.run_number }}
-          path: evidence-bundles/q3/
-          retention-days: 7
-          if-no-files-found: error
-      - id: q11
-        name: Upload Q11 artifact ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: aic-evidence-q11-${{ github.run_number }}
-          path: evidence-bundles/q11/
-          retention-days: 7
-          if-no-files-found: error
-      - id: q12
-        name: Upload Q12 artifact ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: aic-evidence-q12-${{ github.run_number }}
-          path: evidence-bundles/q12/
-          retention-days: 7
-          if-no-files-found: error
-      - id: q13
-        name: Upload Q13 artifact ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: aic-evidence-q13-${{ github.run_number }}
-          path: evidence-bundles/q13/
-          retention-days: 7
-          if-no-files-found: error
-      - id: q14
-        name: Upload Q14 artifact ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: aic-evidence-q14-${{ github.run_number }}
-          path: evidence-bundles/q14/
-          retention-days: 7
-          if-no-files-found: error
-      - id: q15
-        name: Upload Q15 artifact ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: aic-evidence-q15-${{ github.run_number }}
-          path: evidence-bundles/q15/
+          name: aic-evidence-${{ matrix.label }}-${{ github.run_number }}
+          path: evidence-bundles/${{ matrix.label }}/
           retention-days: 7
           if-no-files-found: error
       - name: Publish artifact links in run summary
         run: |
-          {
-            echo '## Evidence ZIP downloads'
-            echo ''
-            echo '- [Q3](${{ steps.q3.outputs.artifact-url }})'
-            echo '- [Q11](${{ steps.q11.outputs.artifact-url }})'
-            echo '- [Q12](${{ steps.q12.outputs.artifact-url }})'
-            echo '- [Q13](${{ steps.q13.outputs.artifact-url }})'
-            echo '- [Q14](${{ steps.q14.outputs.artifact-url }})'
-            echo '- [Q15](${{ steps.q15.outputs.artifact-url }})'
-          } >> "$GITHUB_STEP_SUMMARY"
+          echo '## [${{ matrix.label }} evidence ZIP](${{ steps.upload.outputs.artifact-url }})' >> "$GITHUB_STEP_SUMMARY"
       - name: Remove runner files
         if: always()
         run: rm -rf /tmp/aic-* evidence-bundles
