@@ -1,0 +1,40 @@
+name: AIC Evidence Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      queries:
+        description: "Comma-separated query IDs, e.g. query-p1-1-kis,query-p1-8-kis (blank = all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install only review dependencies
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Render contact sheets from exact keyframes
+        run: |
+          python scripts/render_evidence_review.py \
+            --plan work/aic_pipeline/review_plan.json \
+            --queries "${{ inputs.queries }}" \
+            --output review-artifact
+      - name: Upload compact review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-review-${{ github.run_number }}
+          path: review-artifact/
+          retention-days: 2
+          if-no-files-found: error
+      - name: Remove transient images and runner output
+        if: always()
+        run: rm -rf /tmp/aic-review-* review-artifact

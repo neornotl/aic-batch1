@@ -1,0 +1,3999 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "query-p1-1-kis",
+      "kind": "kis",
+      "text": "Đây là phần giới thiệu việc phóng tàu vũ trụ tư nhân. Đoạn clip bắt đầu với hình ảnh 4 phi hành gia mặc áo đen. Một trong những nhiệm vụ dự kiến của tàu vũ trụ là nghiên cứu ánh sáng cực quang ở vùng cực",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 20820,
+              "member": "keyframes/L21_V024/204.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 20700,
+              "member": "keyframes/L21_V024/203.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 20550,
+              "member": "keyframes/L21_V024/202.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 20460,
+              "member": "keyframes/L21_V024/201.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 20207,
+              "member": "keyframes/L21_V024/198.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 19530,
+              "member": "keyframes/L21_V024/191.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 19620,
+              "member": "keyframes/L21_V024/192.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L21_V024",
+          "frames": [
+            {
+              "frame_id": 19770,
+              "member": "keyframes/L21_V024/193.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V002",
+          "frames": [
+            {
+              "frame_id": 7500,
+              "member": "keyframes/L25_V002/109.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V002",
+          "frames": [
+            {
+              "frame_id": 7050,
+              "member": "keyframes/L25_V002/106.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V002",
+          "frames": [
+            {
+              "frame_id": 8400,
+              "member": "keyframes/L25_V002/115.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V002",
+          "frames": [
+            {
+              "frame_id": 7350,
+              "member": "keyframes/L25_V002/108.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L22_V015",
+          "frames": [
+            {
+              "frame_id": 7893,
+              "member": "keyframes/L22_V015/069.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V002",
+          "frames": [
+            {
+              "frame_id": 8250,
+              "member": "keyframes/L25_V002/114.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 14100,
+              "member": "keyframes/L25_V081/167.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V060",
+          "frames": [
+            {
+              "frame_id": 36900,
+              "member": "keyframes/L25_V060/332.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-10-kis",
+      "kind": "kis",
+      "text": "Tìm chính xác đoạn clip ngắn có ba người (hai phụ nữ và một nam giới) đang ngồi cạnh nhau, tập trung chơi nhạc cụ kim loại có dạng tròn, rỗng, với các vết lõm để tạo ra âm thanh khi gõ tay. Có 1 người mặc áo trắng ngồi giữa 2 người mặc áo đen. Bối cảnh phía sau là một kệ sách nhiều ngăn, xếp đầy sách với nhiều màu sắc",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 46950,
+              "member": "keyframes/L25_V081/420.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48000,
+              "member": "keyframes/L25_V081/427.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 47850,
+              "member": "keyframes/L25_V081/426.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V038",
+          "frames": [
+            {
+              "frame_id": 15900,
+              "member": "keyframes/L25_V038/165.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V038",
+          "frames": [
+            {
+              "frame_id": 9900,
+              "member": "keyframes/L25_V038/125.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48900,
+              "member": "keyframes/L25_V081/433.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V063",
+          "frames": [
+            {
+              "frame_id": 11700,
+              "member": "keyframes/L25_V063/146.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V073",
+          "frames": [
+            {
+              "frame_id": 24300,
+              "member": "keyframes/L25_V073/252.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 36150,
+              "member": "keyframes/L25_V018/337.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V074",
+          "frames": [
+            {
+              "frame_id": 57118,
+              "member": "keyframes/L25_V074/518.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V056",
+          "frames": [
+            {
+              "frame_id": 30750,
+              "member": "keyframes/L25_V056/296.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48750,
+              "member": "keyframes/L25_V081/432.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V045",
+          "frames": [
+            {
+              "frame_id": 12150,
+              "member": "keyframes/L25_V045/149.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 34200,
+              "member": "keyframes/L25_V018/324.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37050,
+              "member": "keyframes/L25_V036/339.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V045",
+          "frames": [
+            {
+              "frame_id": 11400,
+              "member": "keyframes/L25_V045/144.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-11-kis",
+      "kind": "kis",
+      "text": "Trong đoạn clip có là một chàng trai đội mũ lưỡi trai đen, mặc áo thun trắng có dòng chữ tiếng Anh, đang ngồi cạnh một chiếc hộp. Trên hộp, anh sắp xếp nhiều mảnh bìa cắt rời với hình thù ngẫu nhiên.\nNhờ ánh sáng chiếu từ một phía, các mảnh bìa đó đổ bóng lên tường, tạo thành hình chân dung một người đàn ông với khuôn mặt rõ nét, tóc vuốt gọn và mặc vest.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 9900,
+              "member": "keyframes/L25_V001/130.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37050,
+              "member": "keyframes/L25_V036/339.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 9450,
+              "member": "keyframes/L25_V001/127.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 38100,
+              "member": "keyframes/L25_V036/346.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37500,
+              "member": "keyframes/L25_V036/342.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 39450,
+              "member": "keyframes/L25_V036/355.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 36000,
+              "member": "keyframes/L25_V036/332.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 30900,
+              "member": "keyframes/L25_V036/298.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37350,
+              "member": "keyframes/L25_V036/341.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37650,
+              "member": "keyframes/L25_V036/343.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V045",
+          "frames": [
+            {
+              "frame_id": 4350,
+              "member": "keyframes/L25_V045/097.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 29400,
+              "member": "keyframes/L25_V018/292.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 10350,
+              "member": "keyframes/L25_V001/133.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 36150,
+              "member": "keyframes/L25_V036/333.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 39600,
+              "member": "keyframes/L25_V036/356.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 38850,
+              "member": "keyframes/L25_V036/351.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-12-kis",
+      "kind": "kis",
+      "text": "Đoạn video mô tả cảnh trang trí bánh rán. Phân cảnh bắt đầu là một chiếc đĩa sứ màu trắng nằm trên một khay gỗ hình chữ nhật. Bên cạnh chiếc đĩa sứ là một chén đựng một vài trái dâu, nhưng có 2 trái bị rơi ra ngoài. Ngoài ra, bên cạnh đĩa sứ còn có một chén sứ nhỏ màu trắng đựng chuối đã được cắt sẵn và một cái thìa nhỏ màu nâu. Phân cảnh tiếp theo cho thấy đầu bếp đặt 2 chiếc bánh rán lên đĩa sứ và bắt đầu trang trí. Bước đầu tiên là việc rưới chocolate lên trên mặt bánh. Sau đó, đầu bếp đặt các lát chuối lên trên một chiếc bánh rán, chiếc còn lại được đặt các lát dâu tây lên.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 28950,
+              "member": "keyframes/L25_V036/285.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 26400,
+              "member": "keyframes/L25_V036/268.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 9900,
+              "member": "keyframes/L25_V001/130.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V046",
+          "frames": [
+            {
+              "frame_id": 24450,
+              "member": "keyframes/L25_V046/324.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 10350,
+              "member": "keyframes/L25_V001/133.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 26100,
+              "member": "keyframes/L25_V036/266.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 9450,
+              "member": "keyframes/L25_V001/127.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 28050,
+              "member": "keyframes/L25_V036/279.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L26_V407",
+          "frames": [
+            {
+              "frame_id": 7552,
+              "member": "keyframes/L26_V407/159.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 29550,
+              "member": "keyframes/L25_V001/290.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 28200,
+              "member": "keyframes/L25_V001/281.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 28050,
+              "member": "keyframes/L25_V001/280.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V054",
+          "frames": [
+            {
+              "frame_id": 15300,
+              "member": "keyframes/L25_V054/161.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 17550,
+              "member": "keyframes/L25_V010/184.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 5700,
+              "member": "keyframes/L25_V001/102.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L26_V307",
+          "frames": [
+            {
+              "frame_id": 1152,
+              "member": "keyframes/L26_V307/034.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-13-kis",
+      "kind": "kis",
+      "text": "Đoạn video mô tả một người ngồi vệ sinh máy ảnh. Công đoạn này bắt đầu bằng việc tháo rời máy ảnh. Tiếp theo, chiếc ống kính đã được tháo rời và được đặt ngay ngắn trên một chiếc khăn màu tím hồng. Phân cảnh cuối cùng là vệ sinh ống kính (lens) bằng một chiếc tăm bông.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 10350,
+              "member": "keyframes/L25_V001/133.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 18450,
+              "member": "keyframes/L25_V010/190.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 19200,
+              "member": "keyframes/L25_V010/195.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 17400,
+              "member": "keyframes/L25_V010/183.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 9900,
+              "member": "keyframes/L25_V001/130.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 17100,
+              "member": "keyframes/L25_V010/181.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 43650,
+              "member": "keyframes/L25_V081/398.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 42300,
+              "member": "keyframes/L25_V081/389.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 44250,
+              "member": "keyframes/L25_V081/402.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48750,
+              "member": "keyframes/L25_V081/432.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 18750,
+              "member": "keyframes/L25_V010/192.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 17100,
+              "member": "keyframes/L25_V001/178.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 19050,
+              "member": "keyframes/L25_V010/194.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 17550,
+              "member": "keyframes/L25_V010/184.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 28500,
+              "member": "keyframes/L25_V081/297.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V080",
+          "frames": [
+            {
+              "frame_id": 6150,
+              "member": "keyframes/L25_V080/097.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-14-kis",
+      "kind": "kis",
+      "text": "Đoạn clip bắt đầu với cảnh một tác phẩm điêu khắc cát hoành tráng tại Lễ hội điêu khắc trên cát. Tác phẩm mô tả cảnh những thanh niên chơi thể thao đường phố: một người trượt patin, hai người trượt ván\nNền phía sau là họa tiết vòm cong lớn và có khắc chữ.\nTiếp theo có cảnh nhiều tác phẩm khác bằng cát, và có 2 cột khói màu hồng",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 37800,
+              "member": "keyframes/L25_V018/348.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V027",
+          "frames": [
+            {
+              "frame_id": 21300,
+              "member": "keyframes/L25_V027/212.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 38850,
+              "member": "keyframes/L25_V018/355.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 29400,
+              "member": "keyframes/L25_V018/292.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 9900,
+              "member": "keyframes/L25_V010/133.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 36450,
+              "member": "keyframes/L25_V018/339.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V027",
+          "frames": [
+            {
+              "frame_id": 23400,
+              "member": "keyframes/L25_V027/226.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 36900,
+              "member": "keyframes/L25_V018/342.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V080",
+          "frames": [
+            {
+              "frame_id": 22350,
+              "member": "keyframes/L25_V080/242.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 10500,
+              "member": "keyframes/L25_V010/137.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48600,
+              "member": "keyframes/L25_V081/431.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 10200,
+              "member": "keyframes/L25_V010/135.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 31950,
+              "member": "keyframes/L25_V036/305.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 9600,
+              "member": "keyframes/L25_V010/131.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 34200,
+              "member": "keyframes/L25_V018/324.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V027",
+          "frames": [
+            {
+              "frame_id": 21900,
+              "member": "keyframes/L25_V027/216.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-15-qa",
+      "kind": "qa",
+      "text": "Đoạn video về một chương trình từ thiện của một câu lạc bộ tên là FANA. Trong đoạn video có thể thấy câu lạc bộ này đang đi trao quà tại một xã thuộc tỉnh Khánh Hòa. Hỏi xã này có tên là gì? (tại thời điểm đó)",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 700,
+              "member": "keyframes/L30_V072/010.jpg"
+            }
+          ],
+          "answer": "Xã Giang Ly"
+        },
+        {
+          "rank": 2,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 1904,
+              "member": "keyframes/L30_V072/038.jpg"
+            }
+          ],
+          "answer": "Xã Giang Ly"
+        },
+        {
+          "rank": 3,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 676,
+              "member": "keyframes/L30_V072/009.jpg"
+            }
+          ],
+          "answer": "Xã Giang Ly"
+        },
+        {
+          "rank": 4,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 1776,
+              "member": "keyframes/L30_V072/035.jpg"
+            }
+          ],
+          "answer": "Xã Giang Ly"
+        },
+        {
+          "rank": 5,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 1745,
+              "member": "keyframes/L30_V072/034.jpg"
+            }
+          ],
+          "answer": "FANA CÙNG NÂNG ẤM YÊU THƯƠNG; CÙNG EM ĐẾN TRƯỜNG; Xã Giang Ly, huyện Khánh Vĩnh, tỉnh Khánh Hòa; 04."
+        },
+        {
+          "rank": 6,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 0,
+              "member": "keyframes/L30_V072/001.jpg"
+            }
+          ],
+          "answer": "A blank, featureless white screen with a subtle light gray vignette around the edges."
+        },
+        {
+          "rank": 7,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 147,
+              "member": "keyframes/L30_V072/003.jpg"
+            }
+          ],
+          "answer": "Herbalife"
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 10350,
+              "member": "keyframes/L25_V001/133.jpg"
+            }
+          ],
+          "answer": "THANHNIÊN ... vì mỗi làng đang một sắc con, nhà nào cũng trên dưới êm cửa. Ông trời sinh ra người đà"
+        },
+        {
+          "rank": 9,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 75,
+              "member": "keyframes/L30_V072/002.jpg"
+            }
+          ],
+          "answer": "Herbalife"
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 5700,
+              "member": "keyframes/L25_V001/102.jpg"
+            }
+          ],
+          "answer": "THANHNIEN NGHỊ LUẬN VĂN HỌC NGHỊ LUẬN VĂN HỌC Cho đoạn văn sau: “Người đàn bà bỗng chép miệng, con m"
+        },
+        {
+          "rank": 11,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 285,
+              "member": "keyframes/L30_V072/004.jpg"
+            }
+          ],
+          "answer": "Clip bạn đọc dự thi cuộc thi: Lan tỏa năng lượng tích cực 2024"
+        },
+        {
+          "rank": 12,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 800,
+              "member": "keyframes/L30_V072/015.jpg"
+            }
+          ],
+          "answer": "UbotmeTV"
+        },
+        {
+          "rank": 13,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 588,
+              "member": "keyframes/L30_V072/008.jpg"
+            }
+          ],
+          "answer": "TUỔI TRẺ"
+        },
+        {
+          "rank": 14,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 1848,
+              "member": "keyframes/L30_V072/037.jpg"
+            }
+          ],
+          "answer": "HTV"
+        },
+        {
+          "rank": 15,
+          "video_id": "L30_V072",
+          "frames": [
+            {
+              "frame_id": 552,
+              "member": "keyframes/L30_V072/007.jpg"
+            }
+          ],
+          "answer": "tuổi trẻ TV"
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V085",
+          "frames": [
+            {
+              "frame_id": 66543,
+              "member": "keyframes/L25_V085/569.jpg"
+            }
+          ],
+          "answer": "CÂU 6 Một con lắc đơn có chiều dài 81cm đang dao động điều hòa với biên độ góc 8° tại nơi có g = 9,8"
+        }
+      ]
+    },
+    {
+      "id": "query-p1-16-trake",
+      "kind": "trake",
+      "text": "Đoạn video múa lân một con lân màu vàng đen trắng, tìm các sự kiện sau:\nE1: Lân quay vòng trên cột số 4 bằng 2 chân trước rồi tiếp đất. Khoảnh khắc đầu tiên mà lân bắt đầu xoay vòng.\nE2: Khoảnh khắc 4 chân hoàn toàn chạm đất đầu tiên.\nE3: Khoảnh khắc đầu tiên 2 người biểu diễn lân cuối chào ban giám khảo.\nE4: Sau đó lân tiến lại chào một con rồng. Khoảnh khắc đầu tiên con rồng cử động đầu.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V054",
+          "frames": [
+            {
+              "frame_id": 3900,
+              "member": "keyframes/L25_V054/085.jpg"
+            },
+            {
+              "frame_id": 6600,
+              "member": "keyframes/L25_V054/103.jpg"
+            },
+            {
+              "frame_id": 7350,
+              "member": "keyframes/L25_V054/108.jpg"
+            },
+            {
+              "frame_id": 9150,
+              "member": "keyframes/L25_V054/120.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 18450,
+              "member": "keyframes/L25_V010/190.jpg"
+            },
+            {
+              "frame_id": 24450,
+              "member": "keyframes/L25_V010/230.jpg"
+            },
+            {
+              "frame_id": 30150,
+              "member": "keyframes/L25_V010/297.jpg"
+            },
+            {
+              "frame_id": 35100,
+              "member": "keyframes/L25_V010/330.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 32939,
+              "member": "keyframes/L25_V024/310.jpg"
+            },
+            {
+              "frame_id": 33089,
+              "member": "keyframes/L25_V024/311.jpg"
+            },
+            {
+              "frame_id": 33239,
+              "member": "keyframes/L25_V024/312.jpg"
+            },
+            {
+              "frame_id": 33539,
+              "member": "keyframes/L25_V024/314.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V082",
+          "frames": [
+            {
+              "frame_id": 20100,
+              "member": "keyframes/L25_V082/229.jpg"
+            },
+            {
+              "frame_id": 20850,
+              "member": "keyframes/L25_V082/234.jpg"
+            },
+            {
+              "frame_id": 23550,
+              "member": "keyframes/L25_V082/252.jpg"
+            },
+            {
+              "frame_id": 24000,
+              "member": "keyframes/L25_V082/255.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V019",
+          "frames": [
+            {
+              "frame_id": 6450,
+              "member": "keyframes/L25_V019/107.jpg"
+            },
+            {
+              "frame_id": 9150,
+              "member": "keyframes/L25_V019/125.jpg"
+            },
+            {
+              "frame_id": 10500,
+              "member": "keyframes/L25_V019/134.jpg"
+            },
+            {
+              "frame_id": 10650,
+              "member": "keyframes/L25_V019/135.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V046",
+          "frames": [
+            {
+              "frame_id": 22050,
+              "member": "keyframes/L25_V046/308.jpg"
+            },
+            {
+              "frame_id": 23550,
+              "member": "keyframes/L25_V046/318.jpg"
+            },
+            {
+              "frame_id": 24150,
+              "member": "keyframes/L25_V046/322.jpg"
+            },
+            {
+              "frame_id": 24300,
+              "member": "keyframes/L25_V046/323.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 39,
+              "member": "keyframes/L27_V013/007.jpg"
+            },
+            {
+              "frame_id": 1215,
+              "member": "keyframes/L27_V013/057.jpg"
+            },
+            {
+              "frame_id": 5670,
+              "member": "keyframes/L27_V013/135.jpg"
+            },
+            {
+              "frame_id": 7695,
+              "member": "keyframes/L27_V013/171.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 7800,
+              "member": "keyframes/L25_V018/117.jpg"
+            },
+            {
+              "frame_id": 8700,
+              "member": "keyframes/L25_V018/123.jpg"
+            },
+            {
+              "frame_id": 12300,
+              "member": "keyframes/L25_V018/147.jpg"
+            },
+            {
+              "frame_id": 19050,
+              "member": "keyframes/L25_V018/192.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-17-kis",
+      "kind": "kis",
+      "text": "Đoạn video trong buổi trao quà từ thiện diễn ra tại 1 bệnh viện trong dịp Xuân 2024. Trong cảnh có hai người đàn ông (mặc áo sơ mi hồng và sơ mi trắng) đứng hai bên, đại diện ban tổ chức. Ở giữa là bốn em nhỏ và thiếu niên, trong đó có em mặc áo đỏ, em mặc áo trắng, em mặc váy hồng và em mặc áo xanh. Các em được trao bảng tượng trưng với nội dung “Chương trình: Trao kinh phí hỗ trợ cho trẻ em mồ côi do dịch COVID-19”. Trước mặt mỗi em là túi quà lớn mang logo y tế. Phía sau là phông nền màu đỏ với khẩu hiệu đón xuân và thông tin sự kiện.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48750,
+              "member": "keyframes/L25_V081/432.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 28500,
+              "member": "keyframes/L25_V081/297.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 49800,
+              "member": "keyframes/L25_V081/439.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48900,
+              "member": "keyframes/L25_V081/433.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V045",
+          "frames": [
+            {
+              "frame_id": 4350,
+              "member": "keyframes/L25_V045/097.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 51150,
+              "member": "keyframes/L25_V081/448.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 30600,
+              "member": "keyframes/L25_V081/311.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 47850,
+              "member": "keyframes/L25_V081/426.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 9450,
+              "member": "keyframes/L25_V010/130.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 9900,
+              "member": "keyframes/L25_V010/133.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 27839,
+              "member": "keyframes/L25_V081/292.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 10500,
+              "member": "keyframes/L25_V010/137.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 7350,
+              "member": "keyframes/L25_V010/116.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 46950,
+              "member": "keyframes/L25_V081/420.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V060",
+          "frames": [
+            {
+              "frame_id": 12150,
+              "member": "keyframes/L25_V060/136.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 9600,
+              "member": "keyframes/L25_V010/131.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-18-trake",
+      "kind": "trake",
+      "text": "Trong đoạn video nấu ăn một món ăn về nấm, gồm các khoảnh khắc sơ chế:\nE1: Khoảnh khắc đầu tiên thấy cắt nấm.\nE2: Khoảnh khắc đầu tiên cắt củ năng.\nE2: Khoảnh khắc đầu tiên cắt đậu hủ.\nE4: Khoảnh khắc chảo đặt lên bếp, đầu bếp mở lửa và thấy lửa bắt đầu xuất hiện",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V056",
+          "frames": [
+            {
+              "frame_id": 2078,
+              "member": "keyframes/L26_V056/037.jpg"
+            },
+            {
+              "frame_id": 2176,
+              "member": "keyframes/L26_V056/038.jpg"
+            },
+            {
+              "frame_id": 2432,
+              "member": "keyframes/L26_V056/043.jpg"
+            },
+            {
+              "frame_id": 5120,
+              "member": "keyframes/L26_V056/102.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L26_V047",
+          "frames": [
+            {
+              "frame_id": 3997,
+              "member": "keyframes/L26_V047/070.jpg"
+            },
+            {
+              "frame_id": 7937,
+              "member": "keyframes/L26_V047/136.jpg"
+            },
+            {
+              "frame_id": 7965,
+              "member": "keyframes/L26_V047/137.jpg"
+            },
+            {
+              "frame_id": 8100,
+              "member": "keyframes/L26_V047/138.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L26_V142",
+          "frames": [
+            {
+              "frame_id": 768,
+              "member": "keyframes/L26_V142/019.jpg"
+            },
+            {
+              "frame_id": 7930,
+              "member": "keyframes/L26_V142/153.jpg"
+            },
+            {
+              "frame_id": 7936,
+              "member": "keyframes/L26_V142/154.jpg"
+            },
+            {
+              "frame_id": 8192,
+              "member": "keyframes/L26_V142/156.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L26_V175",
+          "frames": [
+            {
+              "frame_id": 1536,
+              "member": "keyframes/L26_V175/032.jpg"
+            },
+            {
+              "frame_id": 2048,
+              "member": "keyframes/L26_V175/045.jpg"
+            },
+            {
+              "frame_id": 2412,
+              "member": "keyframes/L26_V175/054.jpg"
+            },
+            {
+              "frame_id": 7936,
+              "member": "keyframes/L26_V175/161.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-19-qa",
+      "kind": "qa",
+      "text": "Trong đoạn video có 2 câu thơ của một nhà thơ ca ngợi anh hùng Nguyễn Trung Trực trong đình thần Nguyễn Trung Trực tại Kiên Giang. Hai câu thơ đó là gì?",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L27_V010",
+          "frames": [
+            {
+              "frame_id": 5535,
+              "member": "keyframes/L27_V010/146.jpg"
+            }
+          ],
+          "answer": "Hỏa hồng nhật tảo oanh thiên địa - Kiếm bạt Kiên Giang khấp quỷ thần"
+        },
+        {
+          "rank": 2,
+          "video_id": "L27_V010",
+          "frames": [
+            {
+              "frame_id": 5474,
+              "member": "keyframes/L27_V010/145.jpg"
+            }
+          ],
+          "answer": "Hỏa hồng nhật tảo oanh thiên địa - Kiếm bạt Kiên Giang khấp quỷ thần"
+        },
+        {
+          "rank": 3,
+          "video_id": "L27_V010",
+          "frames": [
+            {
+              "frame_id": 5885,
+              "member": "keyframes/L27_V010/152.jpg"
+            }
+          ],
+          "answer": "Hỏa hồng nhật tảo oanh thiên địa - Kiếm bạt Kiên Giang khấp quỷ thần"
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 15750,
+              "member": "keyframes/L25_V010/172.jpg"
+            }
+          ],
+          "answer": "THANHNIEN Viết như thủ khoa – Đạt điểm tối đa Đồng hành sĩ tử – Thi cử như ý - Tác phẩm in lần đầu n"
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 15300,
+              "member": "keyframes/L25_V010/169.jpg"
+            }
+          ],
+          "answer": "THANHNIEN Viết như thủ khoa – Đạt điểm tối đa Đồng hành sĩ tử – Thi cử như ý - Tác phẩm in lần đầu n"
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 16350,
+              "member": "keyframes/L25_V010/176.jpg"
+            }
+          ],
+          "answer": "THANHNIEN Viết như thủ khoa – Đạt điểm tối đa Đồng hành sĩ tử – Thi cử như ý - Tác phẩm in lần đầu n"
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 14850,
+              "member": "keyframes/L25_V081/172.jpg"
+            }
+          ],
+          "answer": "THANHNIEN TÂY TIẾN - QUANG DŨNG - Theo một nghiên cứu khoa học, con người trong phút lâm chung, bộ n"
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 12900,
+              "member": "keyframes/L25_V018/151.jpg"
+            }
+          ],
+          "answer": "THANHNIÊN Giảm khéo đọc... Trong bài thơ Vang bóng trích từ tập thơ “Thương nhớ tài hoa”, nhà thơ Ng"
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 14100,
+              "member": "keyframes/L25_V081/167.jpg"
+            }
+          ],
+          "answer": "THANHNIÊN TÂY TIẾN - QUANG DŨNG - Theo một nghiên cứu khoa học, con người trong phút lâm chung, bộ n"
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 13200,
+              "member": "keyframes/L25_V081/161.jpg"
+            }
+          ],
+          "answer": "THANHNIÊN TÂY TIẾN - QUANG DŨNG - Theo một nghiên cứu khoa học, con người trong phút lâm chung, bộ n"
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 11850,
+              "member": "keyframes/L25_V018/144.jpg"
+            }
+          ],
+          "answer": "THANHNIEN Giảm khảo đặc biệt Trong bài thơ Vang bóng trích từ tập thơ “Thương nhớ tài hoa”, nhà thơ "
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 17400,
+              "member": "keyframes/L25_V010/183.jpg"
+            }
+          ],
+          "answer": "THANHNIÊN với miền xuôi), nhằm cho thấy chân lí Đất Nước của Nhân Dân, hiểu theo cách của nhà thơ, t"
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 16500,
+              "member": "keyframes/L25_V018/175.jpg"
+            }
+          ],
+          "answer": "THANHNIEN lái đò sông Đà, người thợ kim hoàn của chữ - Nguyễn Tuân cũng phải trải qua một quá trình "
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 19200,
+              "member": "keyframes/L25_V010/195.jpg"
+            }
+          ],
+          "answer": "THANHNIEN với miền xuôi), nhằm cho thấy chân lí Đất Nước của Nhân Dân, hiểu theo cách của nhà thơ, t"
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 26100,
+              "member": "keyframes/L25_V018/270.jpg"
+            }
+          ],
+          "answer": "THANHNIEN | HỌC VĂN KIÊN NGOẠN MÀ KHÔNG GIAN NAN | 0986275094 | THẦY ĐỖ ĐỨC ANH Viết như thủ khoa - "
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 27600,
+              "member": "keyframes/L25_V018/280.jpg"
+            }
+          ],
+          "answer": "THANHNIEN | HỌC VĂN KHÔN NGOAN MÀ KHÔNG GIAN NAN | 0986275094 | THẦY ĐỖ ĐỨC ANH | Viết như thủ khoa "
+        }
+      ]
+    },
+    {
+      "id": "query-p1-2-kis",
+      "kind": "kis",
+      "text": "Mẩu tin giới thiệu về đàn hổ tại một địa phương ở miền Nam vừa có thêm khoảng 3-6 con hổ con. Đây là một giống hổ quý hiếm",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 14438,
+              "member": "keyframes/L27_V011/332.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 14708,
+              "member": "keyframes/L27_V011/334.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 14572,
+              "member": "keyframes/L27_V011/333.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 344,
+              "member": "keyframes/L27_V011/032.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 13222,
+              "member": "keyframes/L27_V011/317.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 11198,
+              "member": "keyframes/L27_V011/279.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 299,
+              "member": "keyframes/L27_V011/029.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1837,
+              "member": "keyframes/L27_V011/121.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1655,
+              "member": "keyframes/L27_V011/114.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 9308,
+              "member": "keyframes/L27_V011/249.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1632,
+              "member": "keyframes/L27_V011/093.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 5933,
+              "member": "keyframes/L27_V011/197.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1638,
+              "member": "keyframes/L27_V011/098.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 7013,
+              "member": "keyframes/L27_V011/213.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1610,
+              "member": "keyframes/L27_V011/073.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 875,
+              "member": "keyframes/L27_V011/050.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-20-kis",
+      "kind": "kis",
+      "text": "Trên đĩa tròn màu trắng có 1 ly panna cotta. Có một bàn tay lần lượt đặt thêm 2 ly panna cotta nữa vào đĩa.\nMỗi ly panna cotta có lớp kem mịn màu trắng ngà, bên trên trang trí vài lát nho đỏ, thêm lá bạc hà xanh tạo điểm nhấn tươi mát.\nBên cạnh trên đĩa còn có hai bông hoa ăn được (màu đỏ và vàng) để tăng phần đẹp mắt.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V004",
+          "frames": [
+            {
+              "frame_id": 6480,
+              "member": "keyframes/L26_V004/114.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L26_V004",
+          "frames": [
+            {
+              "frame_id": 6383,
+              "member": "keyframes/L26_V004/113.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 39450,
+              "member": "keyframes/L25_V036/355.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L26_V004",
+          "frames": [
+            {
+              "frame_id": 7040,
+              "member": "keyframes/L26_V004/121.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V037",
+          "frames": [
+            {
+              "frame_id": 5700,
+              "member": "keyframes/L25_V037/101.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L26_V004",
+          "frames": [
+            {
+              "frame_id": 7155,
+              "member": "keyframes/L26_V004/122.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L26_V004",
+          "frames": [
+            {
+              "frame_id": 7355,
+              "member": "keyframes/L26_V004/123.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L26_V004",
+          "frames": [
+            {
+              "frame_id": 540,
+              "member": "keyframes/L26_V004/015.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V033",
+          "frames": [
+            {
+              "frame_id": 16651,
+              "member": "keyframes/L25_V033/175.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 27241,
+              "member": "keyframes/L25_V024/272.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V007",
+          "frames": [
+            {
+              "frame_id": 18563,
+              "member": "keyframes/L25_V007/193.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37350,
+              "member": "keyframes/L25_V036/341.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V007",
+          "frames": [
+            {
+              "frame_id": 37590,
+              "member": "keyframes/L25_V007/353.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 33539,
+              "member": "keyframes/L25_V024/314.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 29400,
+              "member": "keyframes/L25_V018/292.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 39600,
+              "member": "keyframes/L25_V036/356.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-21-kis",
+      "kind": "kis",
+      "text": "Đoạn video vể nghiên cứu tại 1 Đại học ở thành phố Lausanne về việc nghiên cứu cơ chế bay của bọ để chế tạo robot",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 5201,
+              "member": "keyframes/L30_V094/081.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 3821,
+              "member": "keyframes/L30_V094/054.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 3749,
+              "member": "keyframes/L30_V094/053.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V005",
+          "frames": [
+            {
+              "frame_id": 38399,
+              "member": "keyframes/L25_V005/338.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 30687,
+              "member": "keyframes/L25_V024/295.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V009",
+          "frames": [
+            {
+              "frame_id": 6728,
+              "member": "keyframes/L25_V009/108.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V012",
+          "frames": [
+            {
+              "frame_id": 24592,
+              "member": "keyframes/L25_V012/253.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 0,
+              "member": "keyframes/L30_V094/001.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 285,
+              "member": "keyframes/L30_V094/004.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 147,
+              "member": "keyframes/L30_V094/003.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 75,
+              "member": "keyframes/L30_V094/002.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 4533,
+              "member": "keyframes/L30_V094/068.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 3440,
+              "member": "keyframes/L30_V094/049.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 1412,
+              "member": "keyframes/L30_V094/019.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L30_V094",
+          "frames": [
+            {
+              "frame_id": 4292,
+              "member": "keyframes/L30_V094/064.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V012",
+          "frames": [
+            {
+              "frame_id": 22792,
+              "member": "keyframes/L25_V012/241.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-22-qa",
+      "kind": "qa",
+      "text": "Đoạn video về một người phụ nữ dạy nấu ăn cho những người khác. Trong đoạn video có thể thấy một người đang cầm công thức món ăn với nguyên liệu chính là 200g thịt nạc xay. Hỏi tiêu đề của công thức nấu ăn (tên món ăn) này là gì?",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V210",
+          "frames": [
+            {
+              "frame_id": 384,
+              "member": "keyframes/L26_V210/014.jpg"
+            }
+          ],
+          "answer": "Mì trộn xốt mayonnaise"
+        },
+        {
+          "rank": 2,
+          "video_id": "L26_V210",
+          "frames": [
+            {
+              "frame_id": 7656,
+              "member": "keyframes/L26_V210/203.jpg"
+            }
+          ],
+          "answer": "Mì trộn xốt mayonnaise"
+        },
+        {
+          "rank": 3,
+          "video_id": "L26_V210",
+          "frames": [
+            {
+              "frame_id": 7936,
+              "member": "keyframes/L26_V210/206.jpg"
+            }
+          ],
+          "answer": "ATV Online NGUYÊN LIỆU • THỊT NẠC ĐẦU VAI 200g • CỘNG CẢI NGỒNG 150g • MÌ TRỨNG 4 vắt • CÀ RỐT 1/4 c"
+        },
+        {
+          "rank": 4,
+          "video_id": "L26_V321",
+          "frames": [
+            {
+              "frame_id": 7295,
+              "member": "keyframes/L26_V321/159.jpg"
+            }
+          ],
+          "answer": "HTV Online MÓN NGON mỗi ngày Eat Well, Live Well Ajinomoto XEM KỸ CÁC BƯỚC NẤU ĂN: Youtube Món Ngon "
+        },
+        {
+          "rank": 5,
+          "video_id": "L26_V180",
+          "frames": [
+            {
+              "frame_id": 7680,
+              "member": "keyframes/L26_V180/174.jpg"
+            }
+          ],
+          "answer": "HTV Online NGUYÊN LIỆU • KHỔ QUA — 2 trái • THỊT NẠC VAI XAY — 80g • GIÒ SỐNG — 50g • CÀ RỐT CẮT SỢI"
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 28950,
+              "member": "keyframes/L25_V036/285.jpg"
+            }
+          ],
+          "answer": "THANHNIEN Đoạn mẫu tham khảo Một đời đáng giá đừng sống qua loa, hãy kiên định với giấc mơ, trung th"
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 7500,
+              "member": "keyframes/L25_V036/113.jpg"
+            }
+          ],
+          "answer": "THANHNIEN | HỌC VĂN KHÔNG NGOAN MÀ KHÔNG GIAN NAN | 0986275094 | THẦY ĐỖ ĐỨC ANH Viết như thủ khoa –"
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 23100,
+              "member": "keyframes/L25_V036/217.jpg"
+            }
+          ],
+          "answer": "THANHNIEN LUYỆN VIẾT ĐOẠN VĂN NGHỊ LUẬN XÃ HỘI (200 CHỮ) Viết đoạn văn (khoảng 200 chữ) trình bày su"
+        },
+        {
+          "rank": 9,
+          "video_id": "L26_V325",
+          "frames": [
+            {
+              "frame_id": 7680,
+              "member": "keyframes/L26_V325/149.jpg"
+            }
+          ],
+          "answer": "HTV Online Nguyên liệu Tôm sú bóc vỏ: 150g Thịt nạc vai xay: 100g Đậu hành lá băm: 1M Ớt sừng băm: 1"
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 34200,
+              "member": "keyframes/L25_V018/324.jpg"
+            }
+          ],
+          "answer": "THANHNIEN NGHỆ THUẬT Người ta thường nói cuộc đời bể mà con người tìm thấy trong văn chương chính là"
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 23100,
+              "member": "keyframes/L25_V001/247.jpg"
+            }
+          ],
+          "answer": "THANHNIEN + Phẩm chất đáng quý 1: trước hết là vẻ đẹp của người vợ hiền thảo, nhân hậu, bao dung, vị"
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 36150,
+              "member": "keyframes/L25_V018/337.jpg"
+            }
+          ],
+          "answer": "THANHNIEN NGHỆ THUẬT Người ta thường nói cuộc đời bé mà con người tìm thấy trong văn chương chính là"
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V012",
+          "frames": [
+            {
+              "frame_id": 26092,
+              "member": "keyframes/L25_V012/263.jpg"
+            }
+          ],
+          "answer": "THANHNIEN Giai đoạn I II III Năm thứ 1 2 3 4 5 6 7 8 9 10 Sinh khối thực vật (g/m²) Lô A 780 782 780"
+        },
+        {
+          "rank": 14,
+          "video_id": "L26_V456",
+          "frames": [
+            {
+              "frame_id": 8192,
+              "member": "keyframes/L26_V456/169.jpg"
+            }
+          ],
+          "answer": "ATV Online Nguyên liệu Đậu hũ Nhật: 100g Tôm sú: 200g Bông cải xanh: 100g Cà chua bi: 30g Đậu cô ve "
+        },
+        {
+          "rank": 15,
+          "video_id": "L26_V242",
+          "frames": [
+            {
+              "frame_id": 7597,
+              "member": "keyframes/L26_V242/163.jpg"
+            }
+          ],
+          "answer": "HTV Online Nguyên liệu • Cá thác lác: 200g • Thịt nạc dăm xay: 50g • Mỡ heo: 50g • Thì là: 3 cây • L"
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V027",
+          "frames": [
+            {
+              "frame_id": 21300,
+              "member": "keyframes/L25_V027/212.jpg"
+            }
+          ],
+          "answer": "THANHNIEN Vị trí đoạn văn trong đề thi: - Đoạn văn trong đề thi nằm ở gần cuối tác phẩm. - Là đoạn v"
+        }
+      ]
+    },
+    {
+      "id": "query-p1-23-kis",
+      "kind": "kis",
+      "text": "Đoạn clip về 1 thị trấn ven biển thu hút du khách hiếu kỳ nhờ 1 loài động vật biển nguy hiểm. Loài động vật này nổi tiếng trong 1 bộ phim của đạo diễn Steven Spielberg được sản xuất vào năm 1975",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 11610,
+              "member": "keyframes/L27_V013/255.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 11745,
+              "member": "keyframes/L27_V013/257.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 14040,
+              "member": "keyframes/L27_V013/290.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 12256,
+              "member": "keyframes/L27_V013/266.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 11662,
+              "member": "keyframes/L27_V013/256.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 12285,
+              "member": "keyframes/L27_V013/267.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V087",
+          "frames": [
+            {
+              "frame_id": 34800,
+              "member": "keyframes/L25_V087/334.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V087",
+          "frames": [
+            {
+              "frame_id": 34500,
+              "member": "keyframes/L25_V087/332.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V087",
+          "frames": [
+            {
+              "frame_id": 27600,
+              "member": "keyframes/L25_V087/286.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 283,
+              "member": "keyframes/L27_V013/026.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V069",
+          "frames": [
+            {
+              "frame_id": 46350,
+              "member": "keyframes/L25_V069/411.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V087",
+          "frames": [
+            {
+              "frame_id": 28200,
+              "member": "keyframes/L25_V087/290.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 360,
+              "member": "keyframes/L27_V013/031.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V087",
+          "frames": [
+            {
+              "frame_id": 28050,
+              "member": "keyframes/L25_V087/289.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 12023,
+              "member": "keyframes/L27_V013/262.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V087",
+          "frames": [
+            {
+              "frame_id": 25500,
+              "member": "keyframes/L25_V087/272.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-24-kis",
+      "kind": "kis",
+      "text": "Đoạn video về tường thuật một cuộc đua xe đạp. Tìm phân cảnh với góc quay trực diện từ trên cao xuống dõi theo các tay đua. Trong khung hình gồm có 3 tay đua đang đạp thành một đường thẳng. Cả 3 tay đua đều đến từ cùng một đội, với đồng phục áo trắng quần vàng xanh. Tay đua đầu tiên đội nón trắng, tay đua thứ hai đội nón đỏ và tay đua cuối cùng đội nón đen.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L23_V012",
+          "frames": [
+            {
+              "frame_id": 7725,
+              "member": "keyframes/L23_V012/069.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L23_V021",
+          "frames": [
+            {
+              "frame_id": 3995,
+              "member": "keyframes/L23_V021/037.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L23_V021",
+          "frames": [
+            {
+              "frame_id": 1008,
+              "member": "keyframes/L23_V021/009.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L23_V024",
+          "frames": [
+            {
+              "frame_id": 3250,
+              "member": "keyframes/L23_V024/034.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L23_V019",
+          "frames": [
+            {
+              "frame_id": 5447,
+              "member": "keyframes/L23_V019/046.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V072",
+          "frames": [
+            {
+              "frame_id": 9600,
+              "member": "keyframes/L25_V072/119.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L23_V012",
+          "frames": [
+            {
+              "frame_id": 1300,
+              "member": "keyframes/L23_V012/011.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 28350,
+              "member": "keyframes/L25_V001/282.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V072",
+          "frames": [
+            {
+              "frame_id": 9750,
+              "member": "keyframes/L25_V072/120.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V072",
+          "frames": [
+            {
+              "frame_id": 10350,
+              "member": "keyframes/L25_V072/124.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V072",
+          "frames": [
+            {
+              "frame_id": 10200,
+              "member": "keyframes/L25_V072/123.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 29400,
+              "member": "keyframes/L25_V001/289.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 26400,
+              "member": "keyframes/L25_V036/268.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 27000,
+              "member": "keyframes/L25_V001/273.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L23_V004",
+          "frames": [
+            {
+              "frame_id": 8750,
+              "member": "keyframes/L23_V004/099.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 14100,
+              "member": "keyframes/L25_V081/167.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-25-kis",
+      "kind": "kis",
+      "text": "Tìm một đoạn video đua xe đạp, góc quay từ flycam trên cao, một vận động viên mặc áo xanh dương, trắng đang vượt ba vận động viên khác và lên vị trí dẫn đầu. Biết sau đó vận động viên này dẫn đầu suốt đoạn đường còn lại đến đích.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48750,
+              "member": "keyframes/L25_V081/432.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37500,
+              "member": "keyframes/L25_V036/342.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37350,
+              "member": "keyframes/L25_V036/341.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 36150,
+              "member": "keyframes/L25_V036/333.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37050,
+              "member": "keyframes/L25_V036/339.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L23_V021",
+          "frames": [
+            {
+              "frame_id": 1008,
+              "member": "keyframes/L23_V021/009.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 5700,
+              "member": "keyframes/L25_V001/102.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 35400,
+              "member": "keyframes/L25_V010/332.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 18600,
+              "member": "keyframes/L25_V018/189.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37650,
+              "member": "keyframes/L25_V036/343.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 19050,
+              "member": "keyframes/L25_V018/192.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V018",
+          "frames": [
+            {
+              "frame_id": 36900,
+              "member": "keyframes/L25_V018/342.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 26400,
+              "member": "keyframes/L25_V036/268.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 36000,
+              "member": "keyframes/L25_V036/332.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L23_V012",
+          "frames": [
+            {
+              "frame_id": 7725,
+              "member": "keyframes/L23_V012/069.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 33000,
+              "member": "keyframes/L25_V036/312.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-4-trake",
+      "kind": "trake",
+      "text": "E1: Khoảnh khắc đầu tiên bột được bỏ vào tô măng tây.\nE2: Khoảnh khắc đầu tiên thấy miến măng tây đầu tiên tiếp xúc với dầu trong chảo.\nE3: Khoảnh khắc miếng măng tây đầu tiên rời khỏi chảo dầu.\nE4: Khoảng khắc miếng măng tây cuối cùng rời chảo dầu và nằm hoàn toàn trên dĩa.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V037",
+          "frames": [
+            {
+              "frame_id": 7200,
+              "member": "keyframes/L25_V037/111.jpg"
+            },
+            {
+              "frame_id": 18450,
+              "member": "keyframes/L25_V037/216.jpg"
+            },
+            {
+              "frame_id": 20550,
+              "member": "keyframes/L25_V037/297.jpg"
+            },
+            {
+              "frame_id": 21300,
+              "member": "keyframes/L25_V037/302.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 26100,
+              "member": "keyframes/L25_V036/266.jpg"
+            },
+            {
+              "frame_id": 26400,
+              "member": "keyframes/L25_V036/268.jpg"
+            },
+            {
+              "frame_id": 28050,
+              "member": "keyframes/L25_V036/279.jpg"
+            },
+            {
+              "frame_id": 39450,
+              "member": "keyframes/L25_V036/355.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 33089,
+              "member": "keyframes/L25_V024/311.jpg"
+            },
+            {
+              "frame_id": 33389,
+              "member": "keyframes/L25_V024/313.jpg"
+            },
+            {
+              "frame_id": 33539,
+              "member": "keyframes/L25_V024/314.jpg"
+            },
+            {
+              "frame_id": 33689,
+              "member": "keyframes/L25_V024/315.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L27_V013",
+          "frames": [
+            {
+              "frame_id": 5670,
+              "member": "keyframes/L27_V013/135.jpg"
+            },
+            {
+              "frame_id": 7695,
+              "member": "keyframes/L27_V013/171.jpg"
+            },
+            {
+              "frame_id": 11745,
+              "member": "keyframes/L27_V013/257.jpg"
+            },
+            {
+              "frame_id": 14175,
+              "member": "keyframes/L27_V013/291.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V082",
+          "frames": [
+            {
+              "frame_id": 24600,
+              "member": "keyframes/L25_V082/259.jpg"
+            },
+            {
+              "frame_id": 26400,
+              "member": "keyframes/L25_V082/271.jpg"
+            },
+            {
+              "frame_id": 28200,
+              "member": "keyframes/L25_V082/343.jpg"
+            },
+            {
+              "frame_id": 28950,
+              "member": "keyframes/L25_V082/348.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V046",
+          "frames": [
+            {
+              "frame_id": 22350,
+              "member": "keyframes/L25_V046/310.jpg"
+            },
+            {
+              "frame_id": 23550,
+              "member": "keyframes/L25_V046/318.jpg"
+            },
+            {
+              "frame_id": 24450,
+              "member": "keyframes/L25_V046/324.jpg"
+            },
+            {
+              "frame_id": 24600,
+              "member": "keyframes/L25_V046/325.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 14400,
+              "member": "keyframes/L25_V081/169.jpg"
+            },
+            {
+              "frame_id": 21300,
+              "member": "keyframes/L25_V081/215.jpg"
+            },
+            {
+              "frame_id": 27839,
+              "member": "keyframes/L25_V081/292.jpg"
+            },
+            {
+              "frame_id": 42900,
+              "member": "keyframes/L25_V081/393.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-5-kis",
+      "kind": "kis",
+      "text": "Đoạn clip cần tìm là cảnh hai người phụ nữ đang cho dê ăn: một người mặc áo thun trắng quàng áo đỏ trên vai, người kia mặc áo dài tay kẻ sọc tím truyền thống. Cả hai đều mỉm cười, tỏ vẻ thích thú.\nKhông gian trại rộng rãi, có mái che bằng tôn và hàng rào gỗ chia thành nhiều dãy chuồng, trong đó có hàng dài dê được nuôi nhốt.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37350,
+              "member": "keyframes/L25_V036/341.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 39450,
+              "member": "keyframes/L25_V036/355.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 34350,
+              "member": "keyframes/L25_V036/321.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 28950,
+              "member": "keyframes/L25_V036/285.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 29850,
+              "member": "keyframes/L25_V036/291.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37050,
+              "member": "keyframes/L25_V036/339.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 30000,
+              "member": "keyframes/L25_V036/292.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 36150,
+              "member": "keyframes/L25_V036/333.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 33000,
+              "member": "keyframes/L25_V036/312.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37500,
+              "member": "keyframes/L25_V036/342.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 31950,
+              "member": "keyframes/L25_V036/305.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 28050,
+              "member": "keyframes/L25_V036/279.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 38100,
+              "member": "keyframes/L25_V036/346.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 18450,
+              "member": "keyframes/L25_V010/190.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 38850,
+              "member": "keyframes/L25_V036/351.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 36000,
+              "member": "keyframes/L25_V036/332.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-6-kis",
+      "kind": "kis",
+      "text": "Đoạn clip cần tìm bắt đầu bằng cảnh 1 người đầu bếp đặt đang đặt món gỏi cuốn chay bày trên đĩa, nhân gồm rau xanh cuộn tròn và đậu hũ, gói trong bánh tráng màu vàng và tím. Đĩa được trang trí thêm lá xanh và hoa pansy tím-vàng, tạo cảm giác thanh mát và tinh tế.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L26_V056",
+          "frames": [
+            {
+              "frame_id": 6800,
+              "member": "keyframes/L26_V056/131.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 39450,
+              "member": "keyframes/L25_V036/355.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 37350,
+              "member": "keyframes/L25_V036/341.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 38850,
+              "member": "keyframes/L25_V036/351.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L26_V296",
+          "frames": [
+            {
+              "frame_id": 1536,
+              "member": "keyframes/L26_V296/046.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L26_V385",
+          "frames": [
+            {
+              "frame_id": 7680,
+              "member": "keyframes/L26_V385/178.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V049",
+          "frames": [
+            {
+              "frame_id": 30299,
+              "member": "keyframes/L25_V049/297.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V054",
+          "frames": [
+            {
+              "frame_id": 31650,
+              "member": "keyframes/L25_V054/297.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 33089,
+              "member": "keyframes/L25_V024/311.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V049",
+          "frames": [
+            {
+              "frame_id": 32099,
+              "member": "keyframes/L25_V049/309.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 33539,
+              "member": "keyframes/L25_V024/314.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 31950,
+              "member": "keyframes/L25_V036/305.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V046",
+          "frames": [
+            {
+              "frame_id": 23550,
+              "member": "keyframes/L25_V046/318.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V049",
+          "frames": [
+            {
+              "frame_id": 36599,
+              "member": "keyframes/L25_V049/345.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V024",
+          "frames": [
+            {
+              "frame_id": 33389,
+              "member": "keyframes/L25_V024/313.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L26_V041",
+          "frames": [
+            {
+              "frame_id": 8100,
+              "member": "keyframes/L26_V041/145.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-7-kis",
+      "kind": "kis",
+      "text": "Đoạn clip cần tìm là cảnh quay trong một khu rừng, dưới gốc cây to với nhiều lá khô phủ đầy mặt đất. Nổi bật ở cận cảnh là một chú chim có bộ lông đen ánh xanh ở đầu và thân trên, còn cánh và lưng màu nâu đỏ. Đôi mắt chim đỏ rực, tạo điểm nhấn rõ ràng. Đây là loài chim thường thấy ở vùng Nam Bộ Việt Nam.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 283,
+              "member": "keyframes/L27_V011/028.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 4559,
+              "member": "keyframes/L27_V011/176.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 7688,
+              "member": "keyframes/L27_V011/223.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 7970,
+              "member": "keyframes/L27_V011/227.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1655,
+              "member": "keyframes/L27_V011/114.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 3072,
+              "member": "keyframes/L27_V011/146.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1639,
+              "member": "keyframes/L27_V011/099.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 7187,
+              "member": "keyframes/L27_V011/216.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 7040,
+              "member": "keyframes/L27_V011/214.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1632,
+              "member": "keyframes/L27_V011/093.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 4925,
+              "member": "keyframes/L27_V011/181.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1643,
+              "member": "keyframes/L27_V011/103.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 7148,
+              "member": "keyframes/L27_V011/215.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 6745,
+              "member": "keyframes/L27_V011/209.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 1607,
+              "member": "keyframes/L27_V011/070.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L27_V011",
+          "frames": [
+            {
+              "frame_id": 2538,
+              "member": "keyframes/L27_V011/136.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-8-kis",
+      "kind": "kis",
+      "text": "Đoạn video về một lễ hội ẩm thực Nhật Bản lớn nhất thế giới. Hãy tìm chính xác phân cảnh một cô bé đeo một con bạch tuộc / con mực màu đỏ phía trước ngực. Trên tay cô bé có cầm một chiếc túi giấy.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L22_V030",
+          "frames": [
+            {
+              "frame_id": 17250,
+              "member": "keyframes/L22_V030/176.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L22_V030",
+          "frames": [
+            {
+              "frame_id": 17700,
+              "member": "keyframes/L22_V030/183.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L22_V030",
+          "frames": [
+            {
+              "frame_id": 18300,
+              "member": "keyframes/L22_V030/193.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L22_V027",
+          "frames": [
+            {
+              "frame_id": 20702,
+              "member": "keyframes/L22_V027/170.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L22_V019",
+          "frames": [
+            {
+              "frame_id": 16863,
+              "member": "keyframes/L22_V019/154.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L22_V017",
+          "frames": [
+            {
+              "frame_id": 7814,
+              "member": "keyframes/L22_V017/083.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L26_V123",
+          "frames": [
+            {
+              "frame_id": 6144,
+              "member": "keyframes/L26_V123/121.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L26_V338",
+          "frames": [
+            {
+              "frame_id": 3546,
+              "member": "keyframes/L26_V338/087.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L21_V025",
+          "frames": [
+            {
+              "frame_id": 25800,
+              "member": "keyframes/L21_V025/254.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L21_V025",
+          "frames": [
+            {
+              "frame_id": 28576,
+              "member": "keyframes/L21_V025/278.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L21_V025",
+          "frames": [
+            {
+              "frame_id": 24360,
+              "member": "keyframes/L21_V025/244.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L21_V025",
+          "frames": [
+            {
+              "frame_id": 29035,
+              "member": "keyframes/L21_V025/284.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 36000,
+              "member": "keyframes/L25_V001/333.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 34200,
+              "member": "keyframes/L25_V001/321.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V036",
+          "frames": [
+            {
+              "frame_id": 36000,
+              "member": "keyframes/L25_V036/332.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V010",
+          "frames": [
+            {
+              "frame_id": 17400,
+              "member": "keyframes/L25_V010/183.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query-p1-9-kis",
+      "kind": "kis",
+      "text": "Đoạn clip là cảnh thu hoạch dứa ở miền Tây: một bà cụ ngồi bên giỏ dứa trò chuyện với cô gái mặc áo hồng quàng khăn rằn; xung quanh chất đầy dứa, phía sau có người phụ nữ đội nón lá cầm trái dứa và một chiếc ghe xanh đậu cạnh bờ, tạo không khí nông thôn mộc mạc, yên bình.",
+      "candidates": [
+        {
+          "rank": 1,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 12750,
+              "member": "keyframes/L25_V064/158.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 12000,
+              "member": "keyframes/L25_V064/153.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 13650,
+              "member": "keyframes/L25_V064/164.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 21600,
+              "member": "keyframes/L25_V001/237.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 13800,
+              "member": "keyframes/L25_V064/165.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 22650,
+              "member": "keyframes/L25_V001/244.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "video_id": "L25_V001",
+          "frames": [
+            {
+              "frame_id": 23100,
+              "member": "keyframes/L25_V001/247.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 14550,
+              "member": "keyframes/L25_V064/170.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 11850,
+              "member": "keyframes/L25_V064/152.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 14400,
+              "member": "keyframes/L25_V064/169.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 11,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48000,
+              "member": "keyframes/L25_V081/427.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 12,
+          "video_id": "L25_V064",
+          "frames": [
+            {
+              "frame_id": 12900,
+              "member": "keyframes/L25_V064/159.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 13,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 46950,
+              "member": "keyframes/L25_V081/420.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 14,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 47850,
+              "member": "keyframes/L25_V081/426.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 15,
+          "video_id": "L25_V007",
+          "frames": [
+            {
+              "frame_id": 42209,
+              "member": "keyframes/L25_V007/384.jpg"
+            }
+          ]
+        },
+        {
+          "rank": 16,
+          "video_id": "L25_V081",
+          "frames": [
+            {
+              "frame_id": 48750,
+              "member": "keyframes/L25_V081/432.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
