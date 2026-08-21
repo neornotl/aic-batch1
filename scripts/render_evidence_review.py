@@ -26,7 +26,15 @@ COLUMNS = 4
 
 
 def _archive_code(video_id: str) -> str:
-    return video_id.split("_", 1)[0]
+    prefix, number_text = video_id.split("_V", 1)
+    # L26 keyframes were published in five 100-video archives, unlike the
+    # other batches which use one archive per L number.
+    if prefix == "L26":
+        number = int(number_text)
+        if not 1 <= number <= 499:
+            raise ValueError(f"Unexpected L26 video number: {video_id}")
+        return f"L26_{chr(ord('a') + (number - 1) // 100)}"
+    return prefix
 
 
 def _selected(plan: dict, names: set[str]) -> list[dict]:
