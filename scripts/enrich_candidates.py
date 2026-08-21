@@ -11,9 +11,13 @@ def transcribe(path: Path) -> list[dict]:
         from faster_whisper import WhisperModel
     except ImportError:
         return []
-    model = WhisperModel(os.getenv("AIC_WHISPER_MODEL", "small"), device="cpu", compute_type="int8")
-    segments, _ = model.transcribe(str(path), language=os.getenv("AIC_WHISPER_LANGUAGE", "vi"))
-    return [{"start": float(s.start), "end": float(s.end), "text": s.text.strip()} for s in segments]
+    try:
+        model = WhisperModel(os.getenv("AIC_WHISPER_MODEL", "small"), device="cpu", compute_type="int8")
+        segments, _ = model.transcribe(str(path), language=os.getenv("AIC_WHISPER_LANGUAGE", "vi"))
+        return [{"start": float(s.start), "end": float(s.end), "text": s.text.strip()} for s in segments]
+    except Exception as e:
+        print(f"ASR failed for {path}: {e}")
+        return []
 
 
 def main() -> None:

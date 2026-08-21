@@ -53,6 +53,9 @@ def main() -> None:
                         chunk_size=args.chunk_mb * 1024 * 1024,
                     )
                     break
+                except KeyError:
+                    print(f"SKIP: {video_id} not found in archive")
+                    return video_id, 0
                 except Exception as error:
                     last_error = error
                     output.unlink(missing_ok=True)
