@@ -10,7 +10,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .index import build_index, refresh_search_text
+from .index import build_index, ensure_indexes, refresh_search_text
 from .context import build_video_context_index
 from .manifest import build_manifest
 from .retrieve import export_submission, search
@@ -99,6 +99,7 @@ def main() -> None:
     elif args.command == "context":
         connection = sqlite3.connect(args.database)
         try:
+            ensure_indexes(connection)
             print(build_video_context_index(connection, args.max_samples))
         finally:
             connection.close()
@@ -128,6 +129,9 @@ def main() -> None:
         print(len(rows))
     elif args.command == "batch":
         args.output.mkdir(parents=True, exist_ok=True)
+        # One upfront write so parallel workers only ever read.
+        with sqlite3.connect(args.database) as setup:
+            ensure_indexes(setup)
         terra_adapter = TerraAdapter()
         if not terra_adapter.key:
             terra_adapter = None
@@ -163,6 +167,7 @@ def main() -> None:
     else:
         connection = sqlite3.connect(args.database)
         try:
+            ensure_indexes(connection)
             pool_limit = max(args.limit, 300 if args.rerank else args.limit)
             expansions = None
             if args.terra_expand:

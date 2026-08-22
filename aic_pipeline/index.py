@@ -32,7 +32,21 @@ CREATE VIRTUAL TABLE IF NOT EXISTS keyframes_fts USING fts5(
   keyframe_id UNINDEXED, text, content='keyframes', content_rowid='rowid',
   tokenize='unicode61 remove_diacritics 2'
 );
+CREATE INDEX IF NOT EXISTS idx_keyframes_video_number
+  ON keyframes(video_id, keyframe_number);
 """
+
+
+def ensure_indexes(connection: sqlite3.Connection) -> None:
+    """Create supporting indexes on databases built before they existed.
+
+    Idempotent and cheap once present; neighbor lookups and the video-context
+    build otherwise degrade to full table scans on large corpora.
+    """
+    connection.execute(
+        "CREATE INDEX IF NOT EXISTS idx_keyframes_video_number ON keyframes(video_id, keyframe_number)"
+    )
+    connection.commit()
 
 
 def build_index(manifest: Path, database: Path) -> int:

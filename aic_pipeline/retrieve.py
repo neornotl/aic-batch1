@@ -200,37 +200,45 @@ def _dense_results(connection: sqlite3.Connection, query: str, dense_dir: Path |
             _dense_index = DenseIndex(dense_dir)
             _dense_index_dir = dense_dir
         ranked = _dense_index.search(vector, candidate_limit)
+    row_map = _rows_for_keyframe_ids(connection, [keyframe_id for keyframe_id, _ in ranked])
     results = []
     for keyframe_id, score in ranked:
-        cursor = connection.execute("SELECT * FROM keyframes WHERE keyframe_id=?", (keyframe_id,))
-        row = cursor.fetchone()
-        if row is None:
+        item = row_map.get(keyframe_id)
+        if item is None:
             continue
-        columns = [column[0] for column in cursor.description]
-        item = dict(zip(columns, row))
         item["dense_score"] = score
         results.append(item)
     return results
 
+_feature_model = None
+_feature_tokenizer = None
+
+
 def _feature_results(connection: sqlite3.Connection, query: str, feature_dir: Path | None, limit: int) -> list[dict]:
     """Use precomputed CLIP/SigLIP vectors when BTC or a local extractor supplied them."""
     if feature_dir is None or not (feature_dir / "vectors.npy").exists(): return []
+    global _feature_model, _feature_tokenizer
     model_name = __import__("os").getenv("AIC_CLIP_TEXT_MODEL", "openai/clip-vit-base-patch32")
     try:
         from transformers import AutoModel, AutoTokenizer
         import torch
-        model, tokenizer = AutoModel.from_pretrained(model_name), AutoTokenizer.from_pretrained(model_name)
+        if _feature_model is None or _feature_tokenizer is None:
+            _feature_model = AutoModel.from_pretrained(model_name)
+            _feature_tokenizer = AutoTokenizer.from_pretrained(model_name)
         with torch.no_grad():
-            vector = model.get_text_features(**tokenizer(query, return_tensors="pt"))[0].numpy()
+            vector = _feature_model.get_text_features(**_feature_tokenizer(query, return_tensors="pt"))[0].numpy()
         vector = vector / max(np.linalg.norm(vector), 1e-8)
     except Exception:
         return []
     from .dense import DenseIndex
-    result=[]
-    for keyframe_id, score in DenseIndex(feature_dir).search(vector.astype("float32"), limit):
-        cur=connection.execute("SELECT * FROM keyframes WHERE keyframe_id=?", (keyframe_id,)); row=cur.fetchone()
-        if row:
-            item=dict(zip([c[0] for c in cur.description], row)); item["clip_score"]=score; result.append(item)
+    ranked = DenseIndex(feature_dir).search(vector.astype("float32"), limit)
+    row_map = _rows_for_keyframe_ids(connection, [keyframe_id for keyframe_id, _ in ranked])
+    result = []
+    for keyframe_id, score in ranked:
+        item = row_map.get(keyframe_id)
+        if item:
+            item["clip_score"] = score
+            result.append(item)
     return result
 
 
