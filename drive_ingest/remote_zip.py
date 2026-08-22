@@ -15,6 +15,8 @@ class RemoteFile:
         return self.pos
     def tell(self): return self.pos
     def read(self, n=-1):
+        if self.pos >= self.size:
+            return b''
         if n<0: n=self.size-self.pos
         if n<=0:return b''
         end=min(self.size,self.pos+n)-1
