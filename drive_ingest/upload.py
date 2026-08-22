@@ -10,7 +10,6 @@ import re
 import subprocess
 import sys
 import tempfile
-import urllib.request
 import zipfile
 
 try:
@@ -59,12 +58,15 @@ def stream_url_to_drive(url, destination):
     print(f"streaming archive -> {destination}", flush=True)
     proc = subprocess.Popen(rclone("rcat", destination), stdin=subprocess.PIPE)
     try:
-        with urllib.request.urlopen(url, timeout=120) as src:
-            while True:
-                block = src.read(8 * 1024 * 1024)
-                if not block:
-                    break
-                proc.stdin.write(block)
+        # The BTC host permits Range reads but rejects a plain full-file GET.
+        # RemoteFile therefore keeps this upload diskless while respecting the
+        # server's access pattern.
+        src = RemoteFile(url)
+        while True:
+            block = src.read(8 * 1024 * 1024)
+            if not block:
+                break
+            proc.stdin.write(block)
         proc.stdin.close()
         code = proc.wait()
     except Exception:
@@ -105,6 +107,16 @@ def write_batch_timestamps(destination, video_ids, timelines):
     os.unlink(tmp)
 
 
+def drive_exists(path):
+    probe = subprocess.run(rclone("lsjson", path), capture_output=True, text=True)
+    if probe.returncode != 0:
+        return False
+    try:
+        return bool(json.loads(probe.stdout))
+    except json.JSONDecodeError:
+        return False
+
+
 def upload_videos(archive, folder):
     catalog = []
     z = zipfile.ZipFile(RemoteFile(BASE + archive))
@@ -116,6 +128,11 @@ def upload_videos(archive, folder):
             continue
         vid = match.group(1)
         dest = f"{folder}/{vid[:3]}/{vid}/{vid}.mp4"
+        if drive_exists(dest):
+            print(f"already present {vid}; skipping", flush=True)
+            catalog.append({"video_id": vid, "archive": archive,
+                            "member": info.filename, "drive_path": dest})
+            continue
         print(f"uploading {vid}", flush=True)
         proc = subprocess.Popen(rclone("rcat", dest), stdin=subprocess.PIPE)
         try:
