@@ -39,12 +39,13 @@ LOGICAL_BATCHES = {
        for p in "abcde"},
 }
 
-# One transfer at a time and large resumable chunks reduce Drive API calls.
+# Two transfers per runner and large resumable chunks improve throughput while
+# retaining conservative Drive API pacing and retry behavior.
 RCLONE_PACING = [
-    "--tpslimit", "1", "--tpslimit-burst", "1",
-    "--drive-pacer-min-sleep", "10s", "--drive-pacer-burst", "1",
-    "--transfers", "1", "--checkers", "1",
-    "--drive-chunk-size", "256M",
+    "--tpslimit", "2", "--tpslimit-burst", "2",
+    "--drive-pacer-min-sleep", "5s", "--drive-pacer-burst", "2",
+    "--transfers", "2", "--checkers", "2",
+    "--drive-chunk-size", "512M",
     "--retries", "6", "--low-level-retries", "20", "--retries-sleep", "30s",
 ]
 

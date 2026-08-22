@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      max-parallel: 1
+      # Two independent batches use the runner bandwidth better while keeping
+      # Drive request pressure bounded.  The uploader itself skips completed
+      # files and retries transient failures.
+      max-parallel: 2
       matrix:
         archive:
           - L21
