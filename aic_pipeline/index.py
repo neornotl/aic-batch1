@@ -6,6 +6,8 @@ import json
 import sqlite3
 from pathlib import Path
 
+from .manifest import build_search_text
+
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS keyframes (
@@ -53,7 +55,7 @@ def build_index(manifest: Path, database: Path) -> int:
                     item["path"], item.get("caption", ""), item.get("ocr", ""),
                      item.get("objects", ""), item.get("detector_classes", ""), item.get("object_entities", ""),
                      item.get("asr", ""), item.get("media_info", ""),
-                    item.get("text", ""),
+                    build_search_text(item),
                 ))
                 if len(rows) >= 2000:
                     connection.executemany(
@@ -71,3 +73,27 @@ def build_index(manifest: Path, database: Path) -> int:
         return int(connection.execute("SELECT COUNT(*) FROM keyframes").fetchone()[0])
     finally:
         connection.close()
+
+
+def refresh_search_text(connection: sqlite3.Connection) -> int:
+    """Migrate an existing index away from repeated long video descriptions."""
+    cursor = connection.execute(
+        """SELECT rowid, video_id, caption, ocr, objects, detector_classes,
+                  object_entities, asr, media_info FROM keyframes"""
+    )
+    columns = [column[0] for column in cursor.description]
+    batch = []
+    count = 0
+    for row in cursor:
+        item = dict(zip(columns, row))
+        batch.append((build_search_text(item), item["rowid"]))
+        if len(batch) >= 2000:
+            connection.executemany("UPDATE keyframes SET text=? WHERE rowid=?", batch)
+            count += len(batch)
+            batch.clear()
+    if batch:
+        connection.executemany("UPDATE keyframes SET text=? WHERE rowid=?", batch)
+        count += len(batch)
+    connection.execute("INSERT INTO keyframes_fts(keyframes_fts) VALUES ('rebuild')")
+    connection.commit()
+    return count
