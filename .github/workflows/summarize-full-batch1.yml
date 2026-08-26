@@ -42,7 +42,7 @@ jobs:
         run: |
           test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
           mkdir -p summaries
-          python scripts/summarize_official_videos.py \
+          PYTHONPATH=. python scripts/summarize_official_videos.py \
             --batch "$BATCH" \
             --workers "$WORKERS" \
             --output "summaries/video_summaries_${BATCH}.jsonl"
