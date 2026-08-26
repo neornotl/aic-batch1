@@ -17,7 +17,9 @@ import threading
 import time
 from pathlib import Path
 
-from evidence_review.range_zip import RangeZip
+# This module is tracked in the repository.  Do not depend on the local-only
+# evidence_review checkout, which is not present on GitHub Actions runners.
+from aic_pipeline.range_zip import RangeZip
 
 
 BASE = "https://aic-data.ledo.io.vn/"
