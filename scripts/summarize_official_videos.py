@@ -77,6 +77,15 @@ def parse_response(text: str) -> dict:
     return parsed if isinstance(parsed, dict) else {"summary": value[:12000], "confidence": "low"}
 
 
+def is_transient_vertex_error(error: Exception) -> bool:
+    """Return whether an error is worth retrying after a quota cooldown."""
+    text = repr(error).upper()
+    return any(marker in text for marker in (
+        "429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE",
+        "DEADLINE_EXCEEDED", "INTERNAL",
+    ))
+
+
 def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path,
                   model: str, batch: str, bucket_name: str) -> dict:
     """Download one source video, summarize it through Vertex, then clean up.
@@ -172,14 +181,19 @@ def main() -> None:
     def run(item: tuple[str, str]) -> dict:
         video_id, member = item
         last = None
-        for attempt in range(3):
+        for attempt in range(6):
             try:
                 return summarize_one(video_id, member, archive, args.output,
                                      args.model, args.batch, args.gcs_bucket)
             except Exception as error:  # noqa: BLE001
                 last = error
-                if attempt < 2:
-                    time.sleep(5 * (attempt + 1))
+                if attempt < 5:
+                    if is_transient_vertex_error(error):
+                        # Vertex quota errors often need a real cooldown; the
+                        # old 5/10-second retry loop exhausted too quickly.
+                        time.sleep(min(120, 10 * (2 ** attempt)))
+                    else:
+                        time.sleep(5 * (attempt + 1))
         return {"status": "error", "video_id": video_id, "source_member": member,
                 "error": repr(last)}
 
