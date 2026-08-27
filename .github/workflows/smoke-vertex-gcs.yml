@@ -6,17 +6,6 @@ on:
       - codex/vertex-gcs-summaries
   workflow_dispatch:
     inputs:
-      batch:
-        description: "One logical batch to smoke-test"
-        required: false
-        default: "L21"
-        type: string
-      limit:
-        description: "Number of videos to process"
-        required: false
-        default: "1"
-        type: string
-
 jobs:
   smoke:
     runs-on: ubuntu-latest
@@ -27,15 +16,24 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: python -m pip install --disable-pip-version-check requests google-genai google-cloud-storage
-      - name: Summarize one video through Vertex and GCS
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install --disable-pip-version-check google-genai google-cloud-storage
+      - name: Generate tiny test video
+        run: |
+          ffmpeg -hide_banner -loglevel error \
+            -f lavfi -i color=c=navy:s=320x180:r=10 \
+            -f lavfi -i sine=frequency=440:sample_rate=16000 \
+            -t 3 -c:v libx264 -pix_fmt yuv420p -c:a aac -b:a 32k \
+            "$RUNNER_TEMP/smoke.mp4"
+      - name: Upload test video and call Vertex through GCS
         env:
           VERTEX_API_KEY: ${{ secrets.VERTEX_API_KEY }}
           GCS_SA_JSON: ${{ secrets.GCS_SERVICE_ACCOUNT_JSON || secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
           GOOGLE_CLOUD_PROJECT: aic2026-drive-ingest
           GCS_BUCKET: run-sources-aic2026-drive-ingest-us-central1
-          BATCH: ${{ inputs.batch || 'L21' }}
-          LIMIT: ${{ inputs.limit || '1' }}
+          VERTEX_MODEL: gemini-2.5-flash
         run: |
           set -euo pipefail
           test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
@@ -43,16 +41,13 @@ jobs:
           printf '%s' "$GCS_SA_JSON" > "$RUNNER_TEMP/gcs-sa.json"
           export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/gcs-sa.json"
           mkdir -p summaries
-          PYTHONPATH=. python scripts/summarize_official_videos.py \
-            --batch "$BATCH" \
-            --limit "$LIMIT" \
-            --workers 1 \
-            --gcs-bucket "$GCS_BUCKET" \
-            --output "summaries/video_summaries_${BATCH}_smoke.jsonl"
+          PYTHONPATH=. python scripts/smoke_vertex_gcs.py \
+            "$RUNNER_TEMP/smoke.mp4" \
+            summaries/video_summaries_smoke.jsonl
       - name: Upload smoke artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vertex-gcs-smoke-${{ inputs.batch || 'L21' }}
-          path: summaries/video_summaries_${{ inputs.batch || 'L21' }}_smoke.jsonl
+          name: vertex-gcs-smoke
+          path: summaries/video_summaries_smoke.jsonl
           if-no-files-found: error
           retention-days: 7
