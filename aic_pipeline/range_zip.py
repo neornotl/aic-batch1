@@ -102,6 +102,34 @@ class RangeZip:
             offset = header[16]
             name_start = cursor + 46
             name = directory[name_start:name_start + filename_size].decode("utf-8")
+            extra_start = name_start + filename_size
+            extra = directory[extra_start:extra_start + extra_size]
+            # ZIP64 archives saturate 32-bit size/offset fields at 0xffffffff
+            # and store the real values in extra field 0x0001.  Several BTC
+            # video archives cross the 4 GiB boundary after the early videos.
+            extra_cursor = 0
+            while extra_cursor + 4 <= len(extra):
+                field_id, field_size = struct.unpack_from("<HH", extra, extra_cursor)
+                value = extra[extra_cursor + 4:extra_cursor + 4 + field_size]
+                extra_cursor += 4 + field_size
+                if field_id != 1:
+                    continue
+                value_cursor = 0
+                if uncompressed_size == 0xFFFFFFFF:
+                    if value_cursor + 8 > len(value):
+                        raise RuntimeError(f"truncated ZIP64 extra field for {name}")
+                    uncompressed_size = struct.unpack_from("<Q", value, value_cursor)[0]
+                    value_cursor += 8
+                if compressed_size == 0xFFFFFFFF:
+                    if value_cursor + 8 > len(value):
+                        raise RuntimeError(f"truncated ZIP64 extra field for {name}")
+                    compressed_size = struct.unpack_from("<Q", value, value_cursor)[0]
+                    value_cursor += 8
+                if offset == 0xFFFFFFFF:
+                    if value_cursor + 8 > len(value):
+                        raise RuntimeError(f"truncated ZIP64 extra field for {name}")
+                    offset = struct.unpack_from("<Q", value, value_cursor)[0]
+                break
             entries[name] = RemoteEntry(
                 name, compressed_size, uncompressed_size, offset,
                 filename_size, extra_size, compression,
