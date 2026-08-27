@@ -111,7 +111,14 @@ def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path,
     blob.chunk_size = 8 * 1024 * 1024
     with tempfile.TemporaryDirectory(prefix=f"aic-summary-{video_id}-") as temp:
         video_path = Path(temp) / f"{video_id}.mp4"
-        archive.download(member, video_path)
+        download_workers = max(1, min(
+            4, int(os.environ.get("RANGE_DOWNLOAD_WORKERS", "2"))))
+        archive.download_parallel(
+            member,
+            video_path,
+            workers=download_workers,
+            chunk_size=8 * 1024 * 1024,
+        )
         try:
             blob.upload_from_filename(str(video_path), content_type="video/mp4", timeout=900)
             response = client.models.generate_content(
