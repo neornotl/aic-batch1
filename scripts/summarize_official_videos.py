@@ -77,37 +77,70 @@ def parse_response(text: str) -> dict:
     return parsed if isinstance(parsed, dict) else {"summary": value[:12000], "confidence": "low"}
 
 
-def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path, model: str) -> dict:
-    api_key = os.environ.get("VERTEX_API_KEY") or os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise RuntimeError("VERTEX_API_KEY/GEMINI_API_KEY is missing")
-    from google import genai
+def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path,
+                  model: str, batch: str, bucket_name: str) -> dict:
+    """Download one source video, summarize it through Vertex, then clean up.
 
-    client = genai.Client(api_key=api_key)
+    The old implementation used ``client.files.upload``.  That endpoint belongs
+    to the Gemini Developer API and rejects a Vertex-restricted key.  Vertex
+    accepts a Cloud Storage URI instead, so the runner uploads the temporary
+    source to the project bucket and gives Vertex only that URI.  The object is
+    deleted in ``finally`` even when generation fails.
+    """
+    api_key = os.environ.get("VERTEX_API_KEY")
+    if not api_key:
+        raise RuntimeError("VERTEX_API_KEY is missing")
+    from google import genai
+    from google.genai import types
+    from google.cloud import storage
+
+    # Express mode keeps the existing Vertex API-key setup.  Cloud Storage is
+    # authenticated separately through GOOGLE_APPLICATION_CREDENTIALS, which
+    # is written by the workflow from the dedicated service-account secret.
+    client = genai.Client(
+        vertexai=True,
+        api_key=api_key,
+        http_options=types.HttpOptions(api_version="v1"),
+    )
+    storage_client = storage.Client(
+        project=os.environ.get("GOOGLE_CLOUD_PROJECT") or "aic2026-drive-ingest"
+    )
+    bucket = storage_client.bucket(bucket_name)
+    blob_name = f"aic-batch1-summary/{batch}/{video_id}.mp4"
+    blob = bucket.blob(blob_name)
+    blob.chunk_size = 8 * 1024 * 1024
     with tempfile.TemporaryDirectory(prefix=f"aic-summary-{video_id}-") as temp:
         video_path = Path(temp) / f"{video_id}.mp4"
-        archive.download(member, video_path)
-        uploaded = None
+        download_workers = max(1, min(
+            4, int(os.environ.get("RANGE_DOWNLOAD_WORKERS", "2"))))
+        archive.download_parallel(
+            member,
+            video_path,
+            workers=download_workers,
+            chunk_size=8 * 1024 * 1024,
+        )
         try:
-            # Files API avoids putting a potentially large source video in the
-            # request body. The temporary Gemini file is deleted after use.
-            uploaded = client.files.upload(file=str(video_path))
-            for _ in range(120):
-                state = getattr(getattr(uploaded, "state", None), "name", "")
-                if state != "PROCESSING":
-                    break
-                time.sleep(5)
-                uploaded = client.files.get(name=uploaded.name)
-            response = client.models.generate_content(model=model, contents=[uploaded, PROMPT])
+            blob.upload_from_filename(str(video_path), content_type="video/mp4", timeout=900)
+            response = client.models.generate_content(
+                model=model,
+                contents=[
+                    types.Part.from_uri(
+                        file_uri=f"gs://{bucket_name}/{blob_name}",
+                        mime_type="video/mp4",
+                    ),
+                    PROMPT,
+                ],
+            )
             parsed = parse_response(getattr(response, "text", ""))
             return {"status": "ok", "video_id": video_id, "source_member": member,
                     "model": model, **parsed}
         finally:
-            if uploaded is not None:
-                try:
-                    client.files.delete(name=uploaded.name)
-                except Exception:
-                    pass
+            try:
+                blob.delete(timeout=120)
+            except Exception as cleanup_error:  # noqa: BLE001
+                # Do not hide the generation error, but make leaked objects
+                # visible in the runner log for later cleanup.
+                print(f"{video_id}: GCS cleanup warning: {cleanup_error!r}", flush=True)
 
 
 def main() -> None:
@@ -115,6 +148,11 @@ def main() -> None:
     parser.add_argument("--batch", choices=sorted(ARCHIVES), required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=2)
+    parser.add_argument("--limit", type=int, default=0,
+                        help="Process at most this many videos (0 = whole batch)")
+    parser.add_argument("--gcs-bucket",
+                        default=os.environ.get("GCS_BUCKET",
+                                               "run-sources-aic2026-drive-ingest-us-central1"))
     parser.add_argument("--model", default=os.environ.get("VERTEX_MODEL", "gemini-2.5-flash"))
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -126,6 +164,8 @@ def main() -> None:
         if video_id and name.lower().endswith(".mp4") and video_id not in done:
             members.append((video_id, name))
     members.sort()
+    if args.limit > 0:
+        members = members[:args.limit]
     print(f"{args.batch}: {len(members)} video(s) còn phải tóm tắt; đã có {len(done)}", flush=True)
     lock = threading.Lock()
 
@@ -134,7 +174,8 @@ def main() -> None:
         last = None
         for attempt in range(3):
             try:
-                return summarize_one(video_id, member, archive, args.output, args.model)
+                return summarize_one(video_id, member, archive, args.output,
+                                     args.model, args.batch, args.gcs_bucket)
             except Exception as error:  # noqa: BLE001
                 last = error
                 if attempt < 2:
@@ -142,11 +183,21 @@ def main() -> None:
         return {"status": "error", "video_id": video_id, "source_member": member,
                 "error": repr(last)}
 
+    ok_count = 0
+    error_count = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
         for result in pool.map(run, members):
             with lock, args.output.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(result, ensure_ascii=False) + "\n")
             print(f"{result['video_id']}: {result['status']}", flush=True)
+            if result["status"] == "ok":
+                ok_count += 1
+            else:
+                error_count += 1
+
+    print(f"{args.batch}: ok={ok_count} error={error_count}", flush=True)
+    if members and ok_count == 0:
+        raise SystemExit("No successful Vertex summaries were produced; refusing a green workflow")
 
 
 if __name__ == "__main__":
