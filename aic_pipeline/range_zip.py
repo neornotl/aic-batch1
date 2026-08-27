@@ -122,11 +122,34 @@ class RangeZip:
                 return entry
         raise KeyError(name)
 
+    def _data_start(self, entry: RemoteEntry) -> int:
+        """Return the payload offset from the entry's *local* ZIP header.
+
+        A ZIP central-directory extra field is allowed to differ from the
+        local-header extra field.  The BTC archives use that legal variation
+        (the central header is four bytes shorter), so using the central
+        ``extra_size`` shifts every payload and produces corrupt MP4 files.
+        Read the local header before extracting instead of assuming both
+        headers have identical lengths.
+        """
+        header = self._request(entry.local_offset, entry.local_offset + 29)
+        if header[:4] != b"PK\x03\x04":
+            raise RuntimeError(f"local ZIP header not found for {entry.name}")
+        _, _, _, _, _, _, _, _, _, filename_size, extra_size = struct.unpack(
+            "<4s5H3I2H", header
+        )
+        if filename_size != entry.filename_size:
+            raise RuntimeError(
+                f"local filename size mismatch for {entry.name}: "
+                f"{filename_size} != {entry.filename_size}"
+            )
+        return entry.local_offset + 30 + filename_size + extra_size
+
     def download(self, name: str, output: Path) -> RemoteEntry:
         entry = self.find(name)
         if entry.compression != 0:
             raise RuntimeError(f"entry is compressed; range extraction cannot stream {entry.name}")
-        data_start = entry.local_offset + 30 + entry.filename_size + entry.extra_size
+        data_start = self._data_start(entry)
         data_end = data_start + entry.compressed_size - 1
         output.parent.mkdir(parents=True, exist_ok=True)
         with output.open("wb") as handle:
@@ -147,7 +170,7 @@ class RangeZip:
         entry = self.find(name)
         if entry.compression != 0:
             raise RuntimeError(f"entry is compressed; range extraction cannot stream {entry.name}")
-        data_start = entry.local_offset + 30 + entry.filename_size + entry.extra_size
+        data_start = self._data_start(entry)
         data_end = data_start + entry.compressed_size - 1
         ranges = [(start, min(start + chunk_size - 1, data_end))
                   for start in range(data_start, data_end + 1, chunk_size)]
