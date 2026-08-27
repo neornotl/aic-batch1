@@ -1,0 +1,55 @@
+name: Smoke test Vertex video summary via GCS
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: "One logical batch to smoke-test"
+        required: false
+        default: "L21"
+        type: string
+      limit:
+        description: "Number of videos to process"
+        required: false
+        default: "1"
+        type: string
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests google-genai google-cloud-storage
+      - name: Summarize one video through Vertex and GCS
+        env:
+          VERTEX_API_KEY: ${{ secrets.VERTEX_API_KEY }}
+          GCS_SA_JSON: ${{ secrets.GCS_SERVICE_ACCOUNT_JSON || secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_CLOUD_PROJECT: aic2026-drive-ingest
+          GCS_BUCKET: run-sources-aic2026-drive-ingest-us-central1
+          BATCH: ${{ inputs.batch }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          set -euo pipefail
+          test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
+          test -n "$GCS_SA_JSON" || { echo 'Missing GCS service-account JSON'; exit 1; }
+          printf '%s' "$GCS_SA_JSON" > "$RUNNER_TEMP/gcs-sa.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/gcs-sa.json"
+          mkdir -p summaries
+          PYTHONPATH=. python scripts/summarize_official_videos.py \
+            --batch "$BATCH" \
+            --limit "$LIMIT" \
+            --workers 1 \
+            --gcs-bucket "$GCS_BUCKET" \
+            --output "summaries/video_summaries_${BATCH}_smoke.jsonl"
+      - name: Upload smoke artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertex-gcs-smoke-${{ inputs.batch }}
+          path: summaries/video_summaries_${{ inputs.batch }}_smoke.jsonl
+          if-no-files-found: error
+          retention-days: 7
