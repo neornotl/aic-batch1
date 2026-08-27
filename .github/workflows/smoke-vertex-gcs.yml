@@ -1,6 +1,9 @@
 name: Smoke test Vertex video summary via GCS
 
 on:
+  push:
+    branches:
+      - codex/vertex-gcs-summaries
   workflow_dispatch:
     inputs:
       batch:
@@ -31,8 +34,8 @@ jobs:
           GCS_SA_JSON: ${{ secrets.GCS_SERVICE_ACCOUNT_JSON || secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
           GOOGLE_CLOUD_PROJECT: aic2026-drive-ingest
           GCS_BUCKET: run-sources-aic2026-drive-ingest-us-central1
-          BATCH: ${{ inputs.batch }}
-          LIMIT: ${{ inputs.limit }}
+          BATCH: ${{ inputs.batch || 'L21' }}
+          LIMIT: ${{ inputs.limit || '1' }}
         run: |
           set -euo pipefail
           test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
@@ -49,7 +52,7 @@ jobs:
       - name: Upload smoke artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vertex-gcs-smoke-${{ inputs.batch }}
-          path: summaries/video_summaries_${{ inputs.batch }}_smoke.jsonl
+          name: vertex-gcs-smoke-${{ inputs.batch || 'L21' }}
+          path: summaries/video_summaries_${{ inputs.batch || 'L21' }}_smoke.jsonl
           if-no-files-found: error
           retention-days: 7
