@@ -210,15 +210,14 @@ Workflow `Summarize full official Batch 1 videos` trên nhánh này:
 
 | Run | Vai trò | SHA/nhánh | Trạng thái snapshot |
 |---|---|---|---|
-| [33073572170](https://github.com/neornotl/aic-batch1/actions/runs/33073572170) | Full gốc | `main` / `13e34a7` | Còn `Summarize L29` chạy; các job khác đã kết thúc (L23, L24, L26_d, L26_e, L27, L28, L30 success; sáu batch cũ cancelled). |
+| [33073572170](https://github.com/neornotl/aic-batch1/actions/runs/33073572170) | Full gốc | `main` / `13e34a7` | **Đã cancelled** lúc L29 chạm timeout cũ; L23, L24, L26_d, L26_e, L27, L28, L30 success; sáu batch cũ và L29 chưa có summary hoàn chỉnh. |
 | [33141325971](https://github.com/neornotl/aic-batch1/actions/runs/33141325971) | Repair 10 ID | `codex/summary-parser-repair` / `16f9bb4` | **Hoàn tất success**; 10/10 rows `status=ok`, đủ schema, không còn error trong artifact repair. |
 | [33141595264](https://github.com/neornotl/aic-batch1/actions/runs/33141595264) | Dispatch nhầm | `codex/summary-parser-repair` | Đã hủy ngay vì điều kiện ban đầu tạo thêm full matrix; không phải run full gốc. |
 | [33141702955](https://github.com/neornotl/aic-batch1/actions/runs/33141702955) | Resume sáu batch | `codex/summary-parser-repair` / `7308203` | L22 đã xong (31 rows: 25 `ok`, 6 `error` do response JSON bị cắt ở giới hạn output); L21 và L25 đang chạy, L26_a/L26_b/L26_c còn queued. |
 
-Hậu kiểm GCS: hiện có 8 object. Ba object thuộc job đang chạy (`L21_V029`,
-`L25_V026`, `L29_V023`); năm object còn lại là stale candidate từ job cũ/queued
-(`L23_V001`, `L24_V002`, `L26_a/L26_V002`, `L26_b/L26_V116`,
-`L26_c/L26_V274`). Chưa xóa khi workflow còn hoạt động.
+Hậu kiểm GCS: prefix `aic-batch1-summary/` hiện **trống** sau khi full L29 bị
+cancelled và resume tiếp tục chạy. Cần kiểm tra lại sau mỗi job; một object đang
+được upload có thể xuất hiện tạm thời giữa hai lần kiểm tra.
 
 ## 7. Tiêu chí “đủ đưa vào RAG”
 
