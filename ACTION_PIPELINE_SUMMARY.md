@@ -210,10 +210,10 @@ Workflow `Summarize full official Batch 1 videos` trên nhánh này:
 
 | Run | Vai trò | SHA/nhánh | Trạng thái snapshot |
 |---|---|---|---|
-| [33073572170](https://github.com/neornotl/aic-batch1/actions/runs/33073572170) | Full gốc | `main` / `13e34a7` | Vẫn để chạy; không tự hủy. Đã có batch thành công, sáu batch timeout/cancel. |
-| [33141325971](https://github.com/neornotl/aic-batch1/actions/runs/33141325971) | Repair 10 ID | `codex/summary-parser-repair` / `16f9bb4` | Đã dispatch độc lập; parser validation đã có. MIME structured mới áp dụng cho lần chạy sau. |
+| [33073572170](https://github.com/neornotl/aic-batch1/actions/runs/33073572170) | Full gốc | `main` / `13e34a7` | Còn `Summarize L29` chạy; các job khác đã kết thúc (L23, L24, L26_d, L26_e, L27, L28, L30 success; sáu batch cũ cancelled). |
+| [33141325971](https://github.com/neornotl/aic-batch1/actions/runs/33141325971) | Repair 10 ID | `codex/summary-parser-repair` / `16f9bb4` | **Hoàn tất success**; 10/10 rows `status=ok`, đủ schema, không còn error trong artifact repair. |
 | [33141595264](https://github.com/neornotl/aic-batch1/actions/runs/33141595264) | Dispatch nhầm | `codex/summary-parser-repair` | Đã hủy ngay vì điều kiện ban đầu tạo thêm full matrix; không phải run full gốc. |
-| [33141702955](https://github.com/neornotl/aic-batch1/actions/runs/33141702955) | Resume sáu batch | `codex/summary-parser-repair` / `7308203` | Đã dispatch đúng; chỉ job Resume L21/L22/L25/L26_a/L26_b/L26_c chạy. |
+| [33141702955](https://github.com/neornotl/aic-batch1/actions/runs/33141702955) | Resume sáu batch | `codex/summary-parser-repair` / `7308203` | Đang chạy đúng 6 job resume; tại snapshot L21/L22 đang xử lý, L25/L26_a/L26_b/L26_c còn queued. |
 
 ## 7. Tiêu chí “đủ đưa vào RAG”
 
@@ -260,4 +260,3 @@ Workflow `Summarize full official Batch 1 videos` trên nhánh này:
 - Drive notes: `drive_ingest/README.md`
 - Branch sửa: `https://github.com/neornotl/aic-batch1/tree/codex/summary-parser-repair`
 - Root Drive: `https://drive.google.com/drive/folders/1E8u-YURTRexdR1Ax4Hu2aq7Vt646VQuN`
-
