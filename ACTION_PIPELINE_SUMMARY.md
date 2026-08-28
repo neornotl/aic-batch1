@@ -219,12 +219,13 @@ Workflow `Summarize full official Batch 1 videos` trên nhánh này:
 | [33141595264](https://github.com/neornotl/aic-batch1/actions/runs/33141595264) | Dispatch nhầm | `codex/summary-parser-repair` | Đã hủy ngay vì điều kiện ban đầu tạo thêm full matrix; không phải run full gốc. |
 | [33141702955](https://github.com/neornotl/aic-batch1/actions/runs/33141702955) | Resume sáu batch | `codex/summary-parser-repair` / `7308203` | L21 và L22 success; L25/L26_a đang chạy; L26_b/L26_c queued. L22 cũ còn 6 lỗi do response bị cắt. |
 | [33152076394](https://github.com/neornotl/aic-batch1/actions/runs/33152076394) | Compact repair L22 | `codex/summary-parser-repair` / `6c6ea54` | **Success**; artifact có đúng 6 target, 6/6 `status=ok`, đủ schema, không còn `raw_response_truncated`; Drive publish thành công. |
-| [33152078590](https://github.com/neornotl/aic-batch1/actions/runs/33152078590) | Resume riêng L29 | `codex/summary-parser-repair` / `6c6ea54` | **Đang chạy**; 23 video L29, timeout 720 phút, concurrency độc lập. |
+| [33152078590](https://github.com/neornotl/aic-batch1/actions/runs/33152078590) | Resume riêng L29 | `codex/summary-parser-repair` / `6c6ea54` | **Success**; artifact 23 rows, 22 `ok`, 1 `error` (`L29_V023`: `RemoteProtocolError` khi tải nguồn); đủ schema cho 22 rows, artifact và Drive publish thành công. Cần retry riêng L29_V023. |
 
-Hậu kiểm GCS lúc `2026-08-28T08:25Z`: prefix `aic-batch1-summary/` có 9 object,
-tổng khoảng 1.17 GiB. Ba object mới tương ứng worker đang chạy (L25, L26_a,
-L29); sáu object cũ (L23, L24, L25_V026, L26_b, L26_c, L29_V023) có dấu hiệu
-rò và chỉ nên dọn sau khi mọi worker kết thúc. Không xóa trong lúc job còn chạy.
+Hậu kiểm GCS lúc `2026-08-28T11:37Z`: prefix `aic-batch1-summary/` có 6 object,
+tổng khoảng 547 MiB. Hai object mới tương ứng worker đang chạy (L25, L26_a);
+bốn object cũ (L23, L24, L26_b, L26_c) có dấu hiệu rò và chỉ nên dọn sau khi
+mọi worker kết thúc. L29 đã cleanup object của nó. Không xóa trong lúc job còn
+chạy.
 
 ## 7. Tiêu chí “đủ đưa vào RAG”
 
