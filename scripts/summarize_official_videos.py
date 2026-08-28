@@ -48,6 +48,12 @@ thông tin nào, dùng chuỗi rỗng hoặc mảng rỗng; không suy đoán. C
 một object JSON; mọi dấu ngoặc kép nằm trong nội dung chuỗi phải được escape
 bằng dấu gạch chéo ngược (\\\")."""
 
+COMPACT_PROMPT = PROMPT + """
+Đây là chế độ retry tiết kiệm output. Giữ đủ mọi trường trong schema nhưng viết
+ngắn gọn: summary tối đa khoảng 700 ký tự, timeline tối đa 12 mốc, mỗi mô tả
+ngắn, visual_entities/actions/locations/search_keywords mỗi mảng tối đa 25 mục,
+on_screen_text chỉ giữ chữ quan trọng. Không lặp lại danh sách tin tức dài."""
+
 
 REQUIRED_FIELDS = {
     "summary": str,
@@ -160,7 +166,7 @@ def is_transient_vertex_error(error: Exception) -> bool:
 
 
 def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path,
-                  model: str, batch: str, bucket_name: str) -> dict:
+                  model: str, batch: str, bucket_name: str, prompt: str) -> dict:
     """Download one source video, summarize it through Vertex, then clean up.
 
     The old implementation used ``client.files.upload``.  That endpoint belongs
@@ -210,7 +216,7 @@ def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path,
                         file_uri=f"gs://{bucket_name}/{blob_name}",
                         mime_type="video/mp4",
                     ),
-                    PROMPT,
+                    prompt,
                 ],
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
@@ -253,6 +259,8 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--video-ids", default="",
                         help="Comma-separated IDs to process (empty = whole batch)")
+    parser.add_argument("--compact", action="store_true",
+                        help="Use a concise schema-complete prompt for truncated-response retries")
     parser.add_argument("--limit", type=int, default=0,
                         help="Process at most this many videos (0 = whole batch)")
     parser.add_argument("--gcs-bucket",
@@ -284,7 +292,8 @@ def main() -> None:
         for attempt in range(6):
             try:
                 return summarize_one(video_id, member, archive, args.output,
-                                     args.model, args.batch, args.gcs_bucket)
+                                     args.model, args.batch, args.gcs_bucket,
+                                     COMPACT_PROMPT if args.compact else PROMPT)
             except Exception as error:  # noqa: BLE001
                 last = error
                 if attempt < 5:

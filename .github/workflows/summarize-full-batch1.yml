@@ -23,14 +23,24 @@ on:
         required: false
         default: false
         type: boolean
+      compact:
+        description: "Use a concise schema-complete prompt for truncated-response retries"
+        required: false
+        default: false
+        type: boolean
+      resume_l29:
+        description: "Run L29 in an isolated resume job"
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
-  group: ${{ inputs.resume && 'aic-video-summary-resume' || inputs.repair && 'aic-video-summary-repair' || 'aic-video-summary-batch1' }}
+  group: ${{ inputs.resume_l29 && 'aic-video-summary-resume-l29' || inputs.resume && 'aic-video-summary-resume' || inputs.repair && 'aic-video-summary-repair' || 'aic-video-summary-batch1' }}
   cancel-in-progress: false
 
 jobs:
   summarize:
-    if: ${{ !inputs.repair && !inputs.resume }}
+    if: ${{ !inputs.repair && !inputs.resume && !inputs.resume_l29 }}
     name: Summarize ${{ matrix.batch }}
     runs-on: ubuntu-latest
     # A full range-download + Vertex pass can exceed five hours on a busy
@@ -121,7 +131,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        batch: [L23, L24, L26_d, L28]
+        batch: [L22, L23, L24, L26_d, L28]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -142,6 +152,7 @@ jobs:
           BATCH: ${{ matrix.batch }}
           WORKERS: ${{ inputs.workers }}
           TARGETS: ${{ inputs.targets }}
+          COMPACT: ${{ inputs.compact }}
         run: |
           test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
           test -n "$GCS_SA_JSON" || { echo 'Missing GCS_SERVICE_ACCOUNT_JSON (or GDRIVE_SERVICE_ACCOUNT_JSON)'; exit 1; }
@@ -156,10 +167,12 @@ jobs:
           PY
           export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/gcs-sa.json"
           mkdir -p summaries
+          if test "$COMPACT" = "true"; then COMPACT_ARG=--compact; else COMPACT_ARG=; fi
           PYTHONPATH=. python scripts/summarize_official_videos.py \
             --batch "$BATCH" \
             --workers "$WORKERS" \
             --video-ids "$TARGETS" \
+            $COMPACT_ARG \
             --gcs-bucket "$GCS_BUCKET" \
             --output "summaries/video_summaries_repair_${BATCH}.jsonl"
       - name: Upload repair artifact
@@ -277,4 +290,80 @@ jobs:
           export RCLONE_CONFIG="$RUNNER_TEMP/rclone/rclone.conf"
           rclone copyto "summaries/video_summaries_${BATCH}.jsonl" \
             "drive:03_Video_Summaries/video_summaries_${BATCH}.jsonl" \
+            --transfers 1 --checkers 1 --retries 6 --low-level-retries 20
+
+  resume_l29:
+    if: ${{ inputs.resume_l29 }}
+    name: Resume L29
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg rclone
+          python -m pip install --disable-pip-version-check requests google-genai google-cloud-storage
+      - name: Resume L29 summary
+        env:
+          VERTEX_API_KEY: ${{ secrets.VERTEX_API_KEY }}
+          GCS_SA_JSON: ${{ secrets.GCS_SERVICE_ACCOUNT_JSON || secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          VERTEX_MODEL: gemini-2.5-flash
+          GCS_BUCKET: run-sources-aic2026-drive-ingest-us-central1
+          GOOGLE_CLOUD_PROJECT: aic2026-drive-ingest
+          BATCH: L29
+          WORKERS: ${{ inputs.workers }}
+        run: |
+          test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
+          test -n "$GCS_SA_JSON" || { echo 'Missing GCS_SERVICE_ACCOUNT_JSON (or GDRIVE_SERVICE_ACCOUNT_JSON)'; exit 1; }
+          printf '%s' "$GCS_SA_JSON" > "$RUNNER_TEMP/gcs-sa.json"
+          python - "$RUNNER_TEMP/gcs-sa.json" <<'PY'
+          import json, sys
+          with open(sys.argv[1], encoding="utf-8") as handle:
+              payload = json.load(handle)
+          if payload.get("type") != "service_account" or not payload.get("client_email"):
+              raise SystemExit("GCS credential is not a service-account JSON key")
+          print("Using configured GCS service account for temporary video objects")
+          PY
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/gcs-sa.json"
+          mkdir -p summaries
+          PYTHONPATH=. python scripts/summarize_official_videos.py \
+            --batch "$BATCH" \
+            --workers "$WORKERS" \
+            --gcs-bucket "$GCS_BUCKET" \
+            --output "summaries/video_summaries_${BATCH}.jsonl"
+      - name: Upload L29 artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-summaries-resume-L29
+          path: summaries/video_summaries_L29.jsonl
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Publish L29 summary to Drive
+        if: always()
+        env:
+          OAUTH_CONFIG: ${{ secrets.RCLONE_CONFIG_DRIVE }}
+          SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          FOLDER: '1E8u-YURTRexdR1Ax4Hu2aq7Vt646VQuN'
+        run: |
+          test -f summaries/video_summaries_L29.jsonl || { echo 'No L29 output to publish'; exit 0; }
+          test -n "$OAUTH_CONFIG" || test -n "$SA" || { echo 'Missing Drive credential'; exit 1; }
+          mkdir -p "$RUNNER_TEMP/rclone"
+          if test -n "$OAUTH_CONFIG"; then
+            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
+          else
+            printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
+            {
+              echo '[drive]'; echo 'type = drive'; echo 'scope = drive'
+              echo "service_account_file = $RUNNER_TEMP/rclone/sa.json"
+              echo "root_folder_id = $FOLDER"
+            } > "$RUNNER_TEMP/rclone/rclone.conf"
+          fi
+          export RCLONE_CONFIG="$RUNNER_TEMP/rclone/rclone.conf"
+          rclone copyto summaries/video_summaries_L29.jsonl \
+            drive:03_Video_Summaries/video_summaries_L29.jsonl \
             --transfers 1 --checkers 1 --retries 6 --low-level-retries 20
