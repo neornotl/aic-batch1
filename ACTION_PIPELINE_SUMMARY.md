@@ -215,11 +215,9 @@ Workflow `Summarize full official Batch 1 videos` trên nhánh này:
 | [33141595264](https://github.com/neornotl/aic-batch1/actions/runs/33141595264) | Dispatch nhầm | `codex/summary-parser-repair` | Đã hủy ngay vì điều kiện ban đầu tạo thêm full matrix; không phải run full gốc. |
 | [33141702955](https://github.com/neornotl/aic-batch1/actions/runs/33141702955) | Resume sáu batch | `codex/summary-parser-repair` / `7308203` | Đang chạy đúng 6 job resume; tại snapshot L21/L22 đang xử lý, L25/L26_a/L26_b/L26_c còn queued. |
 
-Hậu kiểm GCS lúc snapshot: prefix `aic-batch1-summary/` còn 8 object (~0.90 GiB).
-Hai object thuộc job đang chạy (`L22_V019`, `L29_V023`); sáu object còn lại là
-ứng viên cleanup sau khi các job cũ/resume kết thúc (`L23_V001`, `L24_V002`,
-`L25_V026`, `L26_a/L26_V002`, `L26_b/L26_V116`, `L26_c/L26_V274`). Chưa xóa
-trong lúc job còn hoạt động.
+Hậu kiểm GCS: snapshot trước từng có 8 object (~0.90 GiB), nhưng lần kiểm tra
+hiện tại prefix `aic-batch1-summary/` đã **trống**. Không còn object tạm bị rò
+được quan sát tại thời điểm này; cần kiểm tra lại sau khi resume còn chạy xong.
 
 ## 7. Tiêu chí “đủ đưa vào RAG”
 
