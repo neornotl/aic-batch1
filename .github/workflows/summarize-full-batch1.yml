@@ -30,7 +30,7 @@ concurrency:
 
 jobs:
   summarize:
-    if: ${{ !inputs.repair }}
+    if: ${{ !inputs.repair && !inputs.resume }}
     name: Summarize ${{ matrix.batch }}
     runs-on: ubuntu-latest
     # A full range-download + Vertex pass can exceed five hours on a busy
