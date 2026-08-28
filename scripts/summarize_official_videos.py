@@ -44,7 +44,9 @@ Hãy xem toàn bộ video được cung cấp và trả về JSON hợp lệ, kh
 }
 Ưu tiên chi tiết có thể dùng để tìm video khi có câu hỏi: nhân vật, hành động,
 đồ vật, món ăn, địa danh, chữ trên màn hình và thứ tự diễn biến. Nếu không thấy
-thông tin nào, dùng chuỗi rỗng hoặc mảng rỗng; không suy đoán."""
+thông tin nào, dùng chuỗi rỗng hoặc mảng rỗng; không suy đoán. Chỉ trả về đúng
+một object JSON; mọi dấu ngoặc kép nằm trong nội dung chuỗi phải được escape
+bằng dấu gạch chéo ngược (\\\")."""
 
 
 REQUIRED_FIELDS = {
@@ -210,6 +212,10 @@ def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path,
                     ),
                     PROMPT,
                 ],
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    temperature=0,
+                ),
             )
             raw_response = getattr(response, "text", "") or ""
             try:
