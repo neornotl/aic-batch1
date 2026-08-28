@@ -47,6 +47,69 @@ Hãy xem toàn bộ video được cung cấp và trả về JSON hợp lệ, kh
 thông tin nào, dùng chuỗi rỗng hoặc mảng rỗng; không suy đoán."""
 
 
+REQUIRED_FIELDS = {
+    "summary": str,
+    "opening_scene": str,
+    "timeline": list,
+    "visual_entities": list,
+    "actions": list,
+    "on_screen_text": (str, list),
+    "locations": list,
+    "closing_scene": str,
+    "search_keywords": list,
+    "confidence": str,
+}
+
+
+class ResponseParseError(ValueError):
+    """The model returned text that cannot be trusted as a summary object."""
+
+
+def _json_candidates(value: str) -> list[str]:
+    """Return plausible JSON fragments without trying to invent missing data."""
+    candidates = [value]
+    if "```" in value:
+        parts = value.split("```")
+        for index in range(1, len(parts), 2):
+            fenced = parts[index].strip()
+            if fenced.lower().startswith("json"):
+                fenced = fenced[4:].lstrip()
+            candidates.append(fenced)
+
+    # Models sometimes append a short explanation after a valid object.  The
+    # decoder lets us keep the first complete object while rejecting malformed
+    # JSON (e.g. unescaped quotes or missing commas) rather than guessing.
+    decoder = json.JSONDecoder()
+    for start, char in enumerate(value):
+        if char != "{":
+            continue
+        try:
+            _, end = decoder.raw_decode(value[start:])
+        except json.JSONDecodeError:
+            continue
+        candidates.append(value[start:start + end])
+    return candidates
+
+
+def _validate_summary(parsed: object) -> dict:
+    if not isinstance(parsed, dict):
+        raise ResponseParseError("top-level JSON is not an object")
+    missing = [field for field in REQUIRED_FIELDS if field not in parsed]
+    if missing:
+        raise ResponseParseError("missing required field(s): " + ", ".join(missing))
+    wrong_type = [
+        field for field, expected in REQUIRED_FIELDS.items()
+        if not isinstance(parsed[field], expected)
+    ]
+    if wrong_type:
+        raise ResponseParseError("wrong type for field(s): " + ", ".join(wrong_type))
+    if not str(parsed["summary"]).strip():
+        raise ResponseParseError("summary is empty")
+    if parsed["confidence"].lower() not in {"high", "medium", "low"}:
+        raise ResponseParseError("confidence must be high, medium, or low")
+    return parsed
+
+
 def video_id_from_member(name: str) -> str | None:
     match = re.search(r"(L\d+_V\d+)", Path(name).stem, re.IGNORECASE)
     return match.group(1).upper() if match else None
@@ -68,13 +131,21 @@ def load_done(path: Path) -> set[str]:
 
 def parse_response(text: str) -> dict:
     value = (text or "").strip()
-    if value.startswith("```"):
-        value = value.split("```", 2)[1].removeprefix("json").strip()
-    try:
-        parsed = json.loads(value)
-    except json.JSONDecodeError:
-        return {"summary": value[:12000], "confidence": "low"}
-    return parsed if isinstance(parsed, dict) else {"summary": value[:12000], "confidence": "low"}
+    if not value:
+        raise ResponseParseError("empty model response")
+    errors: list[str] = []
+    seen: set[str] = set()
+    for candidate in _json_candidates(value):
+        candidate = candidate.strip()
+        if candidate in seen:
+            continue
+        seen.add(candidate)
+        try:
+            return _validate_summary(json.loads(candidate))
+        except (json.JSONDecodeError, ResponseParseError) as error:
+            errors.append(str(error))
+    detail = errors[-1] if errors else "no JSON object found"
+    raise ResponseParseError(detail)
 
 
 def is_transient_vertex_error(error: Exception) -> bool:
@@ -140,7 +211,24 @@ def summarize_one(video_id: str, member: str, archive: RangeZip, out: Path,
                     PROMPT,
                 ],
             )
-            parsed = parse_response(getattr(response, "text", ""))
+            raw_response = getattr(response, "text", "") or ""
+            try:
+                parsed = parse_response(raw_response)
+            except ResponseParseError as error:
+                # Keep malformed model output visible and retryable.  It must
+                # not be labelled as a successful low-confidence summary.
+                # The cap prevents a bad response from bloating JSONL files.
+                cap = 12000
+                return {
+                    "status": "error",
+                    "video_id": video_id,
+                    "source_member": member,
+                    "model": model,
+                    "error": f"response_parse: {error}",
+                    "parse_error": str(error),
+                    "raw_response": raw_response[:cap],
+                    "raw_response_truncated": len(raw_response) > cap,
+                }
             return {"status": "ok", "video_id": video_id, "source_member": member,
                     "model": model, **parsed}
         finally:
@@ -157,6 +245,8 @@ def main() -> None:
     parser.add_argument("--batch", choices=sorted(ARCHIVES), required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=2)
+    parser.add_argument("--video-ids", default="",
+                        help="Comma-separated IDs to process (empty = whole batch)")
     parser.add_argument("--limit", type=int, default=0,
                         help="Process at most this many videos (0 = whole batch)")
     parser.add_argument("--gcs-bucket",
@@ -166,11 +256,15 @@ def main() -> None:
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     done = load_done(args.output)
+    requested_ids = {
+        item.strip().upper() for item in args.video_ids.split(",") if item.strip()
+    }
     archive = RangeZip(BASE + ARCHIVES[args.batch], block_size=4 * 1024 * 1024)
     members = []
     for name in archive.entries:
         video_id = video_id_from_member(name)
-        if video_id and name.lower().endswith(".mp4") and video_id not in done:
+        if (video_id and name.lower().endswith(".mp4") and video_id not in done
+                and (not requested_ids or video_id in requested_ids)):
             members.append((video_id, name))
     members.sort()
     if args.limit > 0:
