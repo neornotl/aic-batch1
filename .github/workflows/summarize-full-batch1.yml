@@ -43,6 +43,11 @@ on:
         required: false
         default: "220"
         type: string
+      limit:
+        description: "Optional per-batch video limit in keyframe_asr mode (0 = full)"
+        required: false
+        default: "0"
+        type: string
 
 concurrency:
   group: ${{ inputs.keyframe_asr && 'aic-video-keyframe-asr' || inputs.resume_l29 && 'aic-video-summary-resume-l29' || inputs.resume && 'aic-video-summary-resume' || inputs.repair && 'aic-video-summary-repair' || 'aic-video-summary-batch1' }}
