@@ -93,7 +93,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
       - name: Publish visual sidecar to Drive
-        if: always()
+        if: ${{ false }}
         env:
           OAUTH_CONFIG: ${{ secrets.RCLONE_CONFIG_DRIVE }}
           SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
@@ -161,7 +161,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
       - name: Publish transcript sidecar to Drive
-        if: always()
+        if: ${{ false }}
         env:
           OAUTH_CONFIG: ${{ secrets.RCLONE_CONFIG_DRIVE }}
           SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
