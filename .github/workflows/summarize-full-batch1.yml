@@ -33,14 +33,24 @@ on:
         required: false
         default: false
         type: boolean
+      keyframe_asr:
+        description: "Run the isolated BTC-keyframe vision + Deepgram Batch 1 lane"
+        required: false
+        default: false
+        type: boolean
+      chunk_size:
+        description: "BTC keyframes per Gemini request in keyframe_asr mode"
+        required: false
+        default: "220"
+        type: string
 
 concurrency:
-  group: ${{ inputs.resume_l29 && 'aic-video-summary-resume-l29' || inputs.resume && 'aic-video-summary-resume' || inputs.repair && 'aic-video-summary-repair' || 'aic-video-summary-batch1' }}
+  group: ${{ inputs.keyframe_asr && 'aic-video-keyframe-asr' || inputs.resume_l29 && 'aic-video-summary-resume-l29' || inputs.resume && 'aic-video-summary-resume' || inputs.repair && 'aic-video-summary-repair' || 'aic-video-summary-batch1' }}
   cancel-in-progress: false
 
 jobs:
   summarize:
-    if: ${{ !inputs.repair && !inputs.resume && !inputs.resume_l29 }}
+    if: ${{ !inputs.repair && !inputs.resume && !inputs.resume_l29 && !inputs.keyframe_asr }}
     name: Summarize ${{ matrix.batch }}
     runs-on: ubuntu-latest
     # A full range-download + Vertex pass can exceed five hours on a busy
@@ -121,9 +131,172 @@ jobs:
           rclone copyto "summaries/video_summaries_${BATCH}.jsonl" \
             "drive:03_Video_Summaries/video_summaries_${BATCH}.jsonl" \
             --transfers 1 --checkers 1 --retries 6 --low-level-retries 20
+  keyframe_visual:
+    if: ${{ inputs.keyframe_asr }}
+    name: BTC keyframes ${{ matrix.batch }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {batch: L21, archive: Keyframes_L21.zip}
+          - {batch: L22, archive: Keyframes_L22.zip}
+          - {batch: L23, archive: Keyframes_L23.zip}
+          - {batch: L24, archive: Keyframes_L24.zip}
+          - {batch: L25, archive: Keyframes_L25.zip}
+          - {batch: L26_a, archive: Keyframes_L26_a.zip}
+          - {batch: L26_b, archive: Keyframes_L26_b.zip}
+          - {batch: L26_c, archive: Keyframes_L26_c.zip}
+          - {batch: L26_d, archive: Keyframes_L26_d.zip}
+          - {batch: L26_e, archive: Keyframes_L26_e.zip}
+          - {batch: L27, archive: Keyframes_L27.zip}
+          - {batch: L28, archive: Keyframes_L28.zip}
+          - {batch: L29, archive: Keyframes_L29.zip}
+          - {batch: L30, archive: Keyframes_L30.zip}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check google-genai
+      - name: Download BTC keyframe archive without extraction
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y aria2
+          mkdir -p "$RUNNER_TEMP/btc"
+          aria2c -c -x 8 -s 8 -k 4M --file-allocation=none \
+            -d "$RUNNER_TEMP/btc" \
+            "https://aic-data.ledo.io.vn/${{ matrix.archive }}"
+          df -h "$RUNNER_TEMP"
+      - name: Inspect official keyframes with Gemini
+        env:
+          VERTEX_API_KEY: ${{ secrets.VERTEX_API_KEY }}
+          VERTEX_MODEL: ${{ env.VERTEX_MODEL }}
+          BATCH: ${{ matrix.batch }}
+          WORKERS: ${{ inputs.workers }}
+          CHUNK_SIZE: ${{ inputs.chunk_size }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
+          mkdir -p summaries
+          PYTHONPATH=. python scripts/vision_keyframes_batch1.py \
+            --archive "$RUNNER_TEMP/btc/${{ matrix.archive }}" \
+            --output "summaries/keyframe_vision_${BATCH}.jsonl" \
+            --workers "$WORKERS" --chunk-size "$CHUNK_SIZE" --limit "$LIMIT" \
+            --skip-list config/batch1_reuse_video_ids.txt
+      - name: Upload visual sidecar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keyframe-vision-${{ matrix.batch }}
+          path: summaries/keyframe_vision_${{ matrix.batch }}.jsonl
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Publish visual sidecar to Drive
+        if: always()
+        env:
+          OAUTH_CONFIG: ${{ secrets.RCLONE_CONFIG_DRIVE }}
+          SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          FOLDER: '1E8u-YURTRexdR1Ax4Hu2aq7Vt646VQuN'
+          BATCH: ${{ matrix.batch }}
+        run: |
+          test -f "summaries/keyframe_vision_${BATCH}.jsonl" || exit 0
+          test -n "$OAUTH_CONFIG" || test -n "$SA" || { echo 'Missing Drive credential'; exit 1; }
+          sudo apt-get update -qq && sudo apt-get install -y rclone
+          mkdir -p "$RUNNER_TEMP/rclone"
+          if test -n "$OAUTH_CONFIG"; then
+            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
+          else
+            printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
+            {
+              echo '[drive]'; echo 'type = drive'; echo 'scope = drive'
+              echo "service_account_file = $RUNNER_TEMP/rclone/sa.json"
+              echo "root_folder_id = $FOLDER"
+            } > "$RUNNER_TEMP/rclone/rclone.conf"
+          fi
+          export RCLONE_CONFIG="$RUNNER_TEMP/rclone/rclone.conf"
+          rclone mkdir "drive:03_Video_Summaries/keyframe_vision"
+          rclone copyto "summaries/keyframe_vision_${BATCH}.jsonl" \
+            "drive:03_Video_Summaries/keyframe_vision/keyframe_vision_${BATCH}.jsonl" \
+            --transfers 1 --checkers 1 --retries 6 --low-level-retries 20
+
+
+  keyframe_asr:
+    if: ${{ inputs.keyframe_asr }}
+    name: Deepgram ASR ${{ matrix.batch }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        batch: [L21, L22, L23, L24, L25, L26_a, L26_b, L26_c, L26_d, L26_e, L27, L28, L29, L30]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests
+      - name: Transcribe official audio with Deepgram
+        env:
+          DEEPGRAM_API_KEY: ${{ secrets.DEEPGRAM_API_KEY }}
+          DEEPGRAM_MODEL: ${{ env.DEEPGRAM_MODEL }}
+          DEEPGRAM_LANGUAGE: ${{ env.DEEPGRAM_LANGUAGE }}
+          BATCH: ${{ matrix.batch }}
+          WORKERS: ${{ inputs.workers }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          test -n "$DEEPGRAM_API_KEY" || { echo 'Missing DEEPGRAM_API_KEY'; exit 1; }
+          mkdir -p transcripts
+          PYTHONPATH=. python scripts/deepgram_batch1_asr.py \
+            --batch "$BATCH" \
+            --output "transcripts/deepgram_${BATCH}.jsonl" \
+            --workers "$WORKERS" --model "$DEEPGRAM_MODEL" \
+            --language "$DEEPGRAM_LANGUAGE" --limit "$LIMIT"
+      - name: Upload transcript sidecar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepgram-${{ matrix.batch }}
+          path: transcripts/deepgram_${{ matrix.batch }}.jsonl
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Publish transcript sidecar to Drive
+        if: always()
+        env:
+          OAUTH_CONFIG: ${{ secrets.RCLONE_CONFIG_DRIVE }}
+          SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          FOLDER: '1E8u-YURexdR1Ax4Hu2aq7Vt646VQuN'
+          BATCH: ${{ matrix.batch }}
+        run: |
+          test -f "transcripts/deepgram_${BATCH}.jsonl" || exit 0
+          test -n "$OAUTH_CONFIG" || test -n "$SA" || { echo 'Missing Drive credential'; exit 1; }
+          sudo apt-get update -qq && sudo apt-get install -y rclone
+          mkdir -p "$RUNNER_TEMP/rclone"
+          if test -n "$OAUTH_CONFIG"; then
+            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
+          else
+            printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
+            {
+              echo '[drive]'; echo 'type = drive'; echo 'scope = drive'
+              echo "service_account_file = $RUNNER_TEMP/rclone/sa.json"
+              echo "root_folder_id = $FOLDER"
+            } > "$RUNNER_TEMP/rclone/rclone.conf"
+          fi
+          export RCLONE_CONFIG="$RUNNER_TEMP/rclone/rclone.conf"
+          rclone mkdir "drive:03_Video_Summaries/deepgram"
+          rclone copyto "transcripts/deepgram_${BATCH}.jsonl" \
+            "drive:03_Video_Summaries/deepgram/deepgram_${BATCH}.jsonl" \
+            --transfers 1 --checkers 1 --retries 6 --low-level-retries 20
+
+
 
   repair:
-    if: ${{ inputs.repair }}
+    if: ${{ inputs.repair && !inputs.keyframe_asr }}
     name: Repair ${{ matrix.batch }}
     runs-on: ubuntu-latest
     timeout-minutes: 720
@@ -211,7 +384,7 @@ jobs:
             --transfers 1 --checkers 1 --retries 6 --low-level-retries 20
 
   resume:
-    if: ${{ inputs.resume }}
+    if: ${{ inputs.resume && !inputs.keyframe_asr }}
     name: Resume ${{ matrix.batch }}
     runs-on: ubuntu-latest
     timeout-minutes: 720
@@ -293,7 +466,7 @@ jobs:
             --transfers 1 --checkers 1 --retries 6 --low-level-retries 20
 
   resume_l29:
-    if: ${{ inputs.resume_l29 }}
+    if: ${{ inputs.resume_l29 && !inputs.keyframe_asr }}
     name: Resume L29
     runs-on: ubuntu-latest
     timeout-minutes: 720
