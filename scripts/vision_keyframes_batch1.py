@@ -18,7 +18,7 @@ import zipfile
 from pathlib import Path
 
 
-MODEL = os.environ.get("VERTEX_MODEL", "gemini-2.5-flash")
+MODEL = os.environ.get("VERTEX_MODEL") or "gemini-2.5-flash"
 VIDEO_RE = re.compile(r"(L\d+_V\d+)", re.IGNORECASE)
 
 PROMPT = """Bạn là bộ lập chỉ mục hình ảnh cho hệ thống Video-RAG AIC2026.
@@ -196,7 +196,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--chunk-size", type=int, default=220)
-    parser.add_argument("--model", default=os.environ.get("VERTEX_MODEL", MODEL))
+    parser.add_argument("--model", default=os.environ.get("VERTEX_MODEL") or MODEL)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--skip-list", type=Path, default=None,
                         help="comma/newline-separated video IDs already covered elsewhere")

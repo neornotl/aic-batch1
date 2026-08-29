@@ -179,7 +179,7 @@ jobs:
       - name: Inspect official keyframes with Gemini
         env:
           VERTEX_API_KEY: ${{ secrets.VERTEX_API_KEY }}
-          VERTEX_MODEL: ${{ env.VERTEX_MODEL }}
+          VERTEX_MODEL: gemini-2.5-flash
           BATCH: ${{ matrix.batch }}
           WORKERS: ${{ inputs.workers }}
           CHUNK_SIZE: ${{ inputs.chunk_size }}
@@ -212,15 +212,15 @@ jobs:
           test -n "$OAUTH_CONFIG" || test -n "$SA" || { echo 'Missing Drive credential'; exit 1; }
           sudo apt-get update -qq && sudo apt-get install -y rclone
           mkdir -p "$RUNNER_TEMP/rclone"
-          if test -n "$OAUTH_CONFIG"; then
-            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
-          else
+          if test -n "$SA"; then
             printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
             {
               echo '[drive]'; echo 'type = drive'; echo 'scope = drive'
               echo "service_account_file = $RUNNER_TEMP/rclone/sa.json"
               echo "root_folder_id = $FOLDER"
             } > "$RUNNER_TEMP/rclone/rclone.conf"
+          else
+            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
           fi
           export RCLONE_CONFIG="$RUNNER_TEMP/rclone/rclone.conf"
           rclone mkdir "drive:03_Video_Summaries/keyframe_vision"
@@ -249,8 +249,8 @@ jobs:
       - name: Transcribe official audio with Deepgram
         env:
           DEEPGRAM_API_KEY: ${{ secrets.DEEPGRAM_API_KEY }}
-          DEEPGRAM_MODEL: ${{ env.DEEPGRAM_MODEL }}
-          DEEPGRAM_LANGUAGE: ${{ env.DEEPGRAM_LANGUAGE }}
+          DEEPGRAM_MODEL: nova-3
+          DEEPGRAM_LANGUAGE: vi
           BATCH: ${{ matrix.batch }}
           WORKERS: ${{ inputs.workers }}
           LIMIT: ${{ inputs.limit }}
@@ -282,15 +282,15 @@ jobs:
           test -n "$OAUTH_CONFIG" || test -n "$SA" || { echo 'Missing Drive credential'; exit 1; }
           sudo apt-get update -qq && sudo apt-get install -y rclone
           mkdir -p "$RUNNER_TEMP/rclone"
-          if test -n "$OAUTH_CONFIG"; then
-            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
-          else
+          if test -n "$SA"; then
             printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
             {
               echo '[drive]'; echo 'type = drive'; echo 'scope = drive'
               echo "service_account_file = $RUNNER_TEMP/rclone/sa.json"
               echo "root_folder_id = $FOLDER"
             } > "$RUNNER_TEMP/rclone/rclone.conf"
+          else
+            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
           fi
           export RCLONE_CONFIG="$RUNNER_TEMP/rclone/rclone.conf"
           rclone mkdir "drive:03_Video_Summaries/deepgram"
