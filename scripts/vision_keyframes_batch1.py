@@ -44,6 +44,11 @@ Mỗi observed_keyframes phải tham chiếu các FRAME_INDEX trong phần ảnh
 Nếu chữ hoặc chi tiết không đọc được, ghi chuỗi rỗng; không bịa. Đây là mô tả
 thị giác để truy hồi, không phải OFFICIAL_FRAME_ID và không được tạo ID nộp bài."""
 
+RETRY_PROMPT = """Nếu lần trả lời trước không hợp lệ, hãy trả về DUY NHẤT một JSON
+nhỏ và hợp lệ. Bắt buộc có `summary` là chuỗi không rỗng và
+`observed_keyframes` là mảng có ít nhất một phần tử gồm `keyframe_index` và
+`description`. Không trả markdown, không giải thích, không trả `{}`."""
+
 
 def _json_object(text: str) -> dict:
     value = (text or "").strip()
@@ -58,6 +63,46 @@ def _json_object(text: str) -> dict:
         if isinstance(parsed, dict):
             return parsed
     raise ValueError("Gemini response did not contain a JSON object")
+
+
+def _validate_visual_payload(parsed: dict) -> None:
+    """Reject syntactically valid but useless `{}`/empty model responses."""
+    summary = parsed.get("summary")
+    if not isinstance(summary, str) or not summary.strip():
+        raise ValueError("Gemini JSON missing non-empty summary")
+    observations = parsed.get("observed_keyframes")
+    if not isinstance(observations, list) or not any(
+        isinstance(item, dict)
+        and str(item.get("description", "")).strip()
+        and item.get("keyframe_index") is not None
+        for item in observations
+    ):
+        raise ValueError("Gemini JSON missing usable observed_keyframes")
+
+
+def _response_diagnostics(response: object) -> dict:
+    """Capture non-content response metadata so empty outputs are diagnosable."""
+    text = getattr(response, "text", None)
+    result: dict = {"text_length": len(text or "")}
+    candidates = getattr(response, "candidates", None) or []
+    result["candidate_count"] = len(candidates)
+    candidate_meta = []
+    for candidate in list(candidates)[:3]:
+        item = {}
+        for attr in ("finish_reason", "finish_message"):
+            value = getattr(candidate, attr, None)
+            if value is not None:
+                item[attr] = str(value)
+        ratings = getattr(candidate, "safety_ratings", None)
+        if ratings:
+            item["safety_ratings"] = [str(value) for value in ratings]
+        candidate_meta.append(item)
+    if candidate_meta:
+        result["candidates"] = candidate_meta
+    prompt_feedback = getattr(response, "prompt_feedback", None)
+    if prompt_feedback is not None:
+        result["prompt_feedback"] = str(prompt_feedback)
+    return result
 
 
 def _video_id(name: str) -> str | None:
@@ -122,11 +167,10 @@ def inspect_video(archive_path: Path, video_id: str, members: list[str],
     chunk_summaries: list[str] = []
     total_usage: dict[str, int] = {}
     with zipfile.ZipFile(archive_path) as archive:
-        for start in range(0, len(members), chunk_size):
-            current = members[start:start + chunk_size]
+        def process_chunk(start: int, current: list[str], label: str) -> None:
             contents: list[object] = [
                 PROMPT,
-                f"Video {video_id}. Chunk {start // chunk_size + 1}. "
+                f"Video {video_id}. {label}. "
                 f"The following images are ordered keyframes {start + 1}-{start + len(current)}.",
             ]
             for member in current:
@@ -134,21 +178,31 @@ def inspect_video(archive_path: Path, video_id: str, members: list[str],
                 contents.append(types.Part.from_bytes(
                     data=archive.read(member), mime_type="image/jpeg"))
             last_error: Exception | None = None
+            last_diagnostics: dict = {}
             response = None
+            parsed: dict | None = None
+            parse_failed = False
             for attempt in range(6):
                 try:
+                    attempt_contents = contents
+                    if attempt >= 2:
+                        attempt_contents = [contents[0], RETRY_PROMPT, *contents[1:]]
                     response = client.models.generate_content(
                         model=model,
-                        contents=contents,
+                        contents=attempt_contents,
                         config=types.GenerateContentConfig(
                             response_mime_type="application/json",
                             temperature=0,
-                            max_output_tokens=12000,
+                            max_output_tokens=6000 if attempt >= 2 else 12000,
                         ),
                     )
+                    last_diagnostics = _response_diagnostics(response)
+                    parsed = _json_object(getattr(response, "text", "") or "")
+                    _validate_visual_payload(parsed)
                     break
                 except Exception as error:  # noqa: BLE001
                     last_error = error
+                    parse_failed = response is not None and isinstance(error, ValueError)
                     text = repr(error).upper()
                     transient = any(marker in text for marker in (
                         "429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE",
@@ -156,17 +210,32 @@ def inspect_video(archive_path: Path, video_id: str, members: list[str],
                     ))
                     if attempt < 5:
                         time.sleep(min(120, (10 if transient else 5) * (attempt + 1)))
-            if response is None:
-                raise RuntimeError(f"chunk {start // chunk_size + 1} failed: {last_error!r}")
-            parsed = _json_object(getattr(response, "text", "") or "")
+            if parsed is None:
+                # A valid-but-empty response is usually caused by an oversized
+                # multimodal request or an incomplete generation. Split only
+                # those parse/semantic failures; do not multiply quota errors.
+                if parse_failed and len(current) > 1:
+                    half = max(1, len(current) // 2)
+                    process_chunk(start, current[:half], f"{label} (part 1)")
+                    process_chunk(start + half, current[half:], f"{label} (part 2)")
+                    return
+                raise RuntimeError(
+                    f"{label} failed: {last_error!r}; "
+                    f"response_diagnostics={last_diagnostics!r}"
+                )
             chunk_summaries.append(str(parsed.get("summary", "")).strip())
             chunk_obs = parsed.get("observed_keyframes", [])
             if isinstance(chunk_obs, list):
                 observations.extend(item for item in chunk_obs if isinstance(item, dict))
             for key, value in _usage(response).items():
                 total_usage[key] = total_usage.get(key, 0) + value
+
+        for start in range(0, len(members), chunk_size):
+            current = members[start:start + chunk_size]
+            process_chunk(start, current, f"Chunk {start // chunk_size + 1}")
     return {
         "status": "ok",
+        "quality_status": "usable",
         "video_id": video_id,
         "source_archive": archive_path.name,
         "model": model,
@@ -200,11 +269,17 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--skip-list", type=Path, default=None,
                         help="comma/newline-separated video IDs already covered elsewhere")
+    parser.add_argument("--only-list", type=Path, default=None,
+                        help="optional comma/newline-separated IDs to process")
     args = parser.parse_args()
     if not args.archive.exists():
         raise SystemExit(f"archive not found: {args.archive}")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     done = _done(args.output) | _id_list(args.skip_list)
+    only = _id_list(args.only_list)
+    # An explicit retry list intentionally overrides the historical reuse list;
+    # this is how empty-summary rows are reprocessed without rerunning all IDs.
+    done -= only
     grouped: dict[str, list[str]] = {}
     with zipfile.ZipFile(args.archive) as archive:
         for name in archive.namelist():
@@ -214,7 +289,8 @@ def main() -> None:
             if video_id:
                 grouped.setdefault(video_id, []).append(name)
     items = [(video_id, sorted(names, key=_frame_index))
-             for video_id, names in sorted(grouped.items()) if video_id not in done]
+             for video_id, names in sorted(grouped.items())
+             if video_id not in done and (not only or video_id in only)]
     if args.limit > 0:
         items = items[:args.limit]
     print(f"{args.archive.name}: {len(items)} video(s) cần vision; đã có {len(done)}", flush=True)
@@ -227,6 +303,7 @@ def main() -> None:
         except Exception as error:  # noqa: BLE001
             return {
                 "status": "error",
+                "quality_status": "pending_retry",
                 "video_id": video_id,
                 "source_archive": args.archive.name,
                 "model": args.model,

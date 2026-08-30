@@ -41,7 +41,7 @@ on:
       chunk_size:
         description: "BTC keyframes per Gemini request in keyframe_asr mode"
         required: false
-        default: "220"
+        default: "120"
         type: string
       limit:
         description: "Optional per-batch video limit in keyframe_asr mode (0 = full)"
@@ -53,6 +53,11 @@ on:
         required: false
         default: false
         type: boolean
+      keyframe_only:
+        description: "Optional comma/newline-separated video IDs to process in keyframe_asr mode"
+        required: false
+        default: ""
+        type: string
 
 concurrency:
   group: ${{ inputs.keyframe_asr && 'aic-video-keyframe-asr' || inputs.resume_l29 && 'aic-video-summary-resume-l29' || inputs.resume && 'aic-video-summary-resume' || inputs.repair && 'aic-video-summary-repair' || 'aic-video-summary-batch1' }}
@@ -148,7 +153,10 @@ jobs:
     timeout-minutes: 720
     strategy:
       fail-fast: false
-      max-parallel: 4
+      # Vertex quota is project-wide; one Python worker per job is not enough
+      # if several matrix jobs call Gemini simultaneously. Keep two lots live
+      # to limit 429 RESOURCE_EXHAUSTED while retaining useful throughput.
+      max-parallel: 2
       matrix:
         include:
           - {batch: L21, archive: Keyframes_L21.zip}
@@ -189,14 +197,20 @@ jobs:
           WORKERS: ${{ inputs.workers }}
           CHUNK_SIZE: ${{ inputs.chunk_size }}
           LIMIT: ${{ inputs.limit }}
+          ONLY_IDS: ${{ inputs.keyframe_only }}
         run: |
           test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
           mkdir -p summaries
+          ONLY_ARGS=()
+          if test -n "$ONLY_IDS"; then
+            printf '%s' "$ONLY_IDS" > "$RUNNER_TEMP/keyframe_only.txt"
+            ONLY_ARGS+=(--only-list "$RUNNER_TEMP/keyframe_only.txt")
+          fi
           PYTHONPATH=. python scripts/vision_keyframes_batch1.py \
             --archive "$RUNNER_TEMP/btc/${{ matrix.archive }}" \
             --output "summaries/keyframe_vision_${BATCH}.jsonl" \
             --workers "$WORKERS" --chunk-size "$CHUNK_SIZE" --limit "$LIMIT" \
-            --skip-list config/batch1_reuse_video_ids_full.txt
+            --skip-list config/batch1_reuse_video_ids_full.txt "${ONLY_ARGS[@]}"
       - name: Upload visual sidecar
         if: always()
         uses: actions/upload-artifact@v4
