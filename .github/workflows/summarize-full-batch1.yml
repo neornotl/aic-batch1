@@ -48,6 +48,11 @@ on:
         required: false
         default: "0"
         type: string
+      vision_only:
+        description: "Skip Deepgram and retry only missing Gemini keyframe rows"
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ inputs.keyframe_asr && 'aic-video-keyframe-asr' || inputs.resume_l29 && 'aic-video-summary-resume-l29' || inputs.resume && 'aic-video-summary-resume' || inputs.repair && 'aic-video-summary-repair' || 'aic-video-summary-batch1' }}
@@ -191,7 +196,7 @@ jobs:
             --archive "$RUNNER_TEMP/btc/${{ matrix.archive }}" \
             --output "summaries/keyframe_vision_${BATCH}.jsonl" \
             --workers "$WORKERS" --chunk-size "$CHUNK_SIZE" --limit "$LIMIT" \
-            --skip-list config/batch1_reuse_video_ids.txt
+            --skip-list config/batch1_reuse_video_ids_full.txt
       - name: Upload visual sidecar
         if: always()
         uses: actions/upload-artifact@v4
@@ -230,7 +235,7 @@ jobs:
 
 
   keyframe_asr:
-    if: ${{ inputs.keyframe_asr }}
+    if: ${{ inputs.keyframe_asr && !inputs.vision_only }}
     name: Deepgram ASR ${{ matrix.batch }}
     runs-on: ubuntu-latest
     timeout-minutes: 720
