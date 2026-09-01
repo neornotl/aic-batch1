@@ -114,6 +114,27 @@ def parse_array(text: str) -> list[dict]:
     raise ValueError("Gemini response did not contain a JSON array")
 
 
+def parse_response(response: object) -> list[dict]:
+    """Read structured output across google-genai SDK response variants."""
+    parsed = getattr(response, "parsed", None)
+    if isinstance(parsed, list) and all(isinstance(item, dict) for item in parsed):
+        return parsed
+    if isinstance(parsed, dict) and parsed.get("video_id"):
+        return [parsed]
+    text = str(getattr(response, "text", "") or "")
+    if text.strip():
+        return parse_array(text)
+    # Some Vertex responses expose text only inside candidate parts.
+    pieces: list[str] = []
+    for candidate in getattr(response, "candidates", None) or []:
+        content = getattr(candidate, "content", None)
+        for part in getattr(content, "parts", None) or []:
+            value = getattr(part, "text", None)
+            if value:
+                pieces.append(str(value))
+    return parse_array("".join(pieces))
+
+
 def compact_visual(value: dict) -> dict:
     observations = []
     for item in value.get("observed_keyframes", [])[:32]:
@@ -212,7 +233,7 @@ def main() -> int:
                     config=types.GenerateContentConfig(response_mime_type="application/json",
                                                         temperature=0, max_output_tokens=6000),
                 )
-                parsed = parse_array(getattr(response, "text", "") or "")
+                parsed = parse_response(response)
                 by_id = {str(item.get("video_id") or "").upper(): item for item in parsed}
                 output = []
                 for video_id in chunk:
@@ -241,6 +262,13 @@ def main() -> int:
                     time.sleep(5 * (attempt + 1))
         with lock:
             totals["requests"] += 1
+        # A malformed response for a multi-video request should not poison the
+        # entire batch. Retry at smaller granularity before recording errors.
+        if len(chunk) > 1:
+            midpoint = max(1, len(chunk) // 2)
+            print(f"splitting failed chunk of {len(chunk)} videos", flush=True)
+            return run(chunk[:midpoint]) + run(chunk[midpoint:])
+        with lock:
             totals["errors"] += len(chunk)
         return [{"status": "error", "video_id": video_id, "error": last_error,
                  "model": args.model, "pass": "new_transcript" if args.only_new_transcripts else "initial"}
