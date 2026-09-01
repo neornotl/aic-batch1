@@ -1,0 +1,258 @@
+name: Batch 1 two-pass Gemini sidecar inference
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "Successful Batch 1 keyframe+Deepgram run used as baseline"
+        required: true
+        default: "33270388406"
+        type: string
+      workers:
+        description: "Concurrent Deepgram/Gemini requests per job"
+        required: false
+        default: "2"
+        type: string
+      batch_size:
+        description: "Videos per Gemini text request"
+        required: false
+        default: "4"
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: aic-batch1-two-pass-inference
+  cancel-in-progress: false
+
+env:
+  MODEL: gemini-2.5-flash
+  BATCHES: "L21 L22 L23 L24 L25 L26_a L26_b L26_c L26_d L26_e L27 L28 L29 L30"
+
+jobs:
+  pass1:
+    name: Gemini pass 1 ${{ matrix.batch }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        batch: [L21, L22, L23, L24, L25, L26_a, L26_b, L26_c, L26_d, L26_e, L27, L28, L29, L30]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check google-genai
+      - name: Download baseline keyframe JSON and transcript JSON
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: keyframe-vision-${{ matrix.batch }}
+          path: input/visual
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.source_run_id }}
+      - name: Download baseline Deepgram JSON
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: deepgram-${{ matrix.batch }}
+          path: input/transcript
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.source_run_id }}
+      - name: Run Gemini pass 1 from JSON sidecars only
+        env:
+          VERTEX_API_KEY: ${{ secrets.VERTEX_API_KEY }}
+          BATCH_SIZE: ${{ inputs.batch_size }}
+          WORKERS: ${{ inputs.workers }}
+        run: |
+          test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
+          VIS=$(find input/visual -type f -name '*.jsonl' | head -n 1)
+          TXT=$(find input/transcript -type f -name '*.jsonl' | head -n 1)
+          test -n "$VIS" || { mkdir -p input/visual; VIS=input/visual/empty.jsonl; : > "$VIS"; }
+          test -n "$TXT" || { mkdir -p input/transcript; TXT=input/transcript/empty.jsonl; : > "$TXT"; }
+          mkdir -p output
+          PYTHONPATH=. python scripts/infer_video_sidecars.py \
+            --visual-jsonl "$VIS" --transcript-jsonl "$TXT" \
+            --output "output/pass1_${{ matrix.batch }}.jsonl" \
+            --cost-output "output/cost_pass1_${{ matrix.batch }}.json" \
+            --model "$MODEL" --batch-size "$BATCH_SIZE" --workers "$WORKERS"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: infer-pass1-${{ matrix.batch }}
+          path: output
+          if-no-files-found: warn
+          retention-days: 30
+
+  deepgram_missing:
+    name: Deepgram remaining ${{ matrix.batch }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        batch: [L21, L22, L23, L24, L25, L26_a, L26_b, L26_c, L26_d, L26_e, L27, L28, L29, L30]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests
+      - name: Download baseline Deepgram JSON
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: deepgram-${{ matrix.batch }}
+          path: input/transcript
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.source_run_id }}
+      - name: Transcribe only videos missing from baseline
+        env:
+          DEEPGRAM_API_KEY: ${{ secrets.DEEPGRAM_API_KEY }}
+          WORKERS: ${{ inputs.workers }}
+        run: |
+          test -n "$DEEPGRAM_API_KEY" || { echo 'Missing DEEPGRAM_API_KEY'; exit 1; }
+          BASE=$(find input/transcript -type f -name '*.jsonl' | head -n 1)
+          mkdir -p output/transcripts
+          if test -n "$BASE"; then cp "$BASE" "output/transcripts/deepgram_${{ matrix.batch }}.jsonl"; else : > "output/transcripts/deepgram_${{ matrix.batch }}.jsonl"; fi
+          cp "output/transcripts/deepgram_${{ matrix.batch }}.jsonl" "output/transcripts/baseline_${{ matrix.batch }}.jsonl"
+          PYTHONPATH=. python scripts/deepgram_batch1_asr.py \
+            --batch "${{ matrix.batch }}" \
+            --output "output/transcripts/deepgram_${{ matrix.batch }}.jsonl" \
+            --workers "$WORKERS" --model nova-3 --language vi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deepgram-complete-${{ matrix.batch }}
+          path: output/transcripts
+          if-no-files-found: warn
+          retention-days: 30
+
+  pass2:
+    name: Gemini pass 2 new transcript ${{ matrix.batch }}
+    needs: [pass1, deepgram_missing]
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        batch: [L21, L22, L23, L24, L25, L26_a, L26_b, L26_c, L26_d, L26_e, L27, L28, L29, L30]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check google-genai
+      - name: Download keyframe JSON
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: keyframe-vision-${{ matrix.batch }}
+          path: input/visual
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.source_run_id }}
+      - name: Download baseline transcript
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: deepgram-${{ matrix.batch }}
+          path: input/baseline
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.source_run_id }}
+      - name: Download completed transcript
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: deepgram-complete-${{ matrix.batch }}
+          path: input/current
+      - name: Run Gemini pass 2 only for newly transcribed videos
+        env:
+          VERTEX_API_KEY: ${{ secrets.VERTEX_API_KEY }}
+          BATCH_SIZE: ${{ inputs.batch_size }}
+          WORKERS: ${{ inputs.workers }}
+        run: |
+          test -n "$VERTEX_API_KEY" || { echo 'Missing VERTEX_API_KEY'; exit 1; }
+          VIS=$(find input/visual -type f -name '*.jsonl' | head -n 1)
+          BASE=$(find input/baseline -type f -name '*.jsonl' | head -n 1)
+          CUR=$(find input/current -type f -name 'deepgram_*.jsonl' | head -n 1)
+          test -n "$VIS" || { mkdir -p input/visual; VIS=input/visual/empty.jsonl; : > "$VIS"; }
+          test -n "$BASE" || { mkdir -p input/baseline; BASE=input/baseline/empty.jsonl; : > "$BASE"; }
+          test -n "$CUR" || { mkdir -p input/current; CUR=input/current/empty.jsonl; : > "$CUR"; }
+          mkdir -p output
+          PYTHONPATH=. python scripts/infer_video_sidecars.py \
+            --visual-jsonl "$VIS" --transcript-jsonl "$CUR" \
+            --baseline-transcript-jsonl "$BASE" --only-new-transcripts \
+            --output "output/pass2_${{ matrix.batch }}.jsonl" \
+            --cost-output "output/cost_pass2_${{ matrix.batch }}.json" \
+            --model "$MODEL" --batch-size "$BATCH_SIZE" --workers "$WORKERS"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: infer-pass2-${{ matrix.batch }}
+          path: output
+          if-no-files-found: warn
+          retention-days: 30
+
+  finalize:
+    name: Merge fused Batch 1 JSONL and cost report
+    needs: [pass1, pass2]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: infer-pass1-*
+          path: all/pass1
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: infer-pass2-*
+          path: all/pass2
+          merge-multiple: true
+      - name: Merge pass 2 over pass 1 and sum counters
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          out = Path('final'); out.mkdir()
+          rows = {}
+          for root in (Path('all/pass1'), Path('all/pass2')):
+              for path in sorted(root.glob('pass*.jsonl')):
+                  for line in path.read_text(encoding='utf-8').splitlines():
+                      if line.strip():
+                          row = json.loads(line)
+                          if row.get('video_id'):
+                              rows[str(row['video_id']).upper()] = row
+          (out/'batch1_gemini_fused.jsonl').write_text(
+              ''.join(json.dumps(rows[k], ensure_ascii=False)+'\n' for k in sorted(rows)), encoding='utf-8')
+          totals = {'requests':0,'ok':0,'errors':0,'prompt_token_count':0,'candidates_token_count':0,'total_token_count':0,'estimated_usd':0.0}
+          for path in list(Path('all/pass1').glob('cost_*.json')) + list(Path('all/pass2').glob('cost_*.json')):
+              data=json.loads(path.read_text(encoding='utf-8'))
+              for key in totals:
+                  totals[key] += data.get(key, 0)
+          totals['video_rows'] = len(rows)
+          (out/'BATCH1_GEMINI_COST_COUNTER.json').write_text(json.dumps(totals, indent=2)+'\n', encoding='utf-8')
+          report = '# Batch 1 two-pass inference\n\n'
+          report += f"- fused video rows: {len(rows)}\n"
+          report += f"- requests: {totals['requests']}\n- ok rows: {totals['ok']}\n- error rows: {totals['errors']}\n"
+          report += f"- prompt tokens: {totals['prompt_token_count']}\n- output tokens: {totals['candidates_token_count']}\n- estimated USD (configurable rates): {totals['estimated_usd']:.6f}\n"
+          (out/'BATCH1_TWO_PASS_REPORT.md').write_text(report, encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: batch1-two-pass-final
+          path: final
+          retention-days: 30
