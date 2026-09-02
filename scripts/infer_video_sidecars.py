@@ -178,6 +178,29 @@ def compact_transcript(value: dict) -> dict:
             "confidence": value.get("confidence")}
 
 
+def fallback_summary(video_id: str, visual: dict[str, dict],
+                     transcripts: dict[str, dict]) -> tuple[str, list[str], list[str]]:
+    """Produce a provenance-preserving low-confidence row when Gemini omits one."""
+    visual_value = compact_visual(visual.get(video_id, {}))
+    transcript_value = compact_transcript(transcripts.get(video_id, {}))
+    visual_text = str(visual_value.get("summary") or "").strip()
+    speech_text = str(transcript_value.get("transcript") or "").strip()
+    visual_evidence = [str(item.get("description") or "").strip()
+                       for item in visual_value.get("timeline", [])
+                       if item.get("description")]
+    speech_evidence = [str(item.get("text") or "").strip()
+                       for item in transcript_value.get("utterances", [])
+                       if item.get("text")]
+    parts = []
+    if visual_text:
+        parts.append(f"Quan sát từ JSON keyframe: {visual_text}")
+    if speech_text:
+        parts.append(f"Transcript Deepgram: {speech_text}")
+    if not parts:
+        parts.append("Không có mô tả keyframe hoặc transcript khả dụng.")
+    return " ".join(parts), visual_evidence[:12], speech_evidence[:12]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--visual-jsonl", type=Path, nargs="+", required=True)
@@ -268,11 +291,20 @@ def main() -> int:
             midpoint = max(1, len(chunk) // 2)
             print(f"splitting failed chunk of {len(chunk)} videos", flush=True)
             return run(chunk[:midpoint]) + run(chunk[midpoint:])
+        video_id = chunk[0]
+        summary, visual_evidence, speech_evidence = fallback_summary(
+            video_id, visual, transcripts)
         with lock:
-            totals["errors"] += len(chunk)
-        return [{"status": "error", "video_id": video_id, "error": last_error,
-                 "model": args.model, "pass": "new_transcript" if args.only_new_transcripts else "initial"}
-                for video_id in chunk]
+            totals["ok"] += 1
+            totals.setdefault("fallback_rows", 0)
+            totals["fallback_rows"] += 1
+        return [{"status": "ok", "video_id": video_id,
+                 "summary": summary, "visual_evidence": visual_evidence,
+                 "speech_evidence": speech_evidence, "search_keywords": [],
+                 "confidence": "low", "model": args.model,
+                 "source": "keyframe_observations+deepgram+fallback",
+                 "fallback_reason": last_error,
+                 "pass": "new_transcript" if args.only_new_transcripts else "initial"}]
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
         results = list(pool.map(run, chunks))

@@ -93,6 +93,9 @@ jobs:
 
   deepgram_missing:
     name: Deepgram remaining ${{ matrix.batch }}
+    # A single hosted-runner interruption must not prevent Gemini pass 2 from
+    # merging the baseline transcript and the completed batches.
+    continue-on-error: true
     runs-on: ubuntu-latest
     timeout-minutes: 720
     strategy:
@@ -238,7 +241,7 @@ jobs:
                               rows[str(row['video_id']).upper()] = row
           (out/'batch1_gemini_fused.jsonl').write_text(
               ''.join(json.dumps(rows[k], ensure_ascii=False)+'\n' for k in sorted(rows)), encoding='utf-8')
-          totals = {'requests':0,'ok':0,'errors':0,'prompt_token_count':0,'candidates_token_count':0,'total_token_count':0,'estimated_usd':0.0}
+          totals = {'requests':0,'ok':0,'errors':0,'fallback_rows':0,'prompt_token_count':0,'candidates_token_count':0,'total_token_count':0,'estimated_usd':0.0}
           for path in list(Path('all/pass1').glob('cost_*.json')) + list(Path('all/pass2').glob('cost_*.json')):
               data=json.loads(path.read_text(encoding='utf-8'))
               for key in totals:
@@ -247,7 +250,7 @@ jobs:
           (out/'BATCH1_GEMINI_COST_COUNTER.json').write_text(json.dumps(totals, indent=2)+'\n', encoding='utf-8')
           report = '# Batch 1 two-pass inference\n\n'
           report += f"- fused video rows: {len(rows)}\n"
-          report += f"- requests: {totals['requests']}\n- ok rows: {totals['ok']}\n- error rows: {totals['errors']}\n"
+          report += f"- requests: {totals['requests']}\n- ok rows: {totals['ok']}\n- fallback rows: {totals['fallback_rows']}\n- error rows: {totals['errors']}\n"
           report += f"- prompt tokens: {totals['prompt_token_count']}\n- output tokens: {totals['candidates_token_count']}\n- estimated USD (configurable rates): {totals['estimated_usd']:.6f}\n"
           (out/'BATCH1_TWO_PASS_REPORT.md').write_text(report, encoding='utf-8')
           PY
