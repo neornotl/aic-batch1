@@ -30,6 +30,10 @@ work/aic_pipeline/dense/vectors_tfidf.npz
 work/aic_pipeline/clip-index/vectors.npy
 work/aic_pipeline/clip-features-32/*.zip
 work/aic_pipeline/*.zip
+work/aic_pipeline/overnight/
+work/aic_pipeline/review_plan.json
+failed_*.json
+old result/
 
 # Environment
 .env
