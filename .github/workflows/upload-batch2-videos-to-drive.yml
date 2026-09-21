@@ -1,0 +1,124 @@
+name: Upload Batch 2 Videos to Drive
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Batch 2 video package to unpack and upload'
+        required: true
+        default: 'Video_S01'
+        type: choice
+        options:
+          - all
+          - Video_S01
+          - Video_N001-N010
+          - Video_N011-N020
+          - Video_N021-N030
+          - Video_N041-N050
+          - Video_N051-N060
+          - Video_N061-N070
+          - Video_N071-N080
+          - Video_N081-N090
+          - Video_N091-N100
+
+concurrency:
+  group: aic-batch2-video-ingest
+  cancel-in-progress: false
+
+jobs:
+  setup-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.set-pkgs.outputs.packages }}
+    steps:
+      - id: set-pkgs
+        run: |
+          SELECTED="${{ inputs.package }}"
+          if [ "$SELECTED" = "all" ]; then
+            echo 'packages=["Video_S01","Video_N001-N010","Video_N011-N020","Video_N021-N030","Video_N041-N050","Video_N051-N060","Video_N061-N070","Video_N071-N080","Video_N081-N090","Video_N091-N100"]' >> "$GITHUB_OUTPUT"
+          else
+            echo "packages=[\"$SELECTED\"]" >> "$GITHUB_OUTPUT"
+          fi
+
+  upload:
+    name: Ingest ${{ matrix.package }}
+    needs: setup-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        package: ${{ fromJson(needs.setup-matrix.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure rclone
+        env:
+          OAUTH_CONFIG: ${{ secrets.RCLONE_CONFIG_DRIVE }}
+          SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          FOLDER: '1E8u-YURTRexdR1Ax4Hu2aq7Vt646VQuN'
+        run: |
+          test -n "$OAUTH_CONFIG" || test -n "$SA" || { echo 'Missing Drive credential'; exit 1; }
+          mkdir -p "$RUNNER_TEMP/rclone"
+          if test -n "$OAUTH_CONFIG"; then
+            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
+            grep -q '^\[drive\]' "$RUNNER_TEMP/rclone/rclone.conf" || { echo 'Missing [drive] remote'; exit 1; }
+            grep -q '^root_folder_id[[:space:]]*=' "$RUNNER_TEMP/rclone/rclone.conf" || { echo 'Missing root_folder_id'; exit 1; }
+          else
+            printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
+            {
+              echo '[drive]'
+              echo 'type = drive'
+              echo 'scope = drive'
+              echo "service_account_file = $RUNNER_TEMP/rclone/sa.json"
+              echo "root_folder_id = $FOLDER"
+            } > "$RUNNER_TEMP/rclone/rclone.conf"
+          fi
+          echo "RCLONE_CONFIG=$RUNNER_TEMP/rclone/rclone.conf" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y rclone unzip curl
+
+      - name: Download video archive
+        run: |
+          PKG="${{ matrix.package }}"
+          URL="https://aic-data.ledo.io.vn/${PKG}.zip"
+          echo "Downloading $URL to runner SSD..."
+          curl -sSL --retry 5 --retry-connrefused "$URL" -o "$RUNNER_TEMP/${PKG}.zip"
+          ls -lh "$RUNNER_TEMP/${PKG}.zip"
+
+      - name: Unpack videos
+        run: |
+          PKG="${{ matrix.package }}"
+          EXTRACT_DIR="$RUNNER_TEMP/extracted"
+          mkdir -p "$EXTRACT_DIR"
+          echo "Extracting archive..."
+          unzip -q "$RUNNER_TEMP/${PKG}.zip" -d "$EXTRACT_DIR"
+          rm -f "$RUNNER_TEMP/${PKG}.zip"
+          echo "Extracted structure:"
+          ls -lh "$EXTRACT_DIR"
+
+      - name: Upload unzipped video clips to Google Drive
+        run: |
+          PKG="${{ matrix.package }}"
+          EXTRACT_DIR="$RUNNER_TEMP/extracted"
+          SRC_DIR="$EXTRACT_DIR/videos"
+          if [ ! -d "$SRC_DIR" ]; then
+            SRC_DIR="$EXTRACT_DIR"
+          fi
+          DEST="drive:01_Videos_Batch2/${PKG}"
+          echo "Uploading from $SRC_DIR to $DEST..."
+          rclone copy "$SRC_DIR" "$DEST" \
+            --transfers 4 \
+            --checkers 8 \
+            --fast-list \
+            --tpslimit 3 \
+            --tpslimit-burst 3 \
+            --drive-pacer-min-sleep 200ms \
+            --stats 30s \
+            -v
+          rm -rf "$EXTRACT_DIR"
+          echo "Upload of ${{ matrix.package }} finished successfully!"
