@@ -41,3 +41,7 @@ work/aic_pipeline/*.zip
 # Temporary
 *.tmp
 *.temp
+
+# AIC2026 keyframe share build cache and downloaded installer payload
+tools/aic_keyframe_share/.build-cache/
+tools/aic_keyframe_share/payload/tailscale-setup-full-*.exe

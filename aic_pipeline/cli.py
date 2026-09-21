@@ -21,6 +21,8 @@ from .evaluate import evaluate
 from .enrich import enrich_manifest
 from .terra import TerraAdapter
 from .submit import package_submission, run_query_file, write_csv
+from .operator import decorate_results, format_operator_table
+from .validator import validate_input
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,11 +69,23 @@ def main() -> None:
     query.add_argument("--dense", type=Path,
                        help="Optional dense index; frame/context FTS is the fast default")
     query.add_argument("--clip", type=Path)
+    query.add_argument("--transcript", type=Path,
+                       help="Optional verified Deepgram transcript sidecar (SQLite)")
+    query.add_argument("--candidate-limit", type=int, default=300,
+                       help="Pre-deduplication candidate pool; release default is 300")
+    query.add_argument("--preserve-video-coverage", action="store_true",
+                       help="Keep temporally separated candidates from relevant videos")
     query.add_argument("--json", action="store_true")
     query.add_argument("--rerank", action="store_true")
     query.add_argument("--judge", choices=("off", "auto", "always"), default="off")
     query.add_argument("--terra-expand", action="store_true")
     query.add_argument("--submission", type=Path)
+    query.add_argument("--neighbors", type=int, default=2,
+                       help="Canonical keyframe neighbors on each side")
+    query.add_argument("--query-type", default="auto",
+                       choices=("auto", "KIS_SCENE", "KIS_TEXT_NUMBER", "QA", "TRAKE_MULTI_EVENT"))
+    query.add_argument("--keyframe-root", type=Path,
+                       help="Optional root used to show a resolved local keyframe path")
     evaluation = sub.add_parser("evaluate")
     evaluation.add_argument("--predictions", type=Path, required=True)
     evaluation.add_argument("--ground-truth", type=Path, required=True)
@@ -84,13 +98,57 @@ def main() -> None:
     batch.add_argument("--dense", type=Path,
                        help="Optional dense index; omit for fast frame/context FTS")
     batch.add_argument("--clip", type=Path)
-    batch.add_argument("--candidate-limit", type=int, default=120)
+    batch.add_argument("--transcript", type=Path,
+                       help="Optional verified Deepgram transcript sidecar (SQLite)")
+    batch.add_argument("--candidate-limit", type=int, default=300,
+                       help="Pre-deduplication candidate pool; release default is 300")
+    batch.add_argument("--preserve-video-coverage", action="store_true",
+                       help="Keep temporally separated candidates from relevant videos")
+    batch.add_argument("--retrieval-rescue", action="store_true",
+                       help="Experimental TRAKE/QA video-first rescue; release default is off")
+    batch.add_argument("--trake-rescue-v2", action="store_true",
+                       help="Experimental TRAKE-only joint video/sequence rescue; default is off")
+    batch.add_argument("--trake-topk-v3", action="store_true",
+                       help="Experimental TRAKE-only ranked full-answer sequence rescue; default is off")
     batch.add_argument("--workers", type=int, default=min(4, os.cpu_count() or 1),
                        help="Independent FTS workers; use 1 when a remote judge is enabled")
     batch.add_argument("--output", type=Path, required=True)
+    vs_imp = sub.add_parser("import-video-summaries")
+    vs_imp.add_argument("--jsonl", type=Path, nargs="+", required=True)
+    vs_imp.add_argument("--manifest", type=Path, default=DEFAULT_WORK / "manifest.jsonl")
+    vs_imp.add_argument("--database", type=Path, default=DEFAULT_WORK / "keyframes.sqlite")
+    vs_imp.add_argument("--output", type=Path, default=DEFAULT_WORK / "video_summaries.sqlite")
+    vs_ver = sub.add_parser("verify-video-summaries")
+    vs_ver.add_argument("--sidecar", type=Path, default=DEFAULT_WORK / "video_summaries.sqlite")
+    vs_ver.add_argument("--manifest", type=Path, default=DEFAULT_WORK / "manifest.jsonl")
+    vs_ver.add_argument("--database", type=Path, default=DEFAULT_WORK / "keyframes.sqlite")
+    transcript = sub.add_parser("transcript-index",
+                                help="Build a verified Deepgram transcript sidecar")
+    transcript.add_argument("--jsonl", type=Path, nargs="+", required=True,
+                            help="Deepgram JSONL files or glob-expanded paths")
+    transcript.add_argument("--output", type=Path,
+                            default=DEFAULT_WORK / "deepgram_transcripts.sqlite")
+    transcript_verify = sub.add_parser("verify-transcript-index")
+    transcript_verify.add_argument("--sidecar", type=Path,
+                                   default=DEFAULT_WORK / "deepgram_transcripts.sqlite")
     pack = sub.add_parser("package")
     pack.add_argument("--csv-dir", type=Path, required=True)
     pack.add_argument("--output", type=Path, required=True)
+    pack.add_argument("--database", type=Path,
+                      help="Canonical keyframes.sqlite; required for strict release mode")
+    pack.add_argument("--config", type=Path,
+                      help="Strict release config with required_files and format rules")
+    release = sub.add_parser("release", help="Fail-closed, canonical-identity-checked ZIP release")
+    release.add_argument("--csv-dir", type=Path, required=True)
+    release.add_argument("--output", type=Path, required=True)
+    release.add_argument("--database", type=Path, required=True)
+    release.add_argument("--config", type=Path, required=True)
+    validate = sub.add_parser("validate", help="Validate a candidate CSV, directory, or ZIP")
+    validate.add_argument("input", type=Path)
+    validate.add_argument("--database", type=Path,
+                          help="Optional keyframes.sqlite for official identity checks")
+    validate.add_argument("--config", type=Path,
+                          help="JSON config for verified task-specific arity/quota/order rules")
     args = parser.parse_args()
     if args.command == "manifest":
         print(build_manifest(args.results, args.maps, args.objects, args.output, args.media, args.asr))
@@ -143,6 +201,11 @@ def main() -> None:
                 rows = run_query_file(
                     query_file, connection, args.dense, terra_adapter=terra_adapter,
                     feature_dir=args.clip, candidate_limit=args.candidate_limit,
+                    preserve_video_coverage=args.preserve_video_coverage,
+                    transcript_db=args.transcript,
+                    retrieval_rescue=args.retrieval_rescue,
+                    trake_rescue_v2=args.trake_rescue_v2,
+                    trake_topk_v3=args.trake_topk_v3,
                 )
                 return query_file, rows
             finally:
@@ -162,8 +225,64 @@ def main() -> None:
             output = args.output / f"{query_file.stem}.csv"
             write_csv(rows, output)
             print(f"{query_file.name}: {len(rows)} rows")
+    elif args.command == "import-video-summaries":
+        from .summary_sidecar import build_atomic
+        import sqlite3 as _s3
+        _con = _s3.connect(f"file:{args.database.as_posix()}?mode=ro", uri=True)
+        try:
+            known = {r[0] for r in _con.execute("SELECT DISTINCT video_id FROM keyframes")}
+        finally:
+            _con.close()
+        try:
+            rep = build_atomic(args.jsonl, args.output, known)
+            print(json.dumps(rep, ensure_ascii=False, indent=2))
+            sys.exit(0 if rep.get("status") == "ok" else 1)
+        except ValueError as exc:
+            print(json.dumps({"status": "failed", "error": str(exc)},
+                             ensure_ascii=False, indent=2))
+            sys.exit(1)
+    elif args.command == "verify-video-summaries":
+        from .summary_sidecar import verify as verify_summaries
+        rep = verify_summaries(args.sidecar,
+                               known_video_ids=None)
+        print(json.dumps(rep, ensure_ascii=False, indent=2))
+        sys.exit(0 if rep.get("ok") else 1)
+    elif args.command == "transcript-index":
+        from .transcript_sidecar import build_atomic
+        rep = build_atomic(args.jsonl, args.output)
+        print(json.dumps(rep, ensure_ascii=False, indent=2))
+        sys.exit(0 if rep.get("status") == "ok" else 1)
+    elif args.command == "verify-transcript-index":
+        from .transcript_sidecar import verify
+        rep = verify(args.sidecar)
+        print(json.dumps(rep, ensure_ascii=False, indent=2))
+        sys.exit(0 if rep.get("ok") else 1)
     elif args.command == "package":
-        print(json.dumps(package_submission(args.csv_dir, args.output), indent=2))
+        if args.database is None or args.config is None:
+            print(json.dumps({
+                "ok": False,
+                "status": "FAILED",
+                "errors": ["package requires --database and --config; use the strict release contract"],
+                "published": False,
+            }, indent=2))
+            sys.exit(2)
+        from .release import ReleaseValidationError, build_release
+        try:
+            print(json.dumps(build_release(args.csv_dir, args.output, args.database, args.config), indent=2))
+        except ReleaseValidationError as exc:
+            print(json.dumps(exc.report, ensure_ascii=False, indent=2))
+            sys.exit(1)
+    elif args.command == "release":
+        from .release import ReleaseValidationError, build_release
+        try:
+            print(json.dumps(build_release(args.csv_dir, args.output, args.database, args.config), indent=2))
+        except ReleaseValidationError as exc:
+            print(json.dumps(exc.report, ensure_ascii=False, indent=2))
+            sys.exit(1)
+    elif args.command == "validate":
+        report = validate_input(args.input, args.database, args.config)
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        sys.exit(0 if report["ok"] else 1)
     else:
         connection = sqlite3.connect(args.database)
         try:
@@ -174,7 +293,15 @@ def main() -> None:
                 terra = TerraAdapter()
                 answer = terra.complete("Expand this video retrieval query into up to 5 Vietnamese-English search variants. Return {\"queries\": [strings]}. Query: " + args.text)
                 expansions = answer.get("queries", []) if isinstance(answer, dict) else []
-            results = search(connection, args.text, pool_limit, dense_dir=args.dense, feature_dir=args.clip, expansions=expansions)
+            candidate_limit = max(300, args.candidate_limit, args.limit)
+            results = search(
+                connection, args.text, pool_limit,
+                candidate_limit=candidate_limit,
+                dense_dir=args.dense, feature_dir=args.clip, expansions=expansions,
+                preserve_video_coverage=args.preserve_video_coverage,
+                transcript_db=args.transcript,
+                include_neighbors=False,
+            )
             if args.rerank:
                 results = local_rerank(args.text, results)[:args.limit]
             else:
@@ -185,12 +312,14 @@ def main() -> None:
                 args.submission.parent.mkdir(parents=True, exist_ok=True)
                 with args.submission.open("w", encoding="utf-8", newline="") as output:
                     export_submission(results, output)
+            operator_rows = decorate_results(
+                connection, args.text, results, neighbor_radius=args.neighbors,
+                query_hint=args.query_type, keyframe_root=args.keyframe_root,
+            )
             if args.json:
-                print(json.dumps(results, ensure_ascii=False, indent=2))
+                print(json.dumps(operator_rows, ensure_ascii=False, indent=2))
             else:
-                for rank, row in enumerate(results, 1):
-                    print(f"#{rank} {row['video_id']} frame={row['frame_id']} t={row['timestamp']} {row['path']}")
-                    print(f"   {row['caption'][:220]}")
+                print(format_operator_table(operator_rows))
         finally:
             connection.close()
 

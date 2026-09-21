@@ -105,15 +105,17 @@ jobs:
           echo "Extracted structure:"
           ls -lh "$EXTRACT_DIR"
 
-      - name: Upload unzipped frames to Google Drive
+      - name: Upload unzipped frames to Google Drive Video Folders
         run: |
+          BATCH="${{ matrix.batch }}"
+          LEAGUE=$(echo "$BATCH" | cut -d'_' -f1)
           EXTRACT_DIR="$RUNNER_TEMP/extracted"
           SRC_DIR="$EXTRACT_DIR/keyframes"
           if [ ! -d "$SRC_DIR" ]; then
             SRC_DIR="$EXTRACT_DIR"
           fi
-          echo "Uploading from $SRC_DIR to drive:Keyframes..."
-          rclone copy "$SRC_DIR" "drive:Keyframes" \
+          echo "Uploading from $SRC_DIR to drive:Videos/$LEAGUE (merging into each video_id folder)..."
+          rclone copy "$SRC_DIR" "drive:Videos/$LEAGUE" \
             --transfers 4 \
             --checkers 8 \
             --fast-list \
@@ -123,4 +125,4 @@ jobs:
             --stats 30s \
             -v
           rm -rf "$EXTRACT_DIR"
-          echo "Upload of ${{ matrix.batch }} finished successfully!"
+          echo "Upload of ${{ matrix.batch }} into drive:Videos/$LEAGUE finished successfully!"

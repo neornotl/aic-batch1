@@ -8,9 +8,14 @@ import os
 import re
 import zipfile
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
-from .retrieve import search, search_fts
+from .retrieve import (
+    search,
+    search_fts,
+    search_qa_evidence_video_first,
+    search_trake_sequence,
+)
 
 try:
     from .terra import TerraAdapter
@@ -100,11 +105,17 @@ def _rerank_terra(query: str, rows: list[dict], adapter: TerraAdapter | None) ->
 
 
 def _event_queries(query: str) -> list[str]:
-    # First try to extract E1, E2, E3... patterns
+    # Accept both the benchmark's numbered clauses and the older E1: form.
+    numbered = re.findall(
+        r'\(\s*\d+\s*\)\s*(.*?)(?=;\s*\(\s*\d+\s*\)|\.\s*Trả về|$)',
+        query, flags=re.IGNORECASE | re.DOTALL,
+    )
+    if numbered:
+        return [match.strip() for match in numbered if match.strip()]
     e_pattern = r'E\d+\s*[:：]\s*(.*?)(?=E\d+\s*[:：]|$)'
     matches = re.findall(e_pattern, query, flags=re.IGNORECASE | re.DOTALL)
     if matches:
-        return [m.strip() for m in matches if m.strip()]
+        return [match.strip() for match in matches if match.strip()]
     # Fallback to keyword-based split
     parts = [p.strip() for p in re.split(
         r"\b(?:then|and then|after that|sau đó|sau khi|trước khi|rồi|before|after)\b",
@@ -157,16 +168,51 @@ def _trake_terra(events: list[str], ranked: list[list[dict]], adapter: TerraAdap
 
 def run_query_file(path: Path, connection, dense_dir: Path | None = None, limit: int = 100,
                    terra_adapter: Any | None = None, feature_dir: Path | None = None,
-                   candidate_limit: int = 300) -> list[list[str]]:
+                   candidate_limit: int = 300,
+                   preserve_video_coverage: bool = False,
+                   transcript_db: Path | None = None,
+                   retrieval_rescue: bool = False,
+                   trake_rescue_v2: bool = False,
+                   trake_topk_v3: bool = False) -> list[list[str]]:
     kind = query_kind(path)
     query = read_query(path)
+    if preserve_video_coverage:
+        candidate_limit = max(300, candidate_limit)
     if kind == "kis":
         # Keep the proven lexical ranking stable. Caption-only remote reranking
         # can move visually correct frames down the list.
-        rows = search(connection, query, limit=limit, candidate_limit=candidate_limit, dense_dir=dense_dir, feature_dir=feature_dir, include_neighbors=False)
+        rows = search(
+            connection, query, limit=limit, candidate_limit=candidate_limit,
+            dense_dir=dense_dir, feature_dir=feature_dir,
+            preserve_video_coverage=preserve_video_coverage,
+            transcript_db=transcript_db,
+            include_neighbors=False,
+        )
         return [[row["video_id"], str(row["frame_id"])] for row in rows[:limit]]
     if kind == "qa":
-        rows = search(connection, query, limit=limit, candidate_limit=candidate_limit, dense_dir=dense_dir, feature_dir=feature_dir, include_neighbors=False)
+        if retrieval_rescue:
+            rescued = search_qa_evidence_video_first(
+                connection, query, limit=limit, candidate_limit=candidate_limit,
+            )
+            rows = rescued["rows"]
+            if not rows:
+                # Rescue is deliberately fail-open: keep the release path
+                # available when context/sidecar data is absent or malformed.
+                rows = search(
+                    connection, query, limit=limit, candidate_limit=candidate_limit,
+                    dense_dir=dense_dir, feature_dir=feature_dir,
+                    preserve_video_coverage=preserve_video_coverage,
+                    transcript_db=transcript_db,
+                    include_neighbors=False,
+                )
+        else:
+            rows = search(
+                connection, query, limit=limit, candidate_limit=candidate_limit,
+                dense_dir=dense_dir, feature_dir=feature_dir,
+                preserve_video_coverage=preserve_video_coverage,
+                transcript_db=transcript_db,
+                include_neighbors=False,
+            )
         if not rows:
             return []
         results: list[list[str]] = []
@@ -181,6 +227,64 @@ def run_query_file(path: Path, connection, dense_dir: Path | None = None, limit:
             results.append([row["video_id"], str(row["frame_id"]), answer])
         return results
     events = _event_queries(query)
+    if trake_topk_v3:
+        # Worker E is an explicit TRAKE-only route.  Import lazily so the
+        # default KIS/QA path and the earlier C/D flags remain independent.
+        from work.aic_pipeline.trake_topk_v3 import (
+            V3Config,
+            retrieve_trake_topk_v3,
+            rows_for_submission,
+        )
+        v3_report = retrieve_trake_topk_v3(
+            connection,
+            events,
+            config=V3Config(
+                candidate_limit=max(300, candidate_limit),
+                candidate_video_limit=10,
+                event_candidate_limit=50,
+                top_sequences_per_video=5,
+                minimum_event_gap=4,
+                max_answers=limit,
+            ),
+        )
+        v3_rows = rows_for_submission(v3_report, limit=limit)
+        if v3_rows:
+            return v3_rows
+        # Explicit E fails open to the existing TRAKE implementation if a
+        # complete ordered sequence cannot be formed.
+    if trake_rescue_v2:
+        # Keep the v2 dependency and behavior TRAKE-only.  Importing lazily
+        # ensures the safe KIS/QA release path is unchanged when the flag is
+        # absent.
+        from work.aic_pipeline.trake_rescue_v2 import (
+            retrieve_trake_v2,
+            rows_for_submission,
+        )
+        v2_report = retrieve_trake_v2(
+            connection,
+            events,
+            variant="D4",
+            config=None,
+        )
+        v2_rows = rows_for_submission(v2_report, limit=limit)
+        if v2_rows:
+            return v2_rows
+        # Explicit v2 remains fail-open if a candidate video cannot form a
+        # complete ordered sequence.
+    if retrieval_rescue:
+        rescued = search_trake_sequence(
+            connection, events, candidate_limit=candidate_limit,
+            candidate_video_limit=5, event_candidate_limit=max(20, min(80, candidate_limit)),
+            neighbor_radius=2, minimum_event_gap=8,
+        )
+        sequences = rescued.get("sequences", [])
+        if sequences:
+            return [
+                [sequence["video_id"], *map(str, sequence["sequence"]["frame_ids"])]
+                for sequence in sequences[:limit]
+            ]
+        # If a constrained sequence cannot be formed, retain the historical
+        # local DP path below rather than returning an empty submission.
     # Use FTS-only with small candidate limit for TRAKE speed (TF-IDF is too slow for 177k docs)
     ranked = []
     for event in events:
@@ -279,21 +383,102 @@ def validate_csv(path: Path, kind: str) -> list[str]:
     return errors
 
 
-def package_submission(csv_dir: Path, output_zip: Path) -> dict:
-    output_zip.parent.mkdir(parents=True, exist_ok=True)
-    files = sorted(csv_dir.glob("*.csv"))
-    if not files:
-        raise ValueError("no CSV files found")
-    errors = []
-    for path in files:
-        try:
-            kind = query_kind(path)
-            errors.extend(f"{path.name}: {error}" for error in validate_csv(path, kind))
-        except ValueError as exc:
-            errors.append(f"{path.name}: {exc}")
-    if errors:
-        raise ValueError("; ".join(errors))
-    with zipfile.ZipFile(output_zip, "w", zipfile.ZIP_DEFLATED) as archive:
+def _load_required_files(inventory: Path | Iterable[str]) -> list[str]:
+    """Load an explicit required-file inventory without inferring omissions."""
+    if isinstance(inventory, Path):
+        if not inventory.is_file():
+            raise ValueError(f"required-file inventory does not exist: {inventory}")
+        if inventory.suffix.lower() == ".json":
+            value = json.loads(inventory.read_text(encoding="utf-8-sig"))
+            if isinstance(value, dict):
+                value = value.get("required_files")
+            if not isinstance(value, list):
+                raise ValueError("inventory JSON must be a list or {required_files: [...]}")
+            values = value
+        else:
+            values = [line.strip() for line in inventory.read_text(encoding="utf-8-sig").splitlines()
+                      if line.strip() and not line.lstrip().startswith("#")]
+    else:
+        values = list(inventory)
+    result: list[str] = []
+    for value in values:
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError("required-file inventory contains a blank/non-string entry")
+        name = value.strip()
+        if Path(name).name != name or Path(name).suffix.lower() != ".csv":
+            raise ValueError(f"inventory entry must be a top-level CSV filename: {name!r}")
+        query_kind(Path(name))
+        result.append(name)
+    if not result:
+        raise ValueError("required-file inventory is empty")
+    if len(result) != len(set(result)):
+        raise ValueError("required-file inventory contains duplicates")
+    return sorted(result)
+
+
+def _write_release_report(path: Path, report: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def release_submission(csv_dir: Path, output_zip: Path,
+                       required_queries: Path | Iterable[str],
+                       database: Path, config_path: Path,
+                       report_path: Path | None = None,
+                       state_version: str = "UNSPECIFIED") -> dict[str, Any]:
+    """Build a submit-ready package through the strict release boundary."""
+    from .release import ReleaseValidationError, build_release
+
+    csv_dir = Path(csv_dir)
+    output_zip = Path(output_zip)
+    report_path = report_path or output_zip.with_suffix(output_zip.suffix + ".validation.json")
+    required_files = _load_required_files(required_queries)
+    try:
+        report = build_release(csv_dir, output_zip, Path(database), Path(config_path), required_files)
+    except ReleaseValidationError as exc:
+        report = dict(exc.report)
+        report["state_version"] = state_version
+        report["validation"] = "FAIL"
+        _write_release_report(report_path, report)
+        raise ValueError("; ".join(report.get("errors", ["release validation failed"]))) from exc
+    report["state_version"] = state_version
+    report["validation"] = "PASS"
+    _write_release_report(report_path, report)
+    return report
+
+
+def package_submission(csv_dir: Path, output_zip: Path, *,
+                       required_queries: Path | Iterable[str] | None = None,
+                       database: Path | None = None,
+                       config_path: Path | None = None,
+                       report_path: Path | None = None,
+                       state_version: str = "UNSPECIFIED") -> dict[str, Any]:
+    """Package a strict release, or preserve the legacy offline test helper.
+
+    The no-argument form is retained for non-portal experiment fixtures and is
+    deliberately not used by the CLI.  The portal-facing CLI requires the
+    strict arguments and calls :func:`release_submission`.
+    """
+    if required_queries is None and database is None and config_path is None:
+        output_zip.parent.mkdir(parents=True, exist_ok=True)
+        files = sorted(Path(csv_dir).glob("*.csv"))
+        if not files:
+            raise ValueError("no CSV files found")
+        errors: list[str] = []
         for path in files:
-            archive.write(path, f"submission/{path.name}")
-    return {"files": len(files), "zip": str(output_zip), "errors": []}
+            try:
+                errors.extend(f"{path.name}: {error}" for error in validate_csv(path, query_kind(path)))
+            except ValueError as exc:
+                errors.append(f"{path.name}: {exc}")
+        if errors:
+            raise ValueError("; ".join(errors))
+        with zipfile.ZipFile(output_zip, "w", zipfile.ZIP_DEFLATED) as archive:
+            for path in files:
+                archive.write(path, f"submission/{path.name}")
+        return {"files": len(files), "zip": str(output_zip), "errors": []}
+    if required_queries is None or database is None or config_path is None:
+        raise ValueError("strict packaging requires required_queries, database, and config_path")
+    return release_submission(
+        csv_dir, output_zip, required_queries, database, config_path,
+        report_path=report_path, state_version=state_version,
+    )

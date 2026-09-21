@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import os
 import re
 import sqlite3
 from collections import defaultdict
@@ -94,7 +96,248 @@ def _sequence_fts_query(query: str) -> str:
     return " AND ".join(groups) if len(groups) >= 2 else ""
 
 
+_FTS_SIDECAR_PATH = Path(__file__).resolve().parents[1] / "work" / "aic_pipeline" / "keyframes_fts_folded.sqlite"
+_FTS_MANIFEST_PATH = _FTS_SIDECAR_PATH.parent / "manifest.jsonl"
+_folded_state: dict = {"checked": False, "ok": False, "con": None, "reason": ""}
+
+_summary_state: dict = {"checked": False, "ok": False, "con": None, "reason": ""}
+_transcript_state: dict = {"checked": False, "ok": False, "con": None, "reason": "", "path": ""}
+
+
+def _search_transcript_segments(connection: sqlite3.Connection, transcript_db: Path | None,
+                                text: str, limit: int = 80) -> list[dict]:
+    """Use Deepgram utterances to select a video moment, then nearest BTC frame.
+
+    Transcript evidence is deliberately a separate channel.  It can identify
+    a spoken fact and its time, but it never invents a frame or changes the
+    canonical ``frame_id`` used for submission.
+    """
+    if transcript_db is None:
+        transcript_db = (Path(os.environ["TRANSCRIPT_SIDECAR_PATH"])
+                         if os.environ.get("TRANSCRIPT_SIDECAR_PATH") else None)
+    if transcript_db is None:
+        return []
+    state = _transcript_state
+    if not state["checked"] or state.get("path") != str(Path(transcript_db).resolve()):
+        old_connection = state.get("con")
+        if old_connection is not None:
+            try:
+                old_connection.close()
+            except Exception:
+                pass
+        state.update({"checked": True, "ok": False, "con": None,
+                      "reason": "", "path": str(Path(transcript_db).resolve())})
+        try:
+            from .transcript_sidecar import verify
+            report = verify(Path(transcript_db))
+            if not report.get("ok"):
+                raise RuntimeError("transcript sidecar verification failed")
+            state["con"] = sqlite3.connect(
+                f"file:{Path(transcript_db).resolve().as_posix()}?mode=ro", uri=True)
+            state["ok"] = True
+        except Exception as exc:
+            state["reason"] = f"{type(exc).__name__}: {exc}"
+    if not state["ok"]:
+        return []
+    expression = _fts_query(text)
+    if not expression:
+        return []
+    try:
+        rows = state["con"].execute(
+            "SELECT s.segment_id,s.video_id,s.start_seconds,s.end_seconds,s.text,s.confidence,"
+            "bm25(transcript_fts) AS bm25_score "
+            "FROM transcript_fts f JOIN transcript_segments s ON s.segment_id=f.segment_id "
+            "WHERE transcript_fts MATCH ? ORDER BY bm25_score LIMIT ?",
+            (expression, max(1, int(limit))),
+        ).fetchall()
+    except sqlite3.OperationalError:
+        return []
+    if not rows:
+        return []
+    columns = ["segment_id", "video_id", "start_seconds", "end_seconds",
+               "transcript_match", "transcript_confidence", "transcript_bm25"]
+    query_tokens = {
+        token for token in re.findall(r"[\wÀ-ỹ]+", text.lower())
+        if token not in _FTS_STOPWORDS and len(token) > 1
+    }
+    ranked_segments = []
+    for raw in rows:
+        segment_text = str(raw[4] or "").lower()
+        coverage = (sum(token in segment_text for token in query_tokens)
+                    / max(1, len(query_tokens)))
+        # Long visual prompts often contain generic words that happen to be
+        # spoken elsewhere. Require a little lexical agreement before a
+        # transcript hit can influence frame ranking; short/name queries stay
+        # permissive because one exact token can be decisive.
+        if len(query_tokens) >= 3 and coverage < 0.25:
+            continue
+        ranked_segments.append((coverage, raw))
+    ranked_segments.sort(key=lambda pair: (-pair[0], float(pair[1][6])))
+    if not ranked_segments:
+        return []
+    out: list[dict] = []
+    seen: set[str] = set()
+    frame_columns = [column[0] for column in connection.execute(
+        "SELECT * FROM keyframes LIMIT 0").description]
+    # Map each spoken segment to one actual official keyframe.  This is a
+    # read-only lookup and falls back to the earliest frame when timestamps
+    # are unavailable.
+    for rank, (coverage, raw) in enumerate(ranked_segments, 1):
+        segment = dict(zip(columns, raw))
+        video_id = str(segment["video_id"])
+        start = float(segment["start_seconds"])
+        try:
+            frame = connection.execute(
+                "SELECT * FROM keyframes WHERE video_id=? "
+                "ORDER BY CASE WHEN timestamp IS NULL THEN 1 ELSE 0 END, "
+                "ABS(COALESCE(timestamp, 0)-?) LIMIT 1", (video_id, start)
+            ).fetchone()
+        except sqlite3.Error:
+            frame = None
+        if frame is None:
+            continue
+        item = dict(zip(frame_columns, frame))
+        key = str(item.get("keyframe_id"))
+        # Keep the best segment when several utterances land on the same frame.
+        if key in seen:
+            continue
+        seen.add(key)
+        item.update(segment)
+        item["transcript_rank"] = rank
+        item["transcript_score"] = 1.0 / (rank ** 0.5)
+        item["transcript_coverage"] = coverage
+        item["retrieval_channel"] = "transcript"
+        out.append(item)
+    return out
+
+
+def _search_video_summaries(connection, text: str, limit: int = 5) -> list[dict]:
+    """Tra video-candidates trong summary sidecar. Fail-open: bat ky loi => []."""
+    from .summary_sidecar import search as sidecar_search
+    from .fts_sidecar.normalize import strip_diacritics as _sd
+    from .summary_sidecar import verify as sidecar_verify
+
+    st = _summary_state
+    if os.environ.get("VIDEO_SUMMARY_SIDECAR", "0") != "1":
+        return []
+    path = os.environ.get("VIDEO_SUMMARY_SIDECAR_PATH", "")
+    if not st.get("checked"):
+        try:
+            if not path or not Path(path).exists():
+                raise FileNotFoundError(f"sidecar missing: {path}")
+            rep = sidecar_verify(Path(path))
+            if not rep.get("ok"):
+                raise RuntimeError("sidecar verify failed")
+            st["ok"] = True
+            st["con"] = sqlite3.connect(
+                f"file:{Path(path).as_posix()}?mode=ro", uri=True)
+        except Exception as exc:
+            st["ok"] = False
+            st["reason"] = f"{type(exc).__name__}: {exc}"
+        st["checked"] = True
+    if not st["ok"]:
+        return []
+    expr = _fts_query(_sd(text))
+    if not expr:
+        return []
+    try:
+        rows = st["con"].execute(
+            "SELECT video_id, bm25(videos_fts) AS sc FROM videos_fts "
+            "WHERE videos_fts MATCH ? ORDER BY sc LIMIT ?",
+            (expr, limit)).fetchall()
+    except sqlite3.OperationalError:
+        return []
+    out = []
+    for vid, sc in rows:
+        out.append({"video_id": vid, "bm25_score": float(sc)})
+    return out
+
+
+
+def _search_fts_folded(connection: sqlite3.Connection, query: str, limit: int):
+    """TEXT_FOLDED=1 route: normalized secondary FTS + batch keyframe fetch.
+
+    Returns list[dict] in the same shape as search_fts, or None when the
+    route is unavailable (flag off, artifact missing/stale/failed
+    verification — including manifest SHA-256 mismatch — or any runtime
+    error). Caller then falls back to the primary path. Never raises.
+    """
+    from .fts_sidecar.build import sha256_file as _sha256_file
+    from .fts_sidecar.build import verify as sidecar_verify
+    from .fts_sidecar.normalize import strip_diacritics
+    from .fts_sidecar.router import folded_enabled
+
+    st = _folded_state
+    if not folded_enabled():
+        return None
+    if not st["checked"]:
+        try:
+            if not _FTS_SIDECAR_PATH.exists():
+                raise FileNotFoundError(_FTS_SIDECAR_PATH)
+            if not _FTS_MANIFEST_PATH.exists():
+                raise FileNotFoundError(_FTS_MANIFEST_PATH)
+            m_sha = _sha256_file(_FTS_MANIFEST_PATH)
+            rep = sidecar_verify(_FTS_SIDECAR_PATH,
+                                 expected_n_docs=None,
+                                 manifest_sha256=m_sha)
+            if not rep["ok"]:
+                raise RuntimeError("sidecar verify failed (manifest/count/integrity): "
+                                   + json.dumps({k: v for k, v in rep.items() if k != "meta"},
+                                                ensure_ascii=False)[:300])
+            n_primary = connection.execute(
+                "SELECT COUNT(*) FROM keyframes").fetchone()[0]
+            if n_primary != rep["n_docs_meta"]:
+                raise RuntimeError(f"sidecar/primary count mismatch: "
+                                   f"{rep['n_docs_meta']} vs {n_primary}")
+            st["ok"] = True
+            st["manifest_sha256"] = m_sha
+            st["con"] = sqlite3.connect(
+                rf"file:{_FTS_SIDECAR_PATH.as_posix()}?mode=ro", uri=True)
+        except Exception as exc:
+            st["ok"] = False
+            st["reason"] = f"{type(exc).__name__}: {exc}"
+        st["checked"] = True
+    if not st["ok"]:
+        return None
+    expr = _fts_query(strip_diacritics(query))
+    if not expr:
+        return []
+    rows = st["con"].execute(
+        "SELECT kid, bm25(fts) AS sc FROM fts WHERE fts MATCH ? ORDER BY sc LIMIT ?",
+        (expr, limit)).fetchall()
+    kids = [kid for kid, _sc in rows]
+    scores = {kid: float(sc) for kid, sc in rows}
+    if not kids:
+        return []
+    placeholders = ",".join("?" for _ in kids)
+    cursor = connection.execute(
+        f"SELECT * FROM keyframes WHERE keyframe_id IN ({placeholders})", kids)
+    columns = [c[0] for c in cursor.description]
+    by_kid = {}
+    for row in cursor.fetchall():
+        item = dict(zip(columns, row))
+        item["bm25_score"] = scores.get(item["keyframe_id"])
+        item["sidecar_rank"] = None
+        by_kid[item["keyframe_id"]] = item
+    out = []
+    for rank, kid in enumerate(kids):
+        item = by_kid.get(kid)
+        if item is None:
+            continue
+        item["sidecar_rank"] = rank
+        out.append(item)
+    return out
+
+
 def search_fts(connection: sqlite3.Connection, query: str, limit: int = 300) -> list[dict]:
+    folded_rows = None
+    if os.environ.get("TEXT_FOLDED", "0") == "1":
+        try:
+            folded_rows = _search_fts_folded(connection, query, limit)
+        except Exception:
+            folded_rows = None
+        if folded_rows is not None:
+            return folded_rows
     expression = _fts_query(query)
     if not expression:
         return []
@@ -112,6 +355,76 @@ def search_fts(connection: sqlite3.Connection, query: str, limit: int = 300) -> 
     return [dict(zip(columns, row)) for row in rows]
 
 
+def _search_fts_in_videos_folded(
+    connection: sqlite3.Connection,
+    query: str,
+    video_ids: list[str],
+    limit: int,
+    per_video: int,
+) -> list[dict] | None:
+    """Run the constrained pass against the verified folded sidecar.
+
+    ``search_fts_in_videos`` is a rescue primitive, so it must not silently
+    switch to a different corpus while ``TEXT_FOLDED`` is enabled.  ``None``
+    means the sidecar is unavailable and lets the caller fail open to the
+    primary FTS table; an empty list is a valid folded search with no hits.
+    """
+    try:
+        # This also performs the existing manifest/count/integrity gate and
+        # populates the shared read-only sidecar connection.
+        _search_fts_folded(connection, query, 1)
+    except Exception:
+        return None
+    state = _folded_state
+    if not state.get("ok") or state.get("con") is None:
+        return None
+    from .fts_sidecar.normalize import strip_diacritics
+
+    expression = _fts_query(strip_diacritics(query))
+    if not expression or not video_ids:
+        return []
+    rows: list[dict] = []
+    for start in range(0, len(video_ids), 300):
+        video_batch = video_ids[start:start + 300]
+        placeholders = ",".join("?" for _ in video_batch)
+        try:
+            cursor = state["con"].execute(
+                f"""SELECT f.kid, bm25(fts) AS bm25_score
+                    FROM fts AS f JOIN kid_map AS m ON m.kid=f.kid
+                   WHERE fts MATCH ? AND m.vid IN ({placeholders})
+                   ORDER BY bm25_score LIMIT ?""",
+                [expression, *video_batch, max(limit * 3, 100)],
+            )
+        except sqlite3.OperationalError:
+            return []
+        rows.extend(
+            {"keyframe_id": kid, "bm25_score": float(score)}
+            for kid, score in cursor.fetchall()
+        )
+    if not rows:
+        return []
+    row_map = _rows_for_keyframe_ids(
+        connection, [row["keyframe_id"] for row in rows]
+    )
+    selected: list[dict] = []
+    per_video_count: dict[str, int] = defaultdict(int)
+    for rank, match in enumerate(rows, 1):
+        row = row_map.get(match["keyframe_id"])
+        if row is None:
+            continue
+        video_id = row["video_id"]
+        if per_video_count[video_id] >= per_video:
+            continue
+        item = dict(row)
+        item["bm25_score"] = match["bm25_score"]
+        item["sidecar_rank"] = rank - 1
+        selected.append(item)
+        per_video_count[video_id] += 1
+        if len(selected) >= limit:
+            break
+    return selected
+
+
 def search_fts_in_videos(connection: sqlite3.Connection, query: str, video_ids: list[str],
                          limit: int = 300, per_video: int = 8) -> list[dict]:
     """Find frame evidence inside videos selected by the timeline sidecar.
@@ -120,6 +433,15 @@ def search_fts_in_videos(connection: sqlite3.Connection, query: str, video_ids: 
     injects concrete official frames from the selected videos back into the
     normal rank fusion while preventing one long video from taking every slot.
     """
+    if os.environ.get("TEXT_FOLDED", "0") == "1":
+        try:
+            folded_rows = _search_fts_in_videos_folded(
+                connection, query, video_ids, limit, per_video
+            )
+        except Exception:
+            folded_rows = None
+        if folded_rows is not None:
+            return folded_rows
     expression = _fts_query(query)
     if not expression or not video_ids:
         return []
@@ -168,6 +490,348 @@ def neighbor_rows(connection: sqlite3.Connection, video_id: str, number: int, ra
     rows = cursor.fetchall()
     columns = [column[0] for column in cursor.description]
     return [dict(zip(columns, row)) for row in rows]
+
+
+def _canonical_position(row: dict) -> tuple[float, float, float]:
+    """Return the saved canonical order key for a keyframe.
+
+    Official keyframe order is the primary coordinate. Timestamp and frame ID
+    are deterministic tie-breakers only; no FPS-derived frame is ever made.
+    """
+    try:
+        keyframe_number = float(row.get("keyframe_number"))
+    except (TypeError, ValueError):
+        keyframe_number = float("inf")
+    try:
+        timestamp = float(row.get("timestamp"))
+    except (TypeError, ValueError):
+        timestamp = float("inf")
+    try:
+        frame_id = float(row.get("frame_id"))
+    except (TypeError, ValueError):
+        frame_id = float("inf")
+    return keyframe_number, timestamp, frame_id
+
+
+def _frame_clue_coverage(query: str, row: dict) -> float:
+    """Measure query-token coverage in frame-local fields only.
+
+    ``text`` also contains repeated video metadata in this corpus. The rescue
+    uses this small lexical signal to distinguish an actual frame clue from a
+    title/description match without introducing a new model or index.
+    """
+    clue_query = clip_english_query(query) if any(ord(char) > 127 for char in query) else query
+    raw_tokens = re.findall(r"[\wÀ-ỹ]+", clue_query.lower())
+    tokens = [token for token in raw_tokens if token not in _FTS_STOPWORDS]
+    if not tokens:
+        tokens = raw_tokens
+    frame_text = " ".join(
+        str(row.get(field) or "") for field in (
+            "caption", "ocr", "objects", "detector_classes", "object_entities", "asr"
+        )
+    ).lower()
+    if not tokens or not frame_text:
+        return 0.0
+    return sum(token in frame_text for token in set(tokens)) / len(set(tokens))
+
+
+def _video_consensus(
+    connection: sqlite3.Connection,
+    events: list[str],
+    candidate_limit: int,
+    context_limit: int = 300,
+) -> tuple[list[dict], list[list[dict]]]:
+    """Retrieve each event globally and aggregate evidence by video.
+
+    The score is deliberately transparent: coverage is the primary sort key,
+    followed by the sum of reciprocal best ranks and a small context boost.
+    Context can nominate/boost a video but contributes no submit-ready frame.
+    """
+    event_rows: list[list[dict]] = []
+    direct_ranks: dict[str, dict[int, int]] = defaultdict(dict)
+    context_ranks: dict[str, list[int]] = defaultdict(list)
+    for event_index, event in enumerate(events):
+        rows = search_fts(connection, event, max(300, candidate_limit))
+        event_rows.append(rows)
+        for rank, row in enumerate(rows, 1):
+            video_id = row.get("video_id")
+            if video_id and event_index not in direct_ranks[video_id]:
+                direct_ranks[video_id][event_index] = rank
+        context_rows = search_video_context(
+            connection, _fts_query(event), limit=max(1, context_limit)
+        )
+        for rank, row in enumerate(context_rows, 1):
+            video_id = row.get("video_id")
+            if video_id:
+                context_ranks[video_id].append(rank)
+
+    # A strict AND over event expressions is a cheap multi-event timeline
+    # signal. It is intentionally used only for video selection; no context
+    # row is returned as evidence.
+    strict_context_ranks: dict[str, int] = {}
+    strict_expression = " AND ".join(
+        f"({_fts_query(event)})" for event in events if _fts_query(event)
+    )
+    if len(events) >= 2 and strict_expression:
+        for rank, row in enumerate(
+            search_video_context(connection, strict_expression, limit=max(1, context_limit)), 1
+        ):
+            video_id = row.get("video_id")
+            if video_id and video_id not in strict_context_ranks:
+                strict_context_ranks[video_id] = rank
+
+    videos = set(direct_ranks) | set(context_ranks) | set(strict_context_ranks)
+    candidates: list[dict] = []
+    for video_id in videos:
+        event_rank_map = direct_ranks.get(video_id, {})
+        # Square-root reciprocal ranks reward broad support without letting a
+        # single rank-1 event overwhelm two weaker events. A strict timeline
+        # context hit is a secondary tie-break, not a frame score.
+        reciprocal_rank = sum(1.0 / (rank ** 0.5) for rank in event_rank_map.values())
+        strict_rank = strict_context_ranks.get(video_id)
+        context_boost = (
+            1.0 / (strict_rank ** 0.5) if strict_rank else 0.0
+        ) + sum(
+            0.05 / (rank ** 0.5) for rank in context_ranks.get(video_id, [])
+        )
+        candidates.append({
+            "video_id": video_id,
+            "coverage_count": len(event_rank_map),
+            "event_count": len(events),
+            "best_rank_by_event": {
+                str(index + 1): rank for index, rank in sorted(event_rank_map.items())
+            },
+            "reciprocal_rank_sum": reciprocal_rank,
+            "strict_context_rank": strict_rank,
+            "video_context_boost": context_boost,
+            "score": reciprocal_rank + context_boost,
+        })
+    candidates.sort(key=lambda item: (
+        -item["coverage_count"], -item["score"], -item["reciprocal_rank_sum"],
+        item["video_id"],
+    ))
+    for rank, item in enumerate(candidates, 1):
+        item["video_rank"] = rank
+    return candidates, event_rows
+
+
+def _best_temporal_sequence(
+    event_candidates: list[list[dict]], minimum_event_gap: int = 0
+) -> dict | None:
+    """Choose the highest-scoring strictly ordered event sequence by DP."""
+    if not event_candidates or any(not candidates for candidates in event_candidates):
+        return None
+    # Each state keeps deterministic tie-break values. When several repeated
+    # frames have the same frame-local clue coverage, choose the earliest
+    # canonical sequence; BM25 rank remains the small secondary signal.
+    states: list[list[tuple[float, float, float, list[dict]]]] = []
+    for event_index, candidates in enumerate(event_candidates):
+        current: list[tuple[float, float, float, list[dict]]] = []
+        for candidate in candidates:
+            local_rank = max(1, int(candidate.get("rescue_rank", 1)))
+            score = float(candidate.get("rescue_score", 1.0 / local_rank))
+            position = _canonical_position(candidate)[0]
+            rank_signal = 1.0 / (local_rank ** 0.5)
+            best_state = (score, position, rank_signal, [candidate])
+            if event_index:
+                previous = [
+                    state for state in states[-1]
+                    if _canonical_position(state[3][-1]) < _canonical_position(candidate)
+                    and (
+                        minimum_event_gap <= 0
+                        or _canonical_position(candidate)[0]
+                        - _canonical_position(state[3][-1])[0] >= minimum_event_gap
+                    )
+                ]
+                if previous:
+                    prior = max(
+                        previous,
+                        key=lambda state: (state[0], -state[1], state[2]),
+                    )
+                    best_state = (
+                        prior[0] + score,
+                        prior[1] + position,
+                        prior[2] + rank_signal,
+                        prior[3] + [candidate],
+                    )
+            current.append(best_state)
+        states.append(current)
+    if not states[-1]:
+        return None
+    score, _position_sum, _rank_signal, rows = max(
+        states[-1], key=lambda state: (state[0], -state[1], state[2])
+    )
+    if len(rows) != len(event_candidates):
+        return None
+    return {"score": score, "rows": rows}
+
+
+def search_trake_sequence(
+    connection: sqlite3.Connection,
+    events: list[str],
+    *,
+    candidate_limit: int = 300,
+    candidate_video_limit: int = 5,
+    event_candidate_limit: int = 50,
+    neighbor_radius: int = 2,
+    minimum_event_gap: int = 0,
+) -> dict:
+    """Run the lightweight TRAKE retrieval rescue.
+
+    Global event retrieval is used only to discover and rank candidate videos.
+    Every event is then searched independently inside each of the top videos;
+    a small DP selects an ordered sequence, and canonical neighbors are added
+    as evidence metadata after representative frames are selected.
+    """
+    cleaned_events = [" ".join(str(event).split()) for event in events if str(event).strip()]
+    if not cleaned_events:
+        return {"events": [], "video_candidates": [], "sequences": []}
+    candidate_limit = max(300, int(candidate_limit))
+    candidate_video_limit = max(1, int(candidate_video_limit))
+    event_candidate_limit = max(5, int(event_candidate_limit))
+    consensus, _global_event_rows = _video_consensus(
+        connection, cleaned_events, candidate_limit
+    )
+    selected_candidates: list[dict] = []
+    sequence_candidates: list[dict] = []
+    for candidate in consensus[:candidate_video_limit]:
+        video_id = candidate["video_id"]
+        per_event: list[list[dict]] = []
+        for event_index, event in enumerate(cleaned_events, 1):
+            rows = search_fts_in_videos(
+                connection, event, [video_id],
+                limit=event_candidate_limit, per_video=event_candidate_limit,
+            )
+            ranked_rows: list[dict] = []
+            for local_rank, row in enumerate(rows, 1):
+                item = dict(row)
+                item["event_index"] = event_index
+                item["fts_rank"] = local_rank
+                clue_coverage = _frame_clue_coverage(event, item)
+                item["frame_clue_coverage"] = clue_coverage
+                ranked_rows.append(item)
+            # The raw FTS order contains repeated video-title metadata. Put
+            # actual frame-local clues first, then use canonical time and raw
+            # FTS rank as deterministic tie-breakers.
+            ranked_rows.sort(key=lambda item: (
+                -float(item["frame_clue_coverage"]),
+                _canonical_position(item),
+                int(item["fts_rank"]),
+            ))
+            for rescue_rank, item in enumerate(ranked_rows, 1):
+                item["rescue_rank"] = rescue_rank
+                # Exact frame-local clues tie on quality and are resolved by
+                # the canonical sequence. Partial clues retain a small rank
+                # signal so lexical relevance remains useful.
+                coverage = float(item["frame_clue_coverage"])
+                item["rescue_score"] = coverage + (
+                    0.01 / (int(item["fts_rank"]) ** 0.5) if coverage < 1.0 else 0.0
+                )
+            per_event.append(ranked_rows)
+        entry = dict(candidate)
+        entry["event_candidates"] = per_event
+        sequence = _best_temporal_sequence(per_event, minimum_event_gap)
+        entry["sequence"] = None
+        if sequence is not None:
+            representatives = sequence["rows"]
+            neighbor_frame_ids: list[list[int]] = []
+            for row in representatives:
+                neighbors = neighbor_rows(
+                    connection, video_id, int(row["keyframe_number"]), neighbor_radius
+                )
+                neighbor_frame_ids.append([
+                    int(neighbor["frame_id"]) for neighbor in neighbors
+                ])
+            entry["sequence"] = {
+                "score": float(sequence["score"]),
+                "selection_score": float(sequence["score"]) + float(candidate["score"]),
+                "frame_ids": [int(row["frame_id"]) for row in representatives],
+                "keyframe_numbers": [int(row["keyframe_number"]) for row in representatives],
+                "neighbor_frame_ids": neighbor_frame_ids,
+                "temporal_order_valid": all(
+                    _canonical_position(representatives[index])
+                    < _canonical_position(representatives[index + 1])
+                    for index in range(len(representatives) - 1)
+                ),
+            }
+            sequence_candidates.append(entry)
+        selected_candidates.append(entry)
+    sequence_candidates.sort(key=lambda item: (
+        -float(item["sequence"]["selection_score"]), item["video_rank"]
+    ))
+    return {
+        "events": cleaned_events,
+        "video_candidates": selected_candidates,
+        "sequences": sequence_candidates,
+        "selected_sequence": sequence_candidates[0]["sequence"] if sequence_candidates else None,
+        "selected_video_id": (
+            sequence_candidates[0]["video_id"] if sequence_candidates else None
+        ),
+    }
+
+
+def search_qa_evidence_video_first(
+    connection: sqlite3.Connection,
+    query: str,
+    *,
+    limit: int = 100,
+    candidate_limit: int = 300,
+    candidate_video_limit: int = 5,
+    per_video_limit: int = 30,
+) -> dict:
+    """Retrieve QA evidence by selecting videos before local frame ranking."""
+    candidate_limit = max(300, int(candidate_limit))
+    global_rows = search_fts(connection, query, candidate_limit)
+    direct: dict[str, dict] = {}
+    for rank, row in enumerate(global_rows, 1):
+        video_id = row.get("video_id")
+        if video_id and video_id not in direct:
+            direct[video_id] = {"best_rank": rank, "reciprocal_rank": 1.0 / rank}
+    context: dict[str, int] = {}
+    for rank, row in enumerate(
+        search_video_context(connection, _fts_query(query), limit=candidate_limit), 1
+    ):
+        video_id = row.get("video_id")
+        if video_id and video_id not in context:
+            context[video_id] = rank
+    candidates = []
+    for video_id in set(direct) | set(context):
+        direct_info = direct.get(video_id, {})
+        context_rank = context.get(video_id)
+        context_boost = 0.05 / (context_rank ** 0.5) if context_rank else 0.0
+        candidates.append({
+            "video_id": video_id,
+            "best_global_rank": direct_info.get("best_rank"),
+            "reciprocal_rank": direct_info.get("reciprocal_rank", 0.0),
+            "video_context_rank": context_rank,
+            "video_context_boost": context_boost,
+            "score": direct_info.get("reciprocal_rank", 0.0) + context_boost,
+        })
+    candidates.sort(key=lambda item: (-item["score"], item["video_id"]))
+    for rank, candidate in enumerate(candidates, 1):
+        candidate["video_rank"] = rank
+    rescued_rows: list[dict] = []
+    selected_candidates = candidates[:max(1, int(candidate_video_limit))]
+    for candidate in selected_candidates:
+        local_rows = search_fts_in_videos(
+            connection, query, [candidate["video_id"]],
+            limit=max(1, int(per_video_limit)), per_video=max(1, int(per_video_limit)),
+        )
+        for local_rank, row in enumerate(local_rows, 1):
+            item = dict(row)
+            item["video_candidate_rank"] = candidate["video_rank"]
+            item["local_rank"] = local_rank
+            item["rescue_score"] = 1.0 / local_rank + 0.05 * candidate["score"]
+            rescued_rows.append(item)
+    rescued_rows.sort(key=lambda row: (
+        -float(row["rescue_score"]), row["video_candidate_rank"], row["local_rank"]
+    ))
+    return {
+        "query": query,
+        "video_candidates": selected_candidates,
+        "rows": rescued_rows[:max(1, int(limit))],
+        "global_rows": global_rows,
+    }
 
 
 def _dense_results(connection: sqlite3.Connection, query: str, dense_dir: Path | None, candidate_limit: int) -> list[dict]:
@@ -321,7 +985,7 @@ def _official_clip_results(connection: sqlite3.Connection, query: str, feature_d
     return result
 
 
-def search(connection: sqlite3.Connection, query: str, limit: int = 20, candidate_limit: int = 300, neighbor_radius: int = 2, dense_dir: Path | None = None, feature_dir: Path | None = None, expansions: list[str] | None = None, preserve_video_coverage: bool = False, include_neighbors: bool = True) -> list[dict]:
+def search(connection: sqlite3.Connection, query: str, limit: int = 20, candidate_limit: int = 300, neighbor_radius: int = 2, dense_dir: Path | None = None, feature_dir: Path | None = None, expansions: list[str] | None = None, preserve_video_coverage: bool = False, include_neighbors: bool = True, transcript_db: Path | None = None) -> list[dict]:
     variants = expand_query(query, expansions)
     channels = []
     # The token-normalized third variant adds little semantic value but makes
@@ -339,6 +1003,18 @@ def search(connection: sqlite3.Connection, query: str, limit: int = 20, candidat
         channels.extend((search_fts(connection, en_q, candidate_limit), []))
     lexical_lists = [channels[index] for index in range(0, len(channels), 2)]
     dense_lists = [channels[index] for index in range(1, len(channels), 2)]
+
+    # Deepgram is a video-moment discovery channel, not a replacement for
+    # visual evidence.  Match utterances, map them to official BTC frames by
+    # timestamp, and fuse those frames at ordinary RRF weight.  Keeping this
+    # channel opt-in preserves the frozen SAFE release when no sidecar is set.
+    transcript_lists: list[list[dict]] = []
+    transcript_variants = list(dict.fromkeys([variants[0], *( [en_q] if en_q else [])]))
+    for variant in transcript_variants:
+        rows = _search_transcript_segments(connection, transcript_db, variant,
+                                            limit=min(candidate_limit, 120))
+        if rows:
+            transcript_lists.append(rows)
 
     # Sequence-aware recovery. The context sidecar is optional; deployments
     # that have not built it retain the former frame-only behavior. Each video
@@ -388,6 +1064,7 @@ def search(connection: sqlite3.Connection, query: str, limit: int = 20, candidat
                     clip_lists.append(rows)
     lexical = [row for ranked in lexical_lists for row in ranked]
     dense = [row for ranked in dense_lists for row in ranked]
+    transcript = [row for ranked in transcript_lists for row in ranked]
     # Keep each retrieval channel independent. Flattening query variants into
     # one list lets duplicate hits from a single channel overpower the other
     # channels, especially for long Vietnamese queries.
@@ -396,12 +1073,13 @@ def search(connection: sqlite3.Connection, query: str, limit: int = 20, candidat
     lists = (
         [[row["keyframe_id"] for row in ranked] for ranked in lexical_lists]
         + [[row["keyframe_id"] for row in ranked] for ranked in dense_lists]
+        + [[row["keyframe_id"] for row in ranked] for ranked in transcript_lists]
         + [[row["keyframe_id"] for row in ranked] for ranked in clip_lists] * 3
     )
     lists = [items for items in lists if items]
     fused = rrf(lists)
     clip = [row for ranked in clip_lists for row in ranked]
-    by_id = {row["keyframe_id"]: row for row in lexical + dense + clip}
+    by_id = {row["keyframe_id"]: row for row in lexical + dense + transcript + clip}
     ordered = sorted(fused, key=fused.get, reverse=True)
     results = []
     seen_videos: set[str] = set()
@@ -417,6 +1095,14 @@ def search(connection: sqlite3.Connection, query: str, limit: int = 20, candidat
         row["cooccurrence_score"] = sum(token in text for token in query_tokens) / max(1, len(query_tokens))
         row["temporal_score"] = temporal_score(row, query)
         row["retrieval_score"] += 0.02 * row["cooccurrence_score"] + 0.05 * row["temporal_score"]
+        if "transcript_rank" in row:
+            # Coverage is more informative than raw FTS rank: Deepgram
+            # utterances are short and BM25 can rank a generic one-token hit
+            # ahead of a semantically complete sentence.
+            row["retrieval_score"] += (
+                0.06 * float(row.get("transcript_coverage", 0.0))
+                + 0.02 * float(row.get("transcript_score", 0.0))
+            )
         context_position = context_rank.get(row["video_id"])
         if context_position is not None:
             # This is intentionally smaller than a direct frame match: context
