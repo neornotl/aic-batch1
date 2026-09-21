@@ -1,0 +1,126 @@
+name: Upload unpacked keyframes to Drive
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: 'Batch of keyframes to unpack and upload (e.g. L21, L26_a, or all)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - L21
+          - L22
+          - L23
+          - L24
+          - L25
+          - L26_a
+          - L26_b
+          - L26_c
+          - L26_d
+          - L26_e
+          - L27
+          - L28
+          - L29
+          - L30
+
+concurrency:
+  group: aic-keyframes-unpacked-ingest
+  cancel-in-progress: false
+
+jobs:
+  setup-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      batches: ${{ steps.set-batches.outputs.batches }}
+    steps:
+      - id: set-batches
+        run: |
+          SELECTED="${{ inputs.batch }}"
+          if [ "$SELECTED" = "all" ]; then
+            echo 'batches=["L21","L22","L23","L24","L25","L26_a","L26_b","L26_c","L26_d","L26_e","L27","L28","L29","L30"]' >> "$GITHUB_OUTPUT"
+          else
+            echo "batches=[\"$SELECTED\"]" >> "$GITHUB_OUTPUT"
+          fi
+
+  upload:
+    name: Unpack & Upload ${{ matrix.batch }}
+    needs: setup-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        batch: ${{ fromJson(needs.setup-matrix.outputs.batches) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure rclone
+        env:
+          OAUTH_CONFIG: ${{ secrets.RCLONE_CONFIG_DRIVE }}
+          SA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          FOLDER: '1E8u-YURTRexdR1Ax4Hu2aq7Vt646VQuN'
+        run: |
+          test -n "$OAUTH_CONFIG" || test -n "$SA" || { echo 'Missing Drive credential'; exit 1; }
+          mkdir -p "$RUNNER_TEMP/rclone"
+          if test -n "$OAUTH_CONFIG"; then
+            printf '%s' "$OAUTH_CONFIG" > "$RUNNER_TEMP/rclone/rclone.conf"
+            grep -q '^\[drive\]' "$RUNNER_TEMP/rclone/rclone.conf" || { echo 'Missing [drive] remote'; exit 1; }
+            grep -q '^root_folder_id[[:space:]]*=' "$RUNNER_TEMP/rclone/rclone.conf" || { echo 'Missing root_folder_id'; exit 1; }
+          else
+            printf '%s' "$SA" > "$RUNNER_TEMP/rclone/sa.json"
+            {
+              echo '[drive]'
+              echo 'type = drive'
+              echo 'scope = drive'
+              echo "service_account_file = $RUNNER_TEMP/rclone/sa.json"
+              echo "root_folder_id = $FOLDER"
+            } > "$RUNNER_TEMP/rclone/rclone.conf"
+          fi
+          echo "RCLONE_CONFIG=$RUNNER_TEMP/rclone/rclone.conf" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y rclone unzip curl
+
+      - name: Download keyframe archive
+        run: |
+          BATCH="${{ matrix.batch }}"
+          ARCHIVE_URL="https://aic-data.ledo.io.vn/Keyframes_${BATCH}.zip"
+          echo "Downloading $ARCHIVE_URL to runner SSD..."
+          curl -sSL --retry 5 --retry-connrefused "$ARCHIVE_URL" -o "$RUNNER_TEMP/keyframes_${BATCH}.zip"
+          ls -lh "$RUNNER_TEMP/keyframes_${BATCH}.zip"
+
+      - name: Unpack keyframes
+        run: |
+          BATCH="${{ matrix.batch }}"
+          EXTRACT_DIR="$RUNNER_TEMP/extracted"
+          mkdir -p "$EXTRACT_DIR"
+          echo "Extracting archive..."
+          unzip -q "$RUNNER_TEMP/keyframes_${BATCH}.zip" -d "$EXTRACT_DIR"
+          rm -f "$RUNNER_TEMP/keyframes_${BATCH}.zip"
+          echo "Extracted structure:"
+          ls -lh "$EXTRACT_DIR"
+
+      - name: Upload unzipped frames to Google Drive
+        run: |
+          EXTRACT_DIR="$RUNNER_TEMP/extracted"
+          SRC_DIR="$EXTRACT_DIR/keyframes"
+          if [ ! -d "$SRC_DIR" ]; then
+            SRC_DIR="$EXTRACT_DIR"
+          fi
+          echo "Uploading from $SRC_DIR to drive:Keyframes..."
+          rclone copy "$SRC_DIR" "drive:Keyframes" \
+            --transfers 4 \
+            --checkers 8 \
+            --fast-list \
+            --tpslimit 3 \
+            --tpslimit-burst 3 \
+            --drive-pacer-min-sleep 200ms \
+            --stats 30s \
+            -v
+          rm -rf "$EXTRACT_DIR"
+          echo "Upload of ${{ matrix.batch }} finished successfully!"
