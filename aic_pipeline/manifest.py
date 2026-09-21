@@ -53,6 +53,34 @@ def _object_text(objects_root: Path, video_id: str, number: int) -> tuple[str, s
             " ".join(str(name) for name in entities[:100]))
 
 
+def media_search_text(value: object) -> str:
+    """Return only stable, video-level metadata suitable for every keyframe."""
+    try:
+        media = json.loads(str(value or "{}")) if not isinstance(value, dict) else value
+    except json.JSONDecodeError:
+        return ""
+    if not isinstance(media, dict):
+        return ""
+    keywords = media.get("keywords", [])
+    if not isinstance(keywords, list):
+        keywords = [keywords]
+    return " ".join(
+        str(part).strip() for part in (media.get("title", ""), *keywords[:30]) if str(part).strip()
+    )
+
+
+def build_search_text(item: dict) -> str:
+    """Compose frame-first retrieval text without repeated long metadata."""
+    return " ".join(
+        str(value) for value in (
+            item.get("video_id", ""), item.get("caption", ""), item.get("ocr", ""),
+            item.get("objects", ""), item.get("detector_classes", ""),
+            item.get("object_entities", ""), item.get("asr", ""),
+            media_search_text(item.get("media_info", "")),
+        ) if value
+    )
+
+
 def iter_records(results_dir: Path, map_dir: Path, objects_root: Path, media_root: Path | None = None,
                  asr_root: Path | None = None) -> Iterator[dict]:
     maps = load_maps(map_dir)
@@ -121,15 +149,7 @@ def iter_records(results_dir: Path, map_dir: Path, objects_root: Path, media_roo
                     "asr": asr,
                     "media_info": json.dumps(media, ensure_ascii=False, sort_keys=True),
                 }
-                record["text"] = " ".join(
-                    value for value in (
-                        video_id,
-                        caption,
-                        ocr,
-                        object_text,
-                        detector_text, object_entities, asr, json.dumps(media, ensure_ascii=False),
-                    ) if value
-                )
+                record["text"] = build_search_text(record)
                 seen.add(path)
                 yield record
 

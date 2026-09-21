@@ -163,10 +163,10 @@ def run_query_file(path: Path, connection, dense_dir: Path | None = None, limit:
     if kind == "kis":
         # Keep the proven lexical ranking stable. Caption-only remote reranking
         # can move visually correct frames down the list.
-        rows = search(connection, query, limit=limit, candidate_limit=candidate_limit, dense_dir=dense_dir, feature_dir=feature_dir)
+        rows = search(connection, query, limit=limit, candidate_limit=candidate_limit, dense_dir=dense_dir, feature_dir=feature_dir, include_neighbors=False)
         return [[row["video_id"], str(row["frame_id"])] for row in rows[:limit]]
     if kind == "qa":
-        rows = search(connection, query, limit=limit, candidate_limit=candidate_limit, dense_dir=dense_dir, feature_dir=feature_dir)
+        rows = search(connection, query, limit=limit, candidate_limit=candidate_limit, dense_dir=dense_dir, feature_dir=feature_dir, include_neighbors=False)
         if not rows:
             return []
         results: list[list[str]] = []

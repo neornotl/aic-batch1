@@ -19,7 +19,11 @@ def suppress_duplicates(rows, per_video=3, min_gap=2):
     return out
 
 def event_terms(query):
-    return [x.strip() for x in re.split(r"\b(?:and then|trước khi|sau khi|before|after|sau đó|then|rồi)\b", query, flags=re.I) if x.strip()]
+    return [x.strip() for x in re.split(
+        r"\b(?:and then|trước khi|sau khi|before|after|sau đó|tiếp theo|kế tiếp|then|rồi|cuối cùng)\b",
+        query,
+        flags=re.I,
+    ) if x.strip()]
 
 def temporal_score(row, query):
     terms=event_terms(query)

@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sqlite3
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .index import build_index
+from .index import build_index, ensure_indexes, refresh_search_text
+from .context import build_video_context_index
 from .manifest import build_manifest
 from .retrieve import export_submission, search
 from .dense import build_dense_index
@@ -43,6 +46,11 @@ def main() -> None:
     index = sub.add_parser("index")
     index.add_argument("--manifest", type=Path, default=DEFAULT_WORK / "manifest.jsonl")
     index.add_argument("--database", type=Path, default=DEFAULT_WORK / "keyframes.sqlite")
+    context = sub.add_parser("context")
+    context.add_argument("--database", type=Path, default=DEFAULT_WORK / "keyframes.sqlite")
+    context.add_argument("--max-samples", type=int, default=160)
+    refresh = sub.add_parser("refresh-text")
+    refresh.add_argument("--database", type=Path, default=DEFAULT_WORK / "keyframes.sqlite")
     dense = sub.add_parser("dense")
     dense.add_argument("--manifest", type=Path, default=DEFAULT_WORK / "manifest.jsonl")
     dense.add_argument("--output", type=Path, default=DEFAULT_WORK / "dense")
@@ -56,7 +64,8 @@ def main() -> None:
     query.add_argument("text")
     query.add_argument("--database", type=Path, default=DEFAULT_WORK / "keyframes.sqlite")
     query.add_argument("--limit", type=int, default=20)
-    query.add_argument("--dense", type=Path, default=DEFAULT_WORK / "dense")
+    query.add_argument("--dense", type=Path,
+                       help="Optional dense index; frame/context FTS is the fast default")
     query.add_argument("--clip", type=Path)
     query.add_argument("--json", action="store_true")
     query.add_argument("--rerank", action="store_true")
@@ -72,9 +81,12 @@ def main() -> None:
     batch = sub.add_parser("batch")
     batch.add_argument("--queries", type=Path, required=True)
     batch.add_argument("--database", type=Path, default=DEFAULT_WORK / "keyframes.sqlite")
-    batch.add_argument("--dense", type=Path, default=DEFAULT_WORK / "dense")
+    batch.add_argument("--dense", type=Path,
+                       help="Optional dense index; omit for fast frame/context FTS")
     batch.add_argument("--clip", type=Path)
     batch.add_argument("--candidate-limit", type=int, default=120)
+    batch.add_argument("--workers", type=int, default=min(4, os.cpu_count() or 1),
+                       help="Independent FTS workers; use 1 when a remote judge is enabled")
     batch.add_argument("--output", type=Path, required=True)
     pack = sub.add_parser("package")
     pack.add_argument("--csv-dir", type=Path, required=True)
@@ -84,6 +96,19 @@ def main() -> None:
         print(build_manifest(args.results, args.maps, args.objects, args.output, args.media, args.asr))
     elif args.command == "index":
         print(build_index(args.manifest, args.database))
+    elif args.command == "context":
+        connection = sqlite3.connect(args.database)
+        try:
+            ensure_indexes(connection)
+            print(build_video_context_index(connection, args.max_samples))
+        finally:
+            connection.close()
+    elif args.command == "refresh-text":
+        connection = sqlite3.connect(args.database)
+        try:
+            print(refresh_search_text(connection))
+        finally:
+            connection.close()
     elif args.command == "dense":
         if args.backend == "bge":
             print(build_dense_index(args.manifest, args.output, device=args.device))
@@ -104,23 +129,45 @@ def main() -> None:
         print(len(rows))
     elif args.command == "batch":
         args.output.mkdir(parents=True, exist_ok=True)
+        # One upfront write so parallel workers only ever read.
+        with sqlite3.connect(args.database) as setup:
+            ensure_indexes(setup)
         terra_adapter = TerraAdapter()
         if not terra_adapter.key:
             terra_adapter = None
-        connection = sqlite3.connect(args.database)
-        try:
-            for query_file in sorted(args.queries.glob("*.txt")):
-                rows = run_query_file(query_file, connection, args.dense, terra_adapter=terra_adapter, feature_dir=args.clip, candidate_limit=args.candidate_limit)
-                output = args.output / f"{query_file.stem}.csv"
-                write_csv(rows, output)
-                print(f"{query_file.name}: {len(rows)} rows")
-        finally:
-            connection.close()
+        query_files = sorted(args.queries.glob("*.txt"))
+
+        def run_one(query_file: Path) -> tuple[Path, list[list[str]]]:
+            connection = sqlite3.connect(args.database)
+            try:
+                rows = run_query_file(
+                    query_file, connection, args.dense, terra_adapter=terra_adapter,
+                    feature_dir=args.clip, candidate_limit=args.candidate_limit,
+                )
+                return query_file, rows
+            finally:
+                connection.close()
+
+        workers = max(1, args.workers)
+        # A remote judge can rate-limit or share a non-thread-safe client; FTS
+        # retrieval itself is read-only and benefits from parallel workers.
+        if terra_adapter is not None:
+            workers = 1
+        if workers == 1:
+            completed = (run_one(query_file) for query_file in query_files)
+        else:
+            with ThreadPoolExecutor(max_workers=workers) as executor:
+                completed = list(executor.map(run_one, query_files))
+        for query_file, rows in completed:
+            output = args.output / f"{query_file.stem}.csv"
+            write_csv(rows, output)
+            print(f"{query_file.name}: {len(rows)} rows")
     elif args.command == "package":
         print(json.dumps(package_submission(args.csv_dir, args.output), indent=2))
     else:
         connection = sqlite3.connect(args.database)
         try:
+            ensure_indexes(connection)
             pool_limit = max(args.limit, 300 if args.rerank else args.limit)
             expansions = None
             if args.terra_expand:
