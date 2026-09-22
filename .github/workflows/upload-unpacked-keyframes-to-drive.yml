@@ -112,14 +112,17 @@ jobs:
           if [ ! -d "$SRC_DIR" ]; then
             SRC_DIR="$EXTRACT_DIR"
           fi
-          echo "Uploading from $SRC_DIR to drive:Keyframes..."
-          rclone copy "$SRC_DIR" "drive:Keyframes" \
-            --transfers 4 \
-            --checkers 8 \
+          BATCH="${{ matrix.batch }}"
+          LEAGUE="${BATCH%%_*}"
+          DEST="drive:Keyframes/${LEAGUE}"
+          echo "Uploading from $SRC_DIR to $DEST..."
+          rclone copy "$SRC_DIR" "$DEST" \
+            --transfers 8 \
+            --checkers 16 \
             --fast-list \
-            --tpslimit 3 \
-            --tpslimit-burst 3 \
-            --drive-pacer-min-sleep 200ms \
+            --tpslimit 10 \
+            --tpslimit-burst 10 \
+            --drive-pacer-min-sleep 100ms \
             --stats 30s \
             -v
           rm -rf "$EXTRACT_DIR"
