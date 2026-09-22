@@ -6,20 +6,24 @@ on:
       package:
         description: 'Batch 2 video package to unpack and upload'
         required: true
-        default: 'Video_S01'
+        default: 'missing'
         type: choice
         options:
+          - missing
           - all
           - Video_S01
           - Video_N001-N010
           - Video_N011-N020
           - Video_N021-N030
+          - Video_N031-N040
           - Video_N041-N050
           - Video_N051-N060
           - Video_N061-N070
           - Video_N071-N080
           - Video_N081-N090
           - Video_N091-N100
+          - Videos_M10
+          - Videos_M01-M09
 
 concurrency:
   group: aic-batch2-video-ingest
@@ -34,8 +38,13 @@ jobs:
       - id: set-pkgs
         run: |
           SELECTED="${{ inputs.package }}"
-          if [ "$SELECTED" = "all" ]; then
-            echo 'packages=["Video_S01","Video_N001-N010","Video_N011-N020","Video_N021-N030","Video_N041-N050","Video_N051-N060","Video_N061-N070","Video_N071-N080","Video_N081-N090","Video_N091-N100"]' >> "$GITHUB_OUTPUT"
+          if [ "$SELECTED" = "missing" ]; then
+            # The packages not yet uploaded to Drive
+            echo 'packages=["Video_N021-N030","Video_N031-N040","Videos_M10","Video_S01"]' >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "all" ]; then
+            echo 'packages=["Video_S01","Video_N001-N010","Video_N011-N020","Video_N021-N030","Video_N031-N040","Video_N041-N050","Video_N051-N060","Video_N061-N070","Video_N071-N080","Video_N081-N090","Video_N091-N100","Videos_M10"]' >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "Videos_M01-M09" ]; then
+            echo 'packages=["Videos_M01","Videos_M02","Videos_M03","Videos_M04","Videos_M05","Videos_M06","Videos_M07","Videos_M08","Videos_M09"]' >> "$GITHUB_OUTPUT"
           else
             echo "packages=[\"$SELECTED\"]" >> "$GITHUB_OUTPUT"
           fi
@@ -52,6 +61,14 @@ jobs:
         package: ${{ fromJson(needs.setup-matrix.outputs.packages) }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Maximize Runner Disk Space
+        run: |
+          echo "Initial disk space:"
+          df -h
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache
+          echo "Disk space after cleaning:"
+          df -h
 
       - name: Configure rclone
         env:
