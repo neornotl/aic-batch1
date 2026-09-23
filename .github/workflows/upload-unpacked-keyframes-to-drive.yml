@@ -9,6 +9,7 @@ on:
         default: 'all'
         type: choice
         options:
+          - missing
           - all
           - L21
           - L22
@@ -38,7 +39,9 @@ jobs:
       - id: set-batches
         run: |
           SELECTED="${{ inputs.batch }}"
-          if [ "$SELECTED" = "all" ]; then
+          if [ "$SELECTED" = "missing" ]; then
+            echo 'batches=["L22","L23","L25","L26_a","L26_b","L26_c","L26_d","L26_e"]' >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "all" ]; then
             echo 'batches=["L21","L22","L23","L24","L25","L26_a","L26_b","L26_c","L26_d","L26_e","L27","L28","L29","L30"]' >> "$GITHUB_OUTPUT"
           else
             echo "batches=[\"$SELECTED\"]" >> "$GITHUB_OUTPUT"
@@ -51,7 +54,7 @@ jobs:
     timeout-minutes: 360
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 4
       matrix:
         batch: ${{ fromJson(needs.setup-matrix.outputs.batches) }}
     steps:
@@ -84,14 +87,14 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y rclone unzip curl
+          sudo apt-get install -y rclone unzip curl aria2
 
       - name: Download keyframe archive
         run: |
           BATCH="${{ matrix.batch }}"
           ARCHIVE_URL="https://aic-data.ledo.io.vn/Keyframes_${BATCH}.zip"
-          echo "Downloading $ARCHIVE_URL to runner SSD..."
-          curl -sSL --retry 5 --retry-connrefused "$ARCHIVE_URL" -o "$RUNNER_TEMP/keyframes_${BATCH}.zip"
+          echo "Downloading $ARCHIVE_URL via aria2c (16 connections)..."
+          aria2c -x 16 -s 16 -k 1M --file-allocation=none --retry-wait=2 -m 10 "$ARCHIVE_URL" -d "$RUNNER_TEMP" -o "keyframes_${BATCH}.zip"
           ls -lh "$RUNNER_TEMP/keyframes_${BATCH}.zip"
 
       - name: Unpack keyframes
@@ -117,12 +120,10 @@ jobs:
           DEST="drive:Keyframes/${LEAGUE}"
           echo "Uploading from $SRC_DIR to $DEST..."
           rclone copy "$SRC_DIR" "$DEST" \
-            --transfers 8 \
-            --checkers 16 \
+            --transfers 16 \
+            --checkers 32 \
             --fast-list \
-            --tpslimit 10 \
-            --tpslimit-burst 10 \
-            --drive-pacer-min-sleep 100ms \
+            --drive-pacer-min-sleep 50ms \
             --stats 30s \
             -v
           rm -rf "$EXTRACT_DIR"
