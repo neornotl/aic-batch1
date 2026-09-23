@@ -28,7 +28,7 @@ on:
 
 concurrency:
   group: aic-keyframes-backfill-v2
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   setup-matrix:
@@ -40,7 +40,7 @@ jobs:
         run: |
           SELECTED="${{ inputs.batch }}"
           if [ "$SELECTED" = "missing" ]; then
-            echo 'batches=["L22","L23","L25","L26_a","L26_b","L26_c","L26_d","L26_e"]' >> "$GITHUB_OUTPUT"
+            echo 'batches=["L25","L26_a","L26_e","L30"]' >> "$GITHUB_OUTPUT"
           elif [ "$SELECTED" = "all" ]; then
             echo 'batches=["L21","L22","L23","L24","L25","L26_a","L26_b","L26_c","L26_d","L26_e","L27","L28","L29","L30"]' >> "$GITHUB_OUTPUT"
           else
@@ -118,13 +118,30 @@ jobs:
           BATCH="${{ matrix.batch }}"
           LEAGUE="${BATCH%%_*}"
           DEST="drive:Keyframes/${LEAGUE}"
-          echo "Uploading from $SRC_DIR to $DEST..."
-          rclone copy "$SRC_DIR" "$DEST" \
-            --transfers 16 \
-            --checkers 32 \
-            --fast-list \
-            --drive-pacer-min-sleep 50ms \
-            --stats 30s \
-            -v
+          echo "Uploading from $SRC_DIR to $DEST with resilient retries..."
+          SUCCESS=0
+          for attempt in 1 2 3 4 5; do
+            echo "=== Upload attempt $attempt/5 for $BATCH ==="
+            if rclone copy "$SRC_DIR" "$DEST" \
+              --transfers 16 \
+              --checkers 32 \
+              --fast-list \
+              --retries 5 \
+              --retries-sleep 10s \
+              --low-level-retries 10 \
+              --drive-pacer-min-sleep 50ms \
+              --stats 30s \
+              -v; then
+              echo "Upload of $BATCH succeeded on attempt $attempt!"
+              SUCCESS=1
+              break
+            else
+              echo "Attempt $attempt failed. Waiting 15s before auto-fallback retry..."
+              sleep 15
+            fi
+          done
           rm -rf "$EXTRACT_DIR"
-          echo "Upload of ${{ matrix.batch }} finished successfully!"
+          if [ "$SUCCESS" -ne 1 ]; then
+            echo "FATAL: All 5 retry attempts exhausted for $BATCH!"
+            exit 1
+          fi

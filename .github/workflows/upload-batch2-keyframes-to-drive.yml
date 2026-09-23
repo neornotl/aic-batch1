@@ -138,13 +138,30 @@ jobs:
             SRC_DIR="$EXTRACT_DIR"
           fi
           DEST="drive:Keyframes/Batch2/${PKG}"
-          echo "Uploading from $SRC_DIR to $DEST..."
-          rclone copy "$SRC_DIR" "$DEST" \
-            --transfers 16 \
-            --checkers 32 \
-            --fast-list \
-            --drive-pacer-min-sleep 50ms \
-            --stats 30s \
-            -v
+          echo "Uploading from $SRC_DIR to $DEST with resilient retries..."
+          SUCCESS=0
+          for attempt in 1 2 3 4 5; do
+            echo "=== Upload attempt $attempt/5 for $PKG ==="
+            if rclone copy "$SRC_DIR" "$DEST" \
+              --transfers 16 \
+              --checkers 32 \
+              --fast-list \
+              --retries 5 \
+              --retries-sleep 10s \
+              --low-level-retries 10 \
+              --drive-pacer-min-sleep 50ms \
+              --stats 30s \
+              -v; then
+              echo "Upload of $PKG succeeded on attempt $attempt!"
+              SUCCESS=1
+              break
+            else
+              echo "Attempt $attempt failed. Waiting 15s before auto-fallback retry..."
+              sleep 15
+            fi
+          done
           rm -rf "$EXTRACT_DIR"
-          echo "Upload of Batch 2 official keyframes for $PKG completed successfully!"
+          if [ "$SUCCESS" -ne 1 ]; then
+            echo "FATAL: All 5 retry attempts exhausted for $PKG!"
+            exit 1
+          fi
