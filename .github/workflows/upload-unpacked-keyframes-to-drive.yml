@@ -27,8 +27,8 @@ on:
           - L30
 
 concurrency:
-  group: aic-keyframes-unpacked-ingest
-  cancel-in-progress: false
+  group: aic-keyframes-backfill-v2
+  cancel-in-progress: true
 
 jobs:
   setup-matrix:
