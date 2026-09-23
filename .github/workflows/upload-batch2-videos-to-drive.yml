@@ -101,7 +101,7 @@ jobs:
       - name: Ingest Video_S01 via RangeZip (Low-Disk Streaming)
         if: matrix.package == 'Video_S01'
         run: |
-          python3 scripts/ingest_s01_range.py
+          PYTHONPATH=. python3 scripts/ingest_s01_range.py
 
       - name: Download video archive
         if: matrix.package != 'Video_S01'

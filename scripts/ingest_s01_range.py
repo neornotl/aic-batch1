@@ -8,6 +8,10 @@ import os
 import sys
 import subprocess
 from pathlib import Path
+
+# Add project root to sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from aic_pipeline.range_zip import RangeZip
 
 def main():
