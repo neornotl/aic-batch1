@@ -24,6 +24,18 @@ on:
           - Video_N091-N100
           - Videos_M10
           - Videos_M01-M09
+          - Videos_K01-K10
+          - Videos_K11-K20
+          - Videos_K01
+          - Videos_K02
+          - Videos_K03
+          - Videos_K04
+          - Videos_K05
+          - Videos_K06
+          - Videos_K07
+          - Videos_K08
+          - Videos_K09
+          - Videos_K10
 
 concurrency:
   group: aic-batch2-video-ingest
@@ -38,12 +50,19 @@ jobs:
       - id: set-pkgs
         run: |
           SELECTED="${{ inputs.package }}"
+          K_01_10='["Videos_K01","Videos_K02","Videos_K03","Videos_K04","Videos_K05","Videos_K06","Videos_K07","Videos_K08","Videos_K09","Videos_K10"]'
+          K_11_20='["Videos_K11","Videos_K12","Videos_K13","Videos_K14","Videos_K15","Videos_K16","Videos_K17","Videos_K18","Videos_K19","Videos_K20"]'
+          
           if [ "$SELECTED" = "missing" ]; then
             echo 'packages=["Video_S01"]' >> "$GITHUB_OUTPUT"
           elif [ "$SELECTED" = "all" ]; then
             echo 'packages=["Video_S01","Video_N001-N010","Video_N011-N020","Video_N021-N030","Video_N031-N040","Video_N041-N050","Video_N051-N060","Video_N061-N070","Video_N071-N080","Video_N081-N090","Video_N091-N100","Videos_M10"]' >> "$GITHUB_OUTPUT"
           elif [ "$SELECTED" = "Videos_M01-M09" ]; then
             echo 'packages=["Videos_M01","Videos_M02","Videos_M03","Videos_M04","Videos_M05","Videos_M06","Videos_M07","Videos_M08","Videos_M09"]' >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "Videos_K01-K10" ]; then
+            echo "packages=$K_01_10" >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "Videos_K11-K20" ]; then
+            echo "packages=$K_11_20" >> "$GITHUB_OUTPUT"
           else
             echo "packages=[\"$SELECTED\"]" >> "$GITHUB_OUTPUT"
           fi

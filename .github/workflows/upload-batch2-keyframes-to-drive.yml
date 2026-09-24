@@ -9,9 +9,12 @@ on:
         default: 'all'
         type: choice
         options:
-          - all
-          - traffic
+          - Keyframes_S01
           - news
+          - traffic
+          - all_batch2
+          - k_series_01_10
+          - k_series_11_20
           - Keyframes_N001-N010
           - Keyframes_N011-N020
           - Keyframes_N021-N030
@@ -32,6 +35,16 @@ on:
           - Keyframes_M08
           - Keyframes_M09
           - Keyframes_M10
+          - Keyframes_K01
+          - Keyframes_K02
+          - Keyframes_K03
+          - Keyframes_K04
+          - Keyframes_K05
+          - Keyframes_K06
+          - Keyframes_K07
+          - Keyframes_K08
+          - Keyframes_K09
+          - Keyframes_K10
 
 concurrency:
   group: aic-batch2-keyframes-ingest
@@ -48,14 +61,21 @@ jobs:
           SELECTED="${{ inputs.package }}"
           TRAFFIC='["Keyframes_N001-N010","Keyframes_N011-N020","Keyframes_N021-N030","Keyframes_N031-N040","Keyframes_N041-N050","Keyframes_N051-N060","Keyframes_N061-N070","Keyframes_N071-N080","Keyframes_N081-N090","Keyframes_N091-N100"]'
           NEWS='["Keyframes_M01","Keyframes_M02","Keyframes_M03","Keyframes_M04","Keyframes_M05","Keyframes_M06","Keyframes_M07","Keyframes_M08","Keyframes_M09","Keyframes_M10"]'
+          K_01_10='["Keyframes_K01","Keyframes_K02","Keyframes_K03","Keyframes_K04","Keyframes_K05","Keyframes_K06","Keyframes_K07","Keyframes_K08","Keyframes_K09","Keyframes_K10"]'
+          K_11_20='["Keyframes_K11","Keyframes_K12","Keyframes_K13","Keyframes_K14","Keyframes_K15","Keyframes_K16","Keyframes_K17","Keyframes_K18","Keyframes_K19","Keyframes_K20"]'
           
-          if [ "$SELECTED" = "traffic" ]; then
+          if [ "$SELECTED" = "Keyframes_S01" ]; then
+            echo 'packages=["Keyframes_S01"]' >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "traffic" ]; then
             echo "packages=$TRAFFIC" >> "$GITHUB_OUTPUT"
           elif [ "$SELECTED" = "news" ]; then
             echo "packages=$NEWS" >> "$GITHUB_OUTPUT"
-          elif [ "$SELECTED" = "all" ]; then
-            # Concatenate both arrays
-            echo "packages=$(jq -c -s '.[0] + .[1]' <<< "$TRAFFIC $NEWS")" >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "k_series_01_10" ]; then
+            echo "packages=$K_01_10" >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "k_series_11_20" ]; then
+            echo "packages=$K_11_20" >> "$GITHUB_OUTPUT"
+          elif [ "$SELECTED" = "all_batch2" ]; then
+            echo 'packages=["Keyframes_S01","Keyframes_M01","Keyframes_M02","Keyframes_M03","Keyframes_M04","Keyframes_M05","Keyframes_M06","Keyframes_M07","Keyframes_M08","Keyframes_M09","Keyframes_M10"]' >> "$GITHUB_OUTPUT"
           else
             echo "packages=[\"$SELECTED\"]" >> "$GITHUB_OUTPUT"
           fi
