@@ -77,9 +77,21 @@ jobs:
               '. + [{"category": $c, "name": $n, "url": $u, "dest": $d}]' <<< "$TASKS")
           }
 
+          # Helper to get object count safely (handles non-existent folders cleanly)
+          safe_count() {
+            local path="$1"
+            local cnt
+            cnt=$(rclone size "$path" --json 2>/dev/null | jq -r '.count // 0' 2>/dev/null || true)
+            if [ -z "$cnt" ] || [ "$cnt" = "null" ]; then
+              echo 0
+            else
+              echo "$cnt"
+            fi
+          }
+
           # 1. Check Batch 1 Gaps (L30 is priority)
           if [ "$TARGET" = "all" ] || [ "$TARGET" = "batch1" ]; then
-            L30_COUNT=$(rclone size "drive:Keyframes/L30" --json 2>/dev/null | jq -r '.count // 0')
+            L30_COUNT=$(safe_count "drive:Keyframes/L30")
             echo "Observed L30 frames on Drive: $L30_COUNT"
             if [ "$L30_COUNT" -lt 7900 ]; then
               echo "Adding L30 to auto-heal queue..."
@@ -89,7 +101,7 @@ jobs:
 
           # 2. Check Batch 2 Cycling Keyframes
           if [ "$TARGET" = "all" ] || [ "$TARGET" = "batch2_cycling" ]; then
-            S01_COUNT=$(rclone size "drive:Keyframes/Batch2/Keyframes_S01" --json 2>/dev/null | jq -r '.count // 0')
+            S01_COUNT=$(safe_count "drive:Keyframes/Batch2/Keyframes_S01")
             echo "Observed Keyframes_S01 frames on Drive: $S01_COUNT"
             if [ "$S01_COUNT" -lt 500 ]; then
               echo "Adding Keyframes_S01 to auto-heal queue..."
@@ -102,7 +114,7 @@ jobs:
             for i in $(seq -w 1 10 91); do
               END=$(printf "%03d" $((10#$i + 9)))
               PKG="Keyframes_N${i}-N${END}"
-              PKG_COUNT=$(rclone size "drive:Keyframes/Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              PKG_COUNT=$(safe_count "drive:Keyframes/Batch2/${PKG}")
               echo "Observed $PKG frames on Drive: $PKG_COUNT"
               if [ "$PKG_COUNT" -lt 1000 ]; then
                 echo "Adding $PKG to auto-heal queue..."
@@ -115,7 +127,7 @@ jobs:
           if [ "$TARGET" = "all" ] || [ "$TARGET" = "batch2_news" ]; then
             for i in $(seq -w 1 10); do
               PKG="Keyframes_M${i}"
-              PKG_COUNT=$(rclone size "drive:Keyframes/Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              PKG_COUNT=$(safe_count "drive:Keyframes/Batch2/${PKG}")
               echo "Observed $PKG frames on Drive: $PKG_COUNT"
               if [ "$PKG_COUNT" -lt 500 ]; then
                 echo "Adding $PKG to auto-heal queue..."
@@ -124,7 +136,7 @@ jobs:
             done
             for i in $(seq -w 1 9); do
               PKG="Videos_M${i}"
-              PKG_COUNT=$(rclone size "drive:01_Videos_Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              PKG_COUNT=$(safe_count "drive:01_Videos_Batch2/${PKG}")
               echo "Observed $PKG videos on Drive: $PKG_COUNT"
               if [ "$PKG_COUNT" -lt 1 ]; then
                 echo "Adding $PKG to auto-heal queue..."
@@ -137,7 +149,7 @@ jobs:
           if [ "$TARGET" = "all" ] || [ "$TARGET" = "k_series" ]; then
             for i in $(seq -w 1 20); do
               PKG="Keyframes_K${i}"
-              PKG_COUNT=$(rclone size "drive:Keyframes/Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              PKG_COUNT=$(safe_count "drive:Keyframes/Batch2/${PKG}")
               echo "Observed $PKG frames on Drive: $PKG_COUNT"
               if [ "$PKG_COUNT" -lt 500 ]; then
                 echo "Adding $PKG to auto-heal queue..."
@@ -146,7 +158,7 @@ jobs:
             done
             for i in $(seq -w 1 20); do
               PKG="Videos_K${i}"
-              PKG_COUNT=$(rclone size "drive:01_Videos_Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              PKG_COUNT=$(safe_count "drive:01_Videos_Batch2/${PKG}")
               echo "Observed $PKG videos on Drive: $PKG_COUNT"
               if [ "$PKG_COUNT" -lt 1 ]; then
                 echo "Adding $PKG to auto-heal queue..."
