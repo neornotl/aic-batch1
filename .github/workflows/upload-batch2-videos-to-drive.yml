@@ -115,7 +115,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y rclone unzip curl python3
+          sudo apt-get install -y rclone unzip curl aria2 jq python3
 
       - name: Ingest Video_S01 via RangeZip (Low-Disk Streaming)
         if: matrix.package == 'Video_S01'
@@ -127,8 +127,8 @@ jobs:
         run: |
           PKG="${{ matrix.package }}"
           URL="https://aic-data.ledo.io.vn/${PKG}.zip"
-          echo "Downloading $URL to runner SSD..."
-          curl -sSL --retry 5 --retry-connrefused "$URL" -o "$RUNNER_TEMP/${PKG}.zip"
+          echo "Downloading $URL via aria2c (16 connections)..."
+          aria2c -x 16 -s 16 -k 1M --file-allocation=none --retry-wait=2 -m 10 "$URL" -d "$RUNNER_TEMP" -o "${PKG}.zip"
           ls -lh "$RUNNER_TEMP/${PKG}.zip"
 
       - name: Unpack videos
@@ -153,15 +153,35 @@ jobs:
             SRC_DIR="$EXTRACT_DIR"
           fi
           DEST="drive:01_Videos_Batch2/${PKG}"
-          echo "Uploading from $SRC_DIR to $DEST..."
-          rclone copy "$SRC_DIR" "$DEST" \
-            --transfers 4 \
-            --checkers 8 \
-            --fast-list \
-            --tpslimit 3 \
-            --tpslimit-burst 3 \
-            --drive-pacer-min-sleep 200ms \
-            --stats 30s \
-            -v
+          echo "Uploading from $SRC_DIR to $DEST with resilient retries..."
+          SUCCESS=0
+          for attempt in 1 2 3 4 5; do
+            echo "=== Upload attempt $attempt/5 for $PKG ==="
+            if rclone copy "$SRC_DIR" "$DEST" \
+              --transfers 4 \
+              --checkers 8 \
+              --fast-list \
+              --retries 5 \
+              --retries-sleep 10s \
+              --low-level-retries 10 \
+              --tpslimit 3 \
+              --tpslimit-burst 3 \
+              --drive-pacer-min-sleep 200ms \
+              --stats 30s \
+              -v; then
+              echo "rclone copy succeeded on attempt $attempt"
+              SUCCESS=1
+              break
+            else
+              echo "Attempt $attempt failed. Waiting 15s before retry..."
+              sleep 15
+            fi
+          done
+
+          if [ "$SUCCESS" -ne 1 ]; then
+            echo "ERROR: Failed to upload $PKG after 5 attempts."
+            exit 1
+          fi
+
           rm -rf "$EXTRACT_DIR"
           echo "Upload of ${{ matrix.package }} finished successfully!"

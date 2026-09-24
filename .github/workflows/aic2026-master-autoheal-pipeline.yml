@@ -7,15 +7,17 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: 'Target to auto-heal or ingest (all, batch1, batch2_traffic, batch2_news)'
+        description: 'Target to auto-heal or ingest (all, batch1, batch2_cycling, batch2_traffic, batch2_news, k_series)'
         required: true
         default: 'all'
         type: choice
         options:
           - all
           - batch1
+          - batch2_cycling
           - batch2_traffic
           - batch2_news
+          - k_series
 
 concurrency:
   group: aic2026-master-overnight
@@ -85,7 +87,17 @@ jobs:
             fi
           fi
 
-          # 2. Check Batch 2 Traffic Keyframes
+          # 2. Check Batch 2 Cycling Keyframes
+          if [ "$TARGET" = "all" ] || [ "$TARGET" = "batch2_cycling" ]; then
+            S01_COUNT=$(rclone size "drive:Keyframes/Batch2/Keyframes_S01" --json 2>/dev/null | jq -r '.count // 0')
+            echo "Observed Keyframes_S01 frames on Drive: $S01_COUNT"
+            if [ "$S01_COUNT" -lt 500 ]; then
+              echo "Adding Keyframes_S01 to auto-heal queue..."
+              add_task "batch2_cycling_kf" "Keyframes_S01" "https://aic-data.ledo.io.vn/Keyframes_S01.zip" "drive:Keyframes/Batch2/Keyframes_S01"
+            fi
+          fi
+
+          # 3. Check Batch 2 Traffic Keyframes
           if [ "$TARGET" = "all" ] || [ "$TARGET" = "batch2_traffic" ]; then
             for i in $(seq -w 1 10 91); do
               END=$(printf "%03d" $((10#$i + 9)))
@@ -99,7 +111,7 @@ jobs:
             done
           fi
 
-          # 3. Check Batch 2 News Keyframes (M01-M10)
+          # 4. Check Batch 2 News Keyframes (M01-M10) & Videos (M01-M09)
           if [ "$TARGET" = "all" ] || [ "$TARGET" = "batch2_news" ]; then
             for i in $(seq -w 1 10); do
               PKG="Keyframes_M${i}"
@@ -108,6 +120,37 @@ jobs:
               if [ "$PKG_COUNT" -lt 500 ]; then
                 echo "Adding $PKG to auto-heal queue..."
                 add_task "batch2_news_kf" "$PKG" "https://aic-data.ledo.io.vn/${PKG}.zip" "drive:Keyframes/Batch2/${PKG}"
+              fi
+            done
+            for i in $(seq -w 1 9); do
+              PKG="Videos_M${i}"
+              PKG_COUNT=$(rclone size "drive:01_Videos_Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              echo "Observed $PKG videos on Drive: $PKG_COUNT"
+              if [ "$PKG_COUNT" -lt 1 ]; then
+                echo "Adding $PKG to auto-heal queue..."
+                add_task "batch2_news_vid" "$PKG" "https://aic-data.ledo.io.vn/${PKG}.zip" "drive:01_Videos_Batch2/${PKG}"
+              fi
+            done
+          fi
+
+          # 5. Check Series K Keyframes & Videos
+          if [ "$TARGET" = "all" ] || [ "$TARGET" = "k_series" ]; then
+            for i in $(seq -w 1 20); do
+              PKG="Keyframes_K${i}"
+              PKG_COUNT=$(rclone size "drive:Keyframes/Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              echo "Observed $PKG frames on Drive: $PKG_COUNT"
+              if [ "$PKG_COUNT" -lt 500 ]; then
+                echo "Adding $PKG to auto-heal queue..."
+                add_task "k_series_kf" "$PKG" "https://aic-data.ledo.io.vn/${PKG}.zip" "drive:Keyframes/Batch2/${PKG}"
+              fi
+            done
+            for i in $(seq -w 1 20); do
+              PKG="Videos_K${i}"
+              PKG_COUNT=$(rclone size "drive:01_Videos_Batch2/${PKG}" --json 2>/dev/null | jq -r '.count // 0')
+              echo "Observed $PKG videos on Drive: $PKG_COUNT"
+              if [ "$PKG_COUNT" -lt 1 ]; then
+                echo "Adding $PKG to auto-heal queue..."
+                add_task "k_series_vid" "$PKG" "https://aic-data.ledo.io.vn/${PKG}.zip" "drive:01_Videos_Batch2/${PKG}"
               fi
             done
           fi
@@ -190,9 +233,12 @@ jobs:
           DEST="${{ matrix.task.dest }}"
           EXTRACT_DIR="$RUNNER_TEMP/extracted"
           
-          # Auto-detect source directory (keyframes/ or root)
-          SRC_DIR="$EXTRACT_DIR/keyframes"
-          if [ ! -d "$SRC_DIR" ]; then
+          # Auto-detect source directory (keyframes/, videos/, or root)
+          if [ -d "$EXTRACT_DIR/keyframes" ]; then
+            SRC_DIR="$EXTRACT_DIR/keyframes"
+          elif [ -d "$EXTRACT_DIR/videos" ]; then
+            SRC_DIR="$EXTRACT_DIR/videos"
+          else
             SRC_DIR="$EXTRACT_DIR"
           fi
           
